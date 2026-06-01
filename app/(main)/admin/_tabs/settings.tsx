@@ -54,12 +54,12 @@ export function SettingsTab() {
     });
 
     if (res.ok) {
-      setMessage({ type: 'success', text: 'Settings saved. Changes take effect on next page load.' });
+      setMessage({ type: 'success', text: 'Ustawienia zapisane. Zmiany zaczną obowiązywać przy następnym załadowaniu strony.' });
       setEdits({});
       await fetchConfig();
     } else {
       const data = await res.json();
-      setMessage({ type: 'error', text: data.error || 'Failed to save' });
+      setMessage({ type: 'error', text: data.error || 'Nie udało się zapisać' });
     }
     setSaving(false);
   }
@@ -77,22 +77,22 @@ export function SettingsTab() {
         return next;
       });
       await fetchConfig();
-      setMessage({ type: 'success', text: `${key} reverted to default` });
+      setMessage({ type: 'success', text: `${key} przywrócono do domyślnych` });
     }
   }
 
   const hasEdits = Object.keys(edits).length > 0;
 
   if (loading) {
-    return <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">Loading...</div>;
+    return <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">Ładowanie...</div>;
   }
 
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h1 className="text-2xl font-semibold text-foreground">Server Settings</h1>
-          <p className="text-sm text-muted-foreground mt-1">General server configuration</p>
+          <h1 className="text-2xl font-semibold text-foreground">Ustawienia serwera</h1>
+          <p className="text-sm text-muted-foreground mt-1">Ogólna konfiguracja serwera</p>
         </div>
         {hasEdits && (
           <button
@@ -101,7 +101,7 @@ export function SettingsTab() {
             className="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-50 transition-all shadow-sm"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            Save changes
+            Zapisz zmiany
           </button>
         )}
       </div>
@@ -112,26 +112,26 @@ export function SettingsTab() {
         </div>
       )}
 
-      <SettingsSection title="General">
-        <TextSetting label="Application Name" configKey="appName" value={currentValue('appName') as string} source={config.appName?.source} onChange={handleChange} onRevert={handleRevert} />
-        <TextSetting label="JMAP Server URL" configKey="jmapServerUrl" value={currentValue('jmapServerUrl') as string} source={config.jmapServerUrl?.source} onChange={handleChange} onRevert={handleRevert} placeholder="https://mail.example.com" />
-        <ToggleSetting label="Allow Custom JMAP Endpoint" description="Show a JMAP server URL field on the login form, allowing users to connect to any JMAP server" configKey="allowCustomJmapEndpoint" value={currentValue('allowCustomJmapEndpoint') as boolean} source={config.allowCustomJmapEndpoint?.source} onChange={handleChange} onRevert={handleRevert} />
+      <SettingsSection title="Ogólne">
+        <TextSetting label="Nazwa aplikacji" configKey="appName" value={currentValue('appName') as string} source={config.appName?.source} onChange={handleChange} onRevert={handleRevert} />
+        <TextSetting label="URL serwera JMAP" configKey="jmapServerUrl" value={currentValue('jmapServerUrl') as string} source={config.jmapServerUrl?.source} onChange={handleChange} onRevert={handleRevert} placeholder="https://mail.example.com" />
+        <ToggleSetting label="Zezwalaj na niestandardowy punkt końcowy JMAP" description="Pokaż pole URL serwera JMAP w formularzu logowania, umożliwiając użytkownikom połączenie z dowolnym serwerem JMAP" configKey="allowCustomJmapEndpoint" value={currentValue('allowCustomJmapEndpoint') as boolean} source={config.allowCustomJmapEndpoint?.source} onChange={handleChange} onRevert={handleRevert} />
         {!!currentValue('allowCustomJmapEndpoint') && (
           <div className="px-4 py-2.5 bg-amber-50 dark:bg-amber-950/30 border-l-2 border-amber-400 dark:border-amber-600">
             <p className="text-xs text-amber-800 dark:text-amber-300 leading-relaxed">
-              <strong>CORS warning:</strong> External JMAP servers must include this domain in their CORS <code className="text-[11px] bg-amber-100 dark:bg-amber-900/50 px-1 py-0.5 rounded">Access-Control-Allow-Origin</code> header, or requests from the browser will be blocked.
+              <strong>Ostrzeżenie CORS:</strong> Zewnętrzne serwery JMAP muszą zawierać tę domenę w nagłówku CORS <code className="text-[11px] bg-amber-100 dark:bg-amber-900/50 px-1 py-0.5 rounded">Access-Control-Allow-Origin</code> lub żądania z przeglądarki będą blokowane.
             </p>
           </div>
         )}
-        <ToggleSetting label="Stalwart Features" description="Enable Stalwart Mail Server-specific features" configKey="stalwartFeaturesEnabled" value={currentValue('stalwartFeaturesEnabled') as boolean} source={config.stalwartFeaturesEnabled?.source} onChange={handleChange} onRevert={handleRevert} />
-        <ToggleSetting label="Demo Mode" description="Enable demo mode with sample data" configKey="demoMode" value={currentValue('demoMode') as boolean} source={config.demoMode?.source} onChange={handleChange} onRevert={handleRevert} />
-        <ToggleSetting label="Search Engine Indexing" description="Allow search engines to index this webmail. Off (the default) sends noindex/nofollow in the page head, recommended for private deployments." configKey="searchEngineIndexing" value={currentValue('searchEngineIndexing') as boolean} source={config.searchEngineIndexing?.source} onChange={handleChange} onRevert={handleRevert} />
+        <ToggleSetting label="Funkcje Stalwart" description="Włącz funkcje specyficzne dla serwera poczty Stalwart" configKey="stalwartFeaturesEnabled" value={currentValue('stalwartFeaturesEnabled') as boolean} source={config.stalwartFeaturesEnabled?.source} onChange={handleChange} onRevert={handleRevert} />
+        <ToggleSetting label="Tryb demonstracyjny" description="Włącz tryb demonstracyjny z przykładowymi danymi" configKey="demoMode" value={currentValue('demoMode') as boolean} source={config.demoMode?.source} onChange={handleChange} onRevert={handleRevert} />
+        <ToggleSetting label="Indeksowanie przez wyszukiwarki" description="Zezwalaj wyszukiwarkom na indeksowanie tego webmaila. Wyłączone (domyślnie) wysyła noindex/nofollow w nagłówku strony, zalecane dla prywatnych wdrożeń." configKey="searchEngineIndexing" value={currentValue('searchEngineIndexing') as boolean} source={config.searchEngineIndexing?.source} onChange={handleChange} onRevert={handleRevert} />
       </SettingsSection>
 
-      <SettingsSection title="JMAP Servers (multi-server)">
+      <SettingsSection title="Serwery JMAP (wiele serwerów)">
         <ToggleSetting
-          label="Auto-pick server by email domain"
-          description="When users type their email, automatically select the matching server from the list below."
+          label="Automatyczny wybór serwera według domeny e-mail"
+          description="Gdy użytkownicy wpisują swój e-mail, automatycznie wybierz pasujący serwer z poniższej listy."
           configKey="jmapServerAutoPickByDomain"
           value={currentValue('jmapServerAutoPickByDomain') as boolean}
           source={config.jmapServerAutoPickByDomain?.source}
@@ -147,19 +147,19 @@ export function SettingsTab() {
         {Array.isArray(currentValue('jmapServers')) && (currentValue('jmapServers') as JmapServerEntry[]).length > 0 && (
           <div className="px-4 py-2.5 bg-amber-50 dark:bg-amber-950/30 border-l-2 border-amber-400 dark:border-amber-600">
             <p className="text-xs text-amber-800 dark:text-amber-300 leading-relaxed">
-              <strong>CORS warning:</strong> Each JMAP server must allow this webmail's origin in its <code className="text-[11px] bg-amber-100 dark:bg-amber-900/50 px-1 py-0.5 rounded">Access-Control-Allow-Origin</code> header, or browser requests will be blocked.
+              <strong>Ostrzeżenie CORS:</strong> Każdy serwer JMAP musi zezwalać na źródło tego webmaila w nagłówku <code className="text-[11px] bg-amber-100 dark:bg-amber-900/50 px-1 py-0.5 rounded">Access-Control-Allow-Origin</code> lub żądania przeglądarki będą blokowane.
             </p>
           </div>
         )}
       </SettingsSection>
 
-      <SettingsSection title="Logging">
-        <SelectSetting label="Log Format" configKey="logFormat" value={currentValue('logFormat') as string} source={config.logFormat?.source} options={['text', 'json']} onChange={handleChange} onRevert={handleRevert} />
-        <SelectSetting label="Log Level" configKey="logLevel" value={currentValue('logLevel') as string} source={config.logLevel?.source} options={['error', 'warn', 'info', 'debug']} onChange={handleChange} onRevert={handleRevert} />
+      <SettingsSection title="Logowanie">
+        <SelectSetting label="Format dziennika" configKey="logFormat" value={currentValue('logFormat') as string} source={config.logFormat?.source} options={['text', 'json']} onChange={handleChange} onRevert={handleRevert} />
+        <SelectSetting label="Poziom dziennika" configKey="logLevel" value={currentValue('logLevel') as string} source={config.logLevel?.source} options={['error', 'warn', 'info', 'debug']} onChange={handleChange} onRevert={handleRevert} />
       </SettingsSection>
 
-      <SettingsSection title="Settings Sync">
-        <ToggleSetting label="Settings Sync Enabled" description="Requires SESSION_SECRET to be set" configKey="settingsSyncEnabled" value={currentValue('settingsSyncEnabled') as boolean} source={config.settingsSyncEnabled?.source} onChange={handleChange} onRevert={handleRevert} />
+      <SettingsSection title="Synchronizacja ustawień">
+        <ToggleSetting label="Synchronizacja ustawień włączona" description="Wymaga ustawienia SESSION_SECRET" configKey="settingsSyncEnabled" value={currentValue('settingsSyncEnabled') as boolean} source={config.settingsSyncEnabled?.source} onChange={handleChange} onRevert={handleRevert} />
       </SettingsSection>
     </div>
   );
@@ -206,7 +206,7 @@ function TextSetting({ label, configKey, value, source, onChange, onRevert, plac
           className="h-8 w-full sm:w-64 rounded-md border border-input bg-background px-2.5 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         />
         {source === 'admin' && (
-          <button onClick={() => onRevert(configKey)} className="shrink-0 text-muted-foreground hover:text-foreground" title="Revert to default">
+          <button onClick={() => onRevert(configKey)} className="shrink-0 text-muted-foreground hover:text-foreground" title="Przywróć domyślne">
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
         )}
@@ -236,7 +236,7 @@ function ToggleSetting({ label, description, configKey, value, source, onChange,
           <span className={`inline-block h-3.5 w-3.5 transform rounded-full bg-background shadow transition-transform ${value ? 'translate-x-[18px]' : 'translate-x-[3px]'}`} />
         </button>
         {source === 'admin' && (
-          <button onClick={() => onRevert(configKey)} className="text-muted-foreground hover:text-foreground" title="Revert to default">
+          <button onClick={() => onRevert(configKey)} className="text-muted-foreground hover:text-foreground" title="Przywróć domyślne">
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
         )}
@@ -264,7 +264,7 @@ function SelectSetting({ label, configKey, value, source, options, onChange, onR
           {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
         </select>
         {source === 'admin' && (
-          <button onClick={() => onRevert(configKey)} className="text-muted-foreground hover:text-foreground" title="Revert to default">
+          <button onClick={() => onRevert(configKey)} className="text-muted-foreground hover:text-foreground" title="Przywróć domyślne">
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
         )}

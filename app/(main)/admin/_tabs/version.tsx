@@ -26,47 +26,47 @@ interface VersionAdminStatus {
 }
 
 function timeAgo(iso: string | null): string {
-  if (!iso) return 'never';
+  if (!iso) return 'nigdy';
   const d = Date.now() - new Date(iso).getTime();
   if (d < 0) return new Date(iso).toLocaleString();
   const m = Math.floor(d / 60000);
-  if (m < 1) return 'just now';
-  if (m < 60) return `${m} min ago`;
+  if (m < 1) return 'przed chwilą';
+  if (m < 60) return `${m} min temu`;
   const h = Math.floor(m / 60);
-  if (h < 48) return `${h} hours ago`;
-  return `${Math.floor(h / 24)} days ago`;
+  if (h < 48) return `${h} godz. temu`;
+  return `${Math.floor(h / 24)} dni temu`;
 }
 
 function severityChip(severity: UpdateSeverity) {
   switch (severity) {
     case 'security':
       return {
-        label: 'Security update',
+        label: 'Aktualizacja bezpieczeństwa',
         className: 'bg-red-500/10 text-red-700 dark:text-red-300 border-red-500/30',
         Icon: ShieldAlert,
       };
     case 'deprecated':
       return {
-        label: 'Deprecated',
+        label: 'Przestarzałe',
         className: 'bg-red-500/10 text-red-700 dark:text-red-300 border-red-500/30',
         Icon: ShieldAlert,
       };
     case 'normal':
       return {
-        label: 'Update available',
+        label: 'Dostępna aktualizacja',
         className: 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30',
         Icon: AlertTriangle,
       };
     case 'unknown':
       return {
-        label: 'Unknown',
+        label: 'Nieznane',
         className: 'bg-muted text-muted-foreground border-border',
         Icon: AlertTriangle,
       };
     case 'none':
     default:
       return {
-        label: 'Up to date',
+        label: 'Aktualne',
         className: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30',
         Icon: CheckCircle2,
       };
@@ -105,7 +105,7 @@ export function VersionTab() {
       const j = (await r.json().catch(() => ({}))) as { ok?: boolean; error?: string };
       setCheckResult({
         ok: !!j.ok,
-        msg: j.ok ? 'Update check completed.' : `Failed: ${j.error ?? 'unknown'}`,
+        msg: j.ok ? 'Sprawdzenie aktualizacji zakończone.' : `Nie powiodło się: ${j.error ?? 'nieznane'}`,
       });
       await refresh();
     } finally {
@@ -116,7 +116,7 @@ export function VersionTab() {
   if (loading || !data) {
     return (
       <div className="p-8 flex items-center gap-2 text-muted-foreground">
-        <Loader2 className="h-4 w-4 animate-spin" /> loading…
+        <Loader2 className="h-4 w-4 animate-spin" /> ładowanie…
       </div>
     );
   }
@@ -131,10 +131,10 @@ export function VersionTab() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h1 className="text-2xl font-semibold text-foreground">Version</h1>
+          <h1 className="text-2xl font-semibold text-foreground">Wersja</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Hourly check against the Bulwark version server. Severity is decided server-side and
-            disable with <code>BULWARK_UPDATE_CHECK=off</code>.
+            Godzinne sprawdzanie z serwerem wersji Bulwark. Ważność jest ustalana po stronie serwera.
+            Wyłącz przez <code>BULWARK_UPDATE_CHECK=off</code>.
           </p>
         </div>
         <button
@@ -144,7 +144,7 @@ export function VersionTab() {
           className="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-50 transition-all shadow-sm"
         >
           {checking ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
-          Check now
+          Sprawdź teraz
         </button>
       </div>
 
@@ -161,7 +161,7 @@ export function VersionTab() {
       )}
 
       <SettingsSection title="Status">
-        <SettingItem label="Severity">
+        <SettingItem label="Ważność">
           <span
             className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs font-medium ${chip.className}`}
           >
@@ -169,11 +169,11 @@ export function VersionTab() {
             {chip.label}
           </span>
         </SettingItem>
-        <SettingItem label="Running" description={data.build !== 'unknown' ? `Build ${data.build}` : undefined}>
+        <SettingItem label="Uruchomiona" description={data.build !== 'unknown' ? `Kompilacja ${data.build}` : undefined}>
           <span className="text-sm font-mono text-foreground">{data.current}</span>
         </SettingItem>
         {newer && (
-          <SettingItem label="Latest release">
+          <SettingItem label="Najnowsze wydanie">
             {releaseUrl ? (
               <a
                 href={releaseUrl}
@@ -189,33 +189,33 @@ export function VersionTab() {
           </SettingItem>
         )}
         {status?.advisory && (
-          <SettingItem label="Advisory">
+          <SettingItem label="Porada">
             <span className="text-sm font-mono text-red-600 dark:text-red-400">{status.advisory}</span>
           </SettingItem>
         )}
       </SettingsSection>
 
-      <SettingsSection title="Schedule" description="Hourly polling with ±5 minute jitter.">
-        <SettingItem label="Last checked">
+      <SettingsSection title="Harmonogram" description="Godzinne odpytywanie z rozrzutem ±5 minut.">
+        <SettingItem label="Ostatnie sprawdzenie">
           <span className="text-sm text-foreground">{timeAgo(data.lastCheckedAt)}</span>
         </SettingItem>
-        <SettingItem label="Last success">
+        <SettingItem label="Ostatnie powodzenie">
           <span className="text-sm text-foreground">{timeAgo(data.lastSuccessAt)}</span>
         </SettingItem>
-        <SettingItem label="Next scheduled">
+        <SettingItem label="Następne zaplanowane">
           <span className="text-sm text-foreground">{timeAgo(data.nextScheduledAt)}</span>
         </SettingItem>
         {status?.checkedAt && (
-          <SettingItem label="Server timestamp" description="When the server last refreshed its release list.">
+          <SettingItem label="Znacznik czasu serwera" description="Kiedy serwer ostatnio odświeżył listę wydań.">
             <span className="text-sm text-foreground">{new Date(status.checkedAt).toLocaleString()}</span>
           </SettingItem>
         )}
       </SettingsSection>
 
-      <SettingsSection title="Source">
+      <SettingsSection title="Źródło">
         <SettingItem
-          label="Endpoint"
-          description={data.endpoint === data.defaultEndpoint ? 'Default endpoint.' : `Default: ${data.defaultEndpoint}`}
+          label="Punkt końcowy"
+          description={data.endpoint === data.defaultEndpoint ? 'Domyślny punkt końcowy.' : `Domyślny: ${data.defaultEndpoint}`}
         >
           <a
             href={data.endpoint}
@@ -226,9 +226,9 @@ export function VersionTab() {
             {data.endpoint} <ExternalLink className="w-3 h-3 shrink-0" />
           </a>
         </SettingItem>
-        <SettingItem label="Disabled by env" description="Set BULWARK_UPDATE_CHECK=off to disable.">
+        <SettingItem label="Wyłączone przez zmienną środowiskową" description="Ustaw BULWARK_UPDATE_CHECK=off aby wyłączyć.">
           <span className={`text-sm font-medium ${data.disabledByEnv ? 'text-amber-600 dark:text-amber-400' : 'text-muted-foreground'}`}>
-            {data.disabledByEnv ? 'Yes' : 'No'}
+            {data.disabledByEnv ? 'Tak' : 'Nie'}
           </span>
         </SettingItem>
       </SettingsSection>

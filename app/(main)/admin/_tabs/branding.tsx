@@ -18,33 +18,33 @@ interface ConfigEntry {
 
 const IMAGE_FIELDS = [
   { key: 'faviconUrl', label: 'Favicon', accept: '.svg,.png,.ico,.webp' },
-  { key: 'appLogoLightUrl', label: 'App Logo (Light Mode)', accept: '.svg,.png,.jpg,.webp' },
-  { key: 'appLogoDarkUrl', label: 'App Logo (Dark Mode)', accept: '.svg,.png,.jpg,.webp' },
-  { key: 'loginLogoLightUrl', label: 'Login Logo (Light Mode)', accept: '.svg,.png,.jpg,.webp' },
-  { key: 'loginLogoDarkUrl', label: 'Login Logo (Dark Mode)', accept: '.svg,.png,.jpg,.webp' },
+  { key: 'appLogoLightUrl', label: 'Logo aplikacji (tryb jasny)', accept: '.svg,.png,.jpg,.webp' },
+  { key: 'appLogoDarkUrl', label: 'Logo aplikacji (tryb ciemny)', accept: '.svg,.png,.jpg,.webp' },
+  { key: 'loginLogoLightUrl', label: 'Logo logowania (tryb jasny)', accept: '.svg,.png,.jpg,.webp' },
+  { key: 'loginLogoDarkUrl', label: 'Logo logowania (tryb ciemny)', accept: '.svg,.png,.jpg,.webp' },
 ] as const;
 
 const TEXT_FIELDS = [
-  { key: 'loginCompanyName', label: 'Company Name' },
-  { key: 'loginImprintUrl', label: 'Imprint URL' },
-  { key: 'loginPrivacyPolicyUrl', label: 'Privacy Policy URL' },
-  { key: 'loginWebsiteUrl', label: 'Company Website URL' },
+  { key: 'loginCompanyName', label: 'Nazwa firmy' },
+  { key: 'loginImprintUrl', label: 'URL impressum' },
+  { key: 'loginPrivacyPolicyUrl', label: 'URL polityki prywatności' },
+  { key: 'loginWebsiteUrl', label: 'URL strony firmy' },
 ] as const;
 
 const PWA_IMAGE_FIELDS = [
-  { key: 'pwaIconUrl', label: 'PWA Icon', accept: '.svg,.png,.jpg,.webp' },
-  { key: 'pwaScreenshotMobileUrl', label: 'PWA Screenshot (Mobile)', accept: '.png,.jpg,.webp' },
-  { key: 'pwaScreenshotDesktopUrl', label: 'PWA Screenshot (Desktop)', accept: '.png,.jpg,.webp' },
+  { key: 'pwaIconUrl', label: 'Ikona PWA', accept: '.svg,.png,.jpg,.webp' },
+  { key: 'pwaScreenshotMobileUrl', label: 'Zrzut ekranu PWA (mobilny)', accept: '.png,.jpg,.webp' },
+  { key: 'pwaScreenshotDesktopUrl', label: 'Zrzut ekranu PWA (stacjonarny)', accept: '.png,.jpg,.webp' },
 ] as const;
 
 const PWA_TEXT_FIELDS = [
-  { key: 'appShortName', label: 'Short Name', placeholder: 'Shown on home screen (max ~12 chars)' },
-  { key: 'appDescription', label: 'Description', placeholder: 'App description for install prompts' },
+  { key: 'appShortName', label: 'Krótka nazwa', placeholder: 'Wyświetlane na ekranie głównym (maks. ~12 znaków)' },
+  { key: 'appDescription', label: 'Opis', placeholder: 'Opis aplikacji dla monitów instalacji' },
 ] as const;
 
 const PWA_COLOR_FIELDS = [
-  { key: 'pwaThemeColor', label: 'Theme Color', defaultValue: '#ffffff' },
-  { key: 'pwaBackgroundColor', label: 'Background Color', defaultValue: '#ffffff' },
+  { key: 'pwaThemeColor', label: 'Kolor motywu', defaultValue: '#ffffff' },
+  { key: 'pwaBackgroundColor', label: 'Kolor tła', defaultValue: '#ffffff' },
 ] as const;
 
 // Accepts exact hosts and one-level wildcards (e.g. *.example.com).
@@ -162,14 +162,14 @@ export function BrandingTab() {
       setMessage({
         type: 'success',
         text: selectedHost
-          ? `Branding for ${selectedHost} updated. Changes visible on next page load.`
-          : 'Branding updated. Changes visible on next page load.',
+          ? `Branding dla ${selectedHost} zaktualizowany. Zmiany widoczne przy następnym załadowaniu strony.`
+          : 'Branding zaktualizowany. Zmiany widoczne przy następnym załadowaniu strony.',
       });
       setEdits({});
       await fetchConfig();
     } else {
       const data = await res.json();
-      setMessage({ type: 'error', text: data.error || 'Failed to save' });
+      setMessage({ type: 'error', text: data.error || 'Nie udało się zapisać' });
     }
     setSaving(false);
   }
@@ -178,7 +178,7 @@ export function BrandingTab() {
     if (selectedHost && !EXACT_HOST_RE.test(selectedHost)) {
       setMessage({
         type: 'error',
-        text: 'Wildcard hosts cannot upload files. Enter a URL instead.',
+        text: 'Hosty z symbolem wieloznacznym nie mogą przesyłać plików. Wprowadź URL.',
       });
       return;
     }
@@ -197,7 +197,7 @@ export function BrandingTab() {
 
     if (res.ok) {
       const data = await res.json();
-      setMessage({ type: 'success', text: `Uploaded ${file.name} successfully.` });
+      setMessage({ type: 'success', text: `Przesłano ${file.name} pomyślnie.` });
       setEdits(prev => {
         const next = { ...prev };
         delete next[slot];
@@ -208,7 +208,7 @@ export function BrandingTab() {
       void data;
     } else {
       const data = await res.json();
-      setMessage({ type: 'error', text: data.error || 'Upload failed' });
+      setMessage({ type: 'error', text: data.error || 'Przesyłanie nie powiodło się' });
     }
     setUploading(null);
   }
@@ -226,7 +226,7 @@ export function BrandingTab() {
     });
 
     if (res.ok) {
-      setMessage({ type: 'success', text: 'Uploaded file removed. Reverted to default.' });
+      setMessage({ type: 'success', text: 'Przesłany plik usunięty. Przywrócono domyślne.' });
       setEdits(prev => {
         const next = { ...prev };
         delete next[slot];
@@ -235,7 +235,7 @@ export function BrandingTab() {
       await fetchConfig();
     } else {
       const data = await res.json();
-      setMessage({ type: 'error', text: data.error || 'Failed to remove' });
+      setMessage({ type: 'error', text: data.error || 'Nie udało się usunąć' });
     }
   }
 
@@ -277,15 +277,15 @@ export function BrandingTab() {
   async function handleAddDomain() {
     const host = newHostInput.trim().toLowerCase().replace(/\.+$/, '');
     if (!host) {
-      setNewHostError('Enter a hostname');
+      setNewHostError('Wprowadź nazwę hosta');
       return;
     }
     if (!HOST_RE.test(host)) {
-      setNewHostError('Invalid hostname. Use foo.example.com or *.example.com');
+      setNewHostError('Nieprawidłowa nazwa hosta. Użyj foo.example.com lub *.example.com');
       return;
     }
     if (domainEntries.some(e => e.host === host)) {
-      setNewHostError('A branding entry for this host already exists');
+      setNewHostError('Wpis brandingowy dla tego hosta już istnieje');
       return;
     }
     setNewHostError(null);
@@ -304,13 +304,13 @@ export function BrandingTab() {
       await fetchConfig();
     } else {
       const data = await res.json();
-      setNewHostError(data.error || 'Failed to add domain');
+      setNewHostError(data.error || 'Nie udało się dodać domeny');
     }
   }
 
   async function handleDeleteDomain() {
     if (!selectedHost) return;
-    if (!confirm(`Remove branding entry for ${selectedHost}? Uploaded files for this domain will be left behind on disk.`)) {
+    if (!confirm(`Usunąć wpis brandingowy dla ${selectedHost}? Przesłane pliki dla tej domeny pozostaną na dysku.`)) {
       return;
     }
     const next = domainEntries.filter(e => e.host !== selectedHost);
@@ -323,15 +323,15 @@ export function BrandingTab() {
       setSelectedHost(null);
       setEdits({});
       await fetchConfig();
-      setMessage({ type: 'success', text: `Removed branding entry for ${selectedHost}.` });
+      setMessage({ type: 'success', text: `Usunięto wpis brandingowy dla ${selectedHost}.` });
     } else {
       const data = await res.json();
-      setMessage({ type: 'error', text: data.error || 'Failed to remove domain' });
+      setMessage({ type: 'error', text: data.error || 'Nie udało się usunąć domeny' });
     }
   }
 
   function handleScopeChange(host: string | null) {
-    if (Object.keys(edits).length > 0 && !confirm('Discard unsaved changes?')) return;
+    if (Object.keys(edits).length > 0 && !confirm('Odrzucić niezapisane zmiany?')) return;
     setSelectedHost(host);
     setEdits({});
     setMessage(null);
@@ -341,7 +341,7 @@ export function BrandingTab() {
   const wildcardScope = !!selectedHost && !EXACT_HOST_RE.test(selectedHost);
 
   if (loading) {
-    return <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">Loading...</div>;
+    return <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">Ładowanie...</div>;
   }
 
   return (
@@ -349,7 +349,7 @@ export function BrandingTab() {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <h1 className="text-2xl font-semibold text-foreground">Branding</h1>
-          <p className="text-sm text-muted-foreground mt-1">Customize logos, favicon, and company information</p>
+          <p className="text-sm text-muted-foreground mt-1">Dostosuj loga, favicon i informacje o firmie</p>
         </div>
         {hasEdits && (
           <button
@@ -358,7 +358,7 @@ export function BrandingTab() {
             className="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-50 transition-all shadow-sm"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            Save changes
+            Zapisz zmiany
           </button>
         )}
       </div>
@@ -367,7 +367,7 @@ export function BrandingTab() {
       <div className="border border-border rounded-lg">
         <div className="px-4 py-3 border-b border-border bg-muted/30 flex items-center gap-2">
           <Globe className="w-4 h-4 text-muted-foreground" />
-          <h2 className="text-sm font-medium text-foreground">Scope</h2>
+          <h2 className="text-sm font-medium text-foreground">Zakres</h2>
         </div>
         <div className="px-4 py-3 space-y-3">
           <div className="flex flex-wrap gap-2">
@@ -380,7 +380,7 @@ export function BrandingTab() {
                   : 'bg-muted text-foreground hover:bg-muted/70'
               }`}
             >
-              Default
+              Domyślne
             </button>
             {domainEntries.map(entry => (
               <button
@@ -403,7 +403,7 @@ export function BrandingTab() {
                 className="inline-flex items-center gap-1 h-8 px-3 rounded-md border border-dashed border-input text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
               >
                 <Plus className="w-3.5 h-3.5" />
-                Add domain
+                Dodaj domenę
               </button>
             )}
           </div>
@@ -423,14 +423,14 @@ export function BrandingTab() {
                 onClick={handleAddDomain}
                 className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
               >
-                Add
+                Dodaj
               </button>
               <button
                 type="button"
                 onClick={() => { setAddingHost(false); setNewHostInput(''); setNewHostError(null); }}
                 className="h-8 px-2.5 rounded-md text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                Cancel
+                Anuluj
               </button>
               {newHostError && <span className="text-xs text-destructive">{newHostError}</span>}
             </div>
@@ -438,9 +438,9 @@ export function BrandingTab() {
           {selectedHost ? (
             <div className="flex items-center justify-between gap-3 text-xs">
               <p className="text-muted-foreground">
-                Editing overrides for <span className="font-mono text-foreground">{selectedHost}</span>.
-                Unset fields fall back to the Default values.
-                {wildcardScope && ' Uploads are disabled for wildcard hosts; enter a URL instead.'}
+                Edycja nadpisań dla <span className="font-mono text-foreground">{selectedHost}</span>.
+                Nieustawione pola używają wartości domyślnych.
+                {wildcardScope && ' Przesyłanie jest wyłączone dla hostów z symbolem wieloznacznym; wprowadź URL.'}
               </p>
               <button
                 type="button"
@@ -448,12 +448,12 @@ export function BrandingTab() {
                 className="inline-flex items-center gap-1 text-destructive hover:underline whitespace-nowrap"
               >
                 <X className="w-3.5 h-3.5" />
-                Remove domain
+                Usuń domenę
               </button>
             </div>
           ) : (
             <p className="text-xs text-muted-foreground">
-              Editing the Default branding. Add a domain to override branding when the webmail is served on a specific hostname.
+              Edycja domyślnego brandingu. Dodaj domenę, aby nadpisać branding, gdy webmail jest obsługiwany na określonej nazwie hosta.
             </p>
           )}
         </div>
@@ -467,8 +467,8 @@ export function BrandingTab() {
 
       <div className="border border-border rounded-lg">
         <div className="px-4 py-3 border-b border-border bg-muted/30">
-          <h2 className="text-sm font-medium text-foreground">Images & Logos</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">Upload a file or enter a URL. Supported formats: SVG, PNG, JPEG, WebP, ICO (max 2 MB)</p>
+          <h2 className="text-sm font-medium text-foreground">Obrazy i loga</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">Prześlij plik lub wprowadź URL. Obsługiwane formaty: SVG, PNG, JPEG, WebP, ICO (maks. 2 MB)</p>
         </div>
         <div className="divide-y divide-border">
           {IMAGE_FIELDS.map(field => (
@@ -478,7 +478,7 @@ export function BrandingTab() {
                   <label className="text-sm text-foreground">{field.label}</label>
                   {isOverriddenInScope(field.key) && (
                     <span className="text-[10px] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-primary/10 text-primary">
-                      {isUploadedFile(field.key) ? 'uploaded' : selectedHost ? 'domain' : 'admin'}
+                      {isUploadedFile(field.key) ? 'przesłane' : selectedHost ? 'domena' : 'admin'}
                     </span>
                   )}
                 </div>
@@ -487,7 +487,7 @@ export function BrandingTab() {
                     type="text"
                     value={currentValue(field.key)}
                     onChange={(e) => handleChange(field.key, e.target.value)}
-                    placeholder={selectedHost ? 'Enter URL (uploads only for default scope)' : 'Enter URL or upload a file'}
+                    placeholder={selectedHost ? 'Wprowadź URL (przesyłanie tylko dla zakresu domyślnego)' : 'Wprowadź URL lub prześlij plik'}
                     className="h-8 w-full sm:w-64 min-w-0 rounded-md border border-input bg-background px-2.5 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   />
                   <input
@@ -505,7 +505,7 @@ export function BrandingTab() {
                     onClick={() => fileInputRefs.current[field.key]?.click()}
                     disabled={uploading === field.key || wildcardScope}
                     className="inline-flex items-center gap-1.5 h-8 px-2.5 rounded-md border border-input bg-background text-sm text-foreground hover:bg-muted disabled:opacity-50 transition-colors"
-                    title={wildcardScope ? 'Uploads disabled for wildcard hosts' : 'Upload file'}
+                    title={wildcardScope ? 'Przesyłanie wyłączone dla hostów z symbolem wieloznacznym' : 'Prześlij plik'}
                   >
                     {uploading === field.key ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
                   </button>
@@ -513,13 +513,13 @@ export function BrandingTab() {
                     <button
                       onClick={() => handleDeleteUpload(field.key)}
                       className="text-muted-foreground hover:text-destructive transition-colors"
-                      title="Remove uploaded file"
+                      title="Usuń przesłany plik"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   )}
                   {isOverriddenInScope(field.key) && !isUploadedFile(field.key) && (
-                    <button onClick={() => handleRevert(field.key)} className="text-muted-foreground hover:text-foreground" title="Revert to default">
+                    <button onClick={() => handleRevert(field.key)} className="text-muted-foreground hover:text-foreground" title="Przywróć domyślne">
                       <RotateCcw className="w-3.5 h-3.5" />
                     </button>
                   )}
@@ -545,8 +545,8 @@ export function BrandingTab() {
 
       <div className="border border-border rounded-lg">
         <div className="px-4 py-3 border-b border-border bg-muted/30">
-          <h2 className="text-sm font-medium text-foreground">Progressive Web App</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">Shown when users install the webmail to their home screen. Leave fields blank to fall back to the favicon and app name.</p>
+          <h2 className="text-sm font-medium text-foreground">Progresywna aplikacja webowa</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">Wyświetlane, gdy użytkownicy instalują webmail na ekranie głównym. Pozostaw pola puste, aby użyć favicon i nazwy aplikacji.</p>
         </div>
         <div className="divide-y divide-border">
           {PWA_IMAGE_FIELDS.map(field => (
@@ -556,7 +556,7 @@ export function BrandingTab() {
                   <label className="text-sm text-foreground">{field.label}</label>
                   {isOverriddenInScope(field.key) && (
                     <span className="text-[10px] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-primary/10 text-primary">
-                      {isUploadedFile(field.key) ? 'uploaded' : selectedHost ? 'domain' : 'admin'}
+                      {isUploadedFile(field.key) ? 'przesłane' : selectedHost ? 'domena' : 'admin'}
                     </span>
                   )}
                 </div>
@@ -565,7 +565,7 @@ export function BrandingTab() {
                     type="text"
                     value={currentValue(field.key)}
                     onChange={(e) => handleChange(field.key, e.target.value)}
-                    placeholder={selectedHost ? 'Enter URL (uploads only for default scope)' : 'Enter URL or upload a file'}
+                    placeholder={selectedHost ? 'Wprowadź URL (przesyłanie tylko dla zakresu domyślnego)' : 'Wprowadź URL lub prześlij plik'}
                     className="h-8 w-full sm:w-64 min-w-0 rounded-md border border-input bg-background px-2.5 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   />
                   <input
@@ -583,7 +583,7 @@ export function BrandingTab() {
                     onClick={() => fileInputRefs.current[field.key]?.click()}
                     disabled={uploading === field.key || wildcardScope}
                     className="inline-flex items-center gap-1.5 h-8 px-2.5 rounded-md border border-input bg-background text-sm text-foreground hover:bg-muted disabled:opacity-50 transition-colors"
-                    title={wildcardScope ? 'Uploads disabled for wildcard hosts' : 'Upload file'}
+                    title={wildcardScope ? 'Przesyłanie wyłączone dla hostów z symbolem wieloznacznym' : 'Prześlij plik'}
                   >
                     {uploading === field.key ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
                   </button>
@@ -591,13 +591,13 @@ export function BrandingTab() {
                     <button
                       onClick={() => handleDeleteUpload(field.key)}
                       className="text-muted-foreground hover:text-destructive transition-colors"
-                      title="Remove uploaded file"
+                      title="Usuń przesłany plik"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   )}
                   {isOverriddenInScope(field.key) && !isUploadedFile(field.key) && (
-                    <button onClick={() => handleRevert(field.key)} className="text-muted-foreground hover:text-foreground" title="Revert to default">
+                    <button onClick={() => handleRevert(field.key)} className="text-muted-foreground hover:text-foreground" title="Przywróć domyślne">
                       <RotateCcw className="w-3.5 h-3.5" />
                     </button>
                   )}
@@ -624,7 +624,7 @@ export function BrandingTab() {
                 <label className="text-sm text-foreground">{field.label}</label>
                 {isOverriddenInScope(field.key) && (
                   <span className="text-[10px] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-primary/10 text-primary">
-                    {selectedHost ? 'domain' : 'admin'}
+                    {selectedHost ? 'domena' : 'admin'}
                   </span>
                 )}
               </div>
@@ -637,7 +637,7 @@ export function BrandingTab() {
                   className="h-8 w-full sm:w-72 min-w-0 rounded-md border border-input bg-background px-2.5 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 />
                 {isOverriddenInScope(field.key) && (
-                  <button onClick={() => handleRevert(field.key)} className="text-muted-foreground hover:text-foreground" title="Revert to default">
+                  <button onClick={() => handleRevert(field.key)} className="text-muted-foreground hover:text-foreground" title="Przywróć domyślne">
                     <RotateCcw className="w-3.5 h-3.5" />
                   </button>
                 )}
@@ -652,7 +652,7 @@ export function BrandingTab() {
                   <label className="text-sm text-foreground">{field.label}</label>
                   {isOverriddenInScope(field.key) && (
                     <span className="text-[10px] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-primary/10 text-primary">
-                      {selectedHost ? 'domain' : 'admin'}
+                      {selectedHost ? 'domena' : 'admin'}
                     </span>
                   )}
                 </div>
@@ -662,7 +662,7 @@ export function BrandingTab() {
                     value={/^#[0-9a-fA-F]{6}$/.test(value) ? value : field.defaultValue}
                     onChange={(e) => handleChange(field.key, e.target.value)}
                     className="h-8 w-10 cursor-pointer rounded-md border border-input bg-background p-0.5"
-                    title="Pick a color"
+                    title="Wybierz kolor"
                   />
                   <input
                     type="text"
@@ -672,7 +672,7 @@ export function BrandingTab() {
                     className="h-8 w-full sm:w-32 min-w-0 rounded-md border border-input bg-background px-2.5 text-sm font-mono text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   />
                   {isOverriddenInScope(field.key) && (
-                    <button onClick={() => handleRevert(field.key)} className="text-muted-foreground hover:text-foreground" title="Revert to default">
+                    <button onClick={() => handleRevert(field.key)} className="text-muted-foreground hover:text-foreground" title="Przywróć domyślne">
                       <RotateCcw className="w-3.5 h-3.5" />
                     </button>
                   )}
@@ -685,7 +685,7 @@ export function BrandingTab() {
 
       <div className="border border-border rounded-lg">
         <div className="px-4 py-3 border-b border-border bg-muted/30">
-          <h2 className="text-sm font-medium text-foreground">Company Information</h2>
+          <h2 className="text-sm font-medium text-foreground">Informacje o firmie</h2>
         </div>
         <div className="divide-y divide-border">
           {TEXT_FIELDS.map(field => (
@@ -694,7 +694,7 @@ export function BrandingTab() {
                 <label className="text-sm text-foreground">{field.label}</label>
                 {isOverriddenInScope(field.key) && (
                   <span className="text-[10px] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-primary/10 text-primary">
-                    {selectedHost ? 'domain' : 'admin'}
+                    {selectedHost ? 'domena' : 'admin'}
                   </span>
                 )}
               </div>
@@ -703,11 +703,11 @@ export function BrandingTab() {
                   type="text"
                   value={currentValue(field.key)}
                   onChange={(e) => handleChange(field.key, e.target.value)}
-                  placeholder={field.key.includes('Url') ? 'https://...' : 'Enter value'}
+                  placeholder={field.key.includes('Url') ? 'https://...' : 'Wprowadź wartość'}
                   className="h-8 w-full sm:w-72 min-w-0 rounded-md border border-input bg-background px-2.5 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 />
                 {isOverriddenInScope(field.key) && (
-                  <button onClick={() => handleRevert(field.key)} className="text-muted-foreground hover:text-foreground" title="Revert to default">
+                  <button onClick={() => handleRevert(field.key)} className="text-muted-foreground hover:text-foreground" title="Przywróć domyślne">
                     <RotateCcw className="w-3.5 h-3.5" />
                   </button>
                 )}

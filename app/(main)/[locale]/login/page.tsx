@@ -42,7 +42,7 @@ function VersionBadge() {
 
   useEffect(() => { startPolling(); }, [startPolling]);
 
-  const versionInfo = `Version: ${APP_VERSION}\nBuild: ${GIT_COMMIT}${banner?.latest ? `\nLatest: ${banner.latest}` : ""}`;
+  const versionInfo = `Wersja: ${APP_VERSION}\nKompilacja: ${GIT_COMMIT}${banner?.latest ? `\nNajnowsza: ${banner.latest}` : ""}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(versionInfo).then(() => {
@@ -55,10 +55,10 @@ function VersionBadge() {
   const triggerText = !banner
     ? `v${APP_VERSION}`
     : banner.severity === "security"
-      ? "Security update available"
+      ? "Dostępna aktualizacja zabezpieczeń"
       : banner.severity === "deprecated"
-        ? "Version no longer supported"
-        : "New version available";
+        ? "Wersja nie jest już wspierana"
+        : "Dostępna nowa wersja";
 
   const triggerColor = !banner
     ? "text-muted-foreground/40"
@@ -86,10 +86,10 @@ function VersionBadge() {
       <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 px-3 py-2 rounded-md bg-popover text-popover-foreground text-xs shadow-md border border-border opacity-0 peer-hover:opacity-100 hover:opacity-100 transition-opacity whitespace-nowrap z-10">
         <div className="flex items-center gap-2">
           <div className="space-y-0.5">
-            <p>Version: <span className="font-medium">{APP_VERSION}</span></p>
-            <p>Build: <span className="font-medium">{GIT_COMMIT}</span></p>
+            <p>Wersja: <span className="font-medium">{APP_VERSION}</span></p>
+            <p>Kompilacja: <span className="font-medium">{GIT_COMMIT}</span></p>
             {banner?.latest && (
-              <p>Latest: <span className="font-medium">{banner.latest}</span></p>
+              <p>Najnowsza: <span className="font-medium">{banner.latest}</span></p>
             )}
             {banner?.advisory && (
               <p className="text-red-500 dark:text-red-400">{banner.advisory}</p>
@@ -98,7 +98,7 @@ function VersionBadge() {
           <button
             onClick={handleCopy}
             className="p-1 rounded hover:bg-muted transition-colors"
-            aria-label="Copy version info"
+            aria-label="Kopiuj informacje o wersji"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
           </button>

@@ -35,15 +35,15 @@ export function LogsTab() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h1 className="text-2xl font-semibold text-foreground">Audit Log</h1>
-          <p className="text-sm text-muted-foreground mt-1">{total} total entries</p>
+          <h1 className="text-2xl font-semibold text-foreground">Dziennik audytu</h1>
+          <p className="text-sm text-muted-foreground mt-1">{total} łącznie wpisów</p>
         </div>
         <button
           onClick={fetchLogs}
           className="inline-flex items-center gap-2 h-9 px-3 rounded-md border border-input bg-background text-sm text-foreground hover:bg-accent transition-colors"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          Refresh
+          Odśwież
         </button>
       </div>
 
@@ -53,23 +53,23 @@ export function LogsTab() {
           onChange={(e) => { setActionFilter(e.target.value); setPage(1); }}
           className="h-8 w-full sm:w-auto rounded-md border border-input bg-background px-2.5 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <option value="">All actions</option>
-          <option value="admin.login">Login</option>
-          <option value="admin.logout">Logout</option>
-          <option value="admin.login_failed">Login Failed</option>
-          <option value="admin.login_blocked">Login Blocked</option>
-          <option value="admin.change-password">Password Change</option>
-          <option value="config.update">Config Update</option>
-          <option value="config.revert">Config Revert</option>
-          <option value="policy.update">Policy Update</option>
+          <option value="">Wszystkie akcje</option>
+          <option value="admin.login">Logowanie</option>
+          <option value="admin.logout">Wylogowanie</option>
+          <option value="admin.login_failed">Logowanie nieudane</option>
+          <option value="admin.login_blocked">Logowanie zablokowane</option>
+          <option value="admin.change-password">Zmiana hasła</option>
+          <option value="config.update">Aktualizacja konfiguracji</option>
+          <option value="config.revert">Przywrócenie konfiguracji</option>
+          <option value="policy.update">Aktualizacja polityki</option>
         </select>
       </div>
 
       <div className="sm:hidden space-y-2">
         {loading && entries.length === 0 ? (
-          <div className="rounded-lg border border-border px-4 py-8 text-center text-sm text-muted-foreground">Loading...</div>
+          <div className="rounded-lg border border-border px-4 py-8 text-center text-sm text-muted-foreground">Ładowanie...</div>
         ) : entries.length === 0 ? (
-          <div className="rounded-lg border border-border px-4 py-8 text-center text-sm text-muted-foreground">No entries found</div>
+          <div className="rounded-lg border border-border px-4 py-8 text-center text-sm text-muted-foreground">Nie znaleziono wpisów</div>
         ) : (
           entries.map((entry, i) => (
             <div key={i} className="rounded-lg border border-border p-3 space-y-1.5">
@@ -96,20 +96,20 @@ export function LogsTab() {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-muted/30">
-              <th className="text-left px-4 py-2 font-medium text-muted-foreground whitespace-nowrap">Time</th>
-              <th className="text-left px-4 py-2 font-medium text-muted-foreground whitespace-nowrap">Action</th>
-              <th className="text-left px-4 py-2 font-medium text-muted-foreground">Details</th>
+              <th className="text-left px-4 py-2 font-medium text-muted-foreground whitespace-nowrap">Czas</th>
+              <th className="text-left px-4 py-2 font-medium text-muted-foreground whitespace-nowrap">Akcja</th>
+              <th className="text-left px-4 py-2 font-medium text-muted-foreground">Szczegóły</th>
               <th className="text-left px-4 py-2 font-medium text-muted-foreground whitespace-nowrap">IP</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
             {loading && entries.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-muted-foreground">Loading...</td>
+                <td colSpan={4} className="px-4 py-8 text-center text-muted-foreground">Ładowanie...</td>
               </tr>
             ) : entries.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-muted-foreground">No entries found</td>
+                <td colSpan={4} className="px-4 py-8 text-center text-muted-foreground">Nie znaleziono wpisów</td>
               </tr>
             ) : (
               entries.map((entry, i) => (
@@ -138,7 +138,7 @@ export function LogsTab() {
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
           <p className="text-xs text-muted-foreground">
-            Page {page} of {totalPages}
+            Strona {page} z {totalPages}
           </p>
           <div className="flex items-center gap-2">
             <button
@@ -146,14 +146,14 @@ export function LogsTab() {
               disabled={page === 1}
               className="h-8 px-3 rounded-md border border-input bg-background text-sm disabled:opacity-50 hover:bg-accent transition-colors"
             >
-              Previous
+              Poprzednia
             </button>
             <button
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
               className="h-8 px-3 rounded-md border border-input bg-background text-sm disabled:opacity-50 hover:bg-accent transition-colors"
             >
-              Next
+              Następna
             </button>
           </div>
         </div>

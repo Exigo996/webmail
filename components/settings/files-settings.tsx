@@ -18,8 +18,8 @@ interface SampleFile {
 }
 
 const SAMPLE_FILES: SampleFile[] = [
-  { name: "Documents", isFolder: true, size: 0, modified: "2026-03-10" },
-  { name: "Photos", isFolder: true, size: 0, modified: "2026-03-14" },
+  { name: "Dokumenty", isFolder: true, size: 0, modified: "2026-03-10" },
+  { name: "Zdjęcia", isFolder: true, size: 0, modified: "2026-03-14" },
   { name: "report.pdf", isFolder: false, size: 245000, modified: "2026-03-15" },
   { name: "notes.md", isFolder: false, size: 1200, modified: "2026-03-12" },
   { name: "vacation.jpg", isFolder: false, size: 3400000, modified: "2026-03-08", thumbnailUrl: "/branding/Bulwark_Logo_Color.png" },
@@ -83,9 +83,9 @@ function FilesSettingsPreview({ settings }: { settings: FilesSettings }) {
   const listView = (
     <div className="flex-1 min-w-0 overflow-hidden">
       <div className="flex items-center gap-3 px-2 py-1 text-[10px] font-medium text-muted-foreground border-b border-border bg-muted/50">
-        <span className="flex-1 min-w-0">Name</span>
-        <span className="w-14 text-right">Size</span>
-        <span className="w-16 text-right">Modified</span>
+        <span className="flex-1 min-w-0">Nazwa</span>
+        <span className="w-14 text-right">Rozmiar</span>
+        <span className="w-16 text-right">Zmodyfikowano</span>
       </div>
       {sortedFiles.map((file) => (
         <div
@@ -145,17 +145,17 @@ function FilesSettingsPreview({ settings }: { settings: FilesSettings }) {
     <div className="w-24 border-r border-border bg-muted/30 py-1.5 flex-shrink-0">
       <div className="flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium text-foreground">
         <Home className="w-3 h-3 flex-shrink-0" />
-        <span className="truncate">Files</span>
+        <span className="truncate">Pliki</span>
       </div>
       <div className="flex items-center gap-1 px-2 py-0.5 text-[10px] text-foreground bg-accent rounded-sm mx-1">
         <ChevronDown className="w-2.5 h-2.5 flex-shrink-0" />
         <FolderOpen className="w-3 h-3 flex-shrink-0 text-blue-500" />
-        <span className="truncate">Documents</span>
+        <span className="truncate">Dokumenty</span>
       </div>
       <div className="flex items-center gap-1 px-2 py-0.5 text-[10px] text-muted-foreground" style={{ paddingLeft: "1.25rem" }}>
         <ChevronRight className="w-2.5 h-2.5 flex-shrink-0" />
         <Folder className="w-3 h-3 flex-shrink-0 text-blue-500" />
-        <span className="truncate">Photos</span>
+        <span className="truncate">Zdjęcia</span>
       </div>
     </div>
   );

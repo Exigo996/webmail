@@ -118,7 +118,7 @@ export function JmapServersSection({ value, source, onChange, onRevert }: Props)
       <div className="flex items-center justify-between gap-2">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-foreground">Servers</span>
+            <span className="text-sm font-medium text-foreground">Serwery</span>
             {source && source !== 'default' && (
               <span className={`text-[10px] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded ${source === 'admin' ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'}`}>
                 {source}
@@ -126,7 +126,7 @@ export function JmapServersSection({ value, source, onChange, onRevert }: Props)
             )}
           </div>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Each entry appears as an option on the login dropdown. Leave the list empty to fall back to the single <code className="text-[11px]">JMAP Server URL</code> above.
+            Każdy wpis pojawia się jako opcja na liście logowania. Pozostaw pustą listę, aby użyć pojedynczego <code className="text-[11px]">JMAP Server URL</code> powyżej.
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
@@ -134,7 +134,7 @@ export function JmapServersSection({ value, source, onChange, onRevert }: Props)
             <button
               onClick={onRevert}
               className="text-muted-foreground hover:text-foreground"
-              title="Revert to default"
+              title="Przywróć domyślne"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
@@ -144,13 +144,13 @@ export function JmapServersSection({ value, source, onChange, onRevert }: Props)
             className="inline-flex items-center gap-1.5 h-8 px-2.5 rounded-md border border-input bg-background text-xs text-foreground hover:bg-muted transition-colors"
           >
             <Plus className="w-3.5 h-3.5" />
-            Add server
+            Dodaj serwer
           </button>
         </div>
       </div>
 
       {drafts.length === 0 && (
-        <div className="text-xs text-muted-foreground italic">No servers configured.</div>
+        <div className="text-xs text-muted-foreground italic">Brak skonfigurowanych serwerów.</div>
       )}
 
       {drafts.map((d, i) => {
@@ -167,10 +167,10 @@ export function JmapServersSection({ value, source, onChange, onRevert }: Props)
                   placeholder="main"
                   className={`h-8 w-full rounded-md border bg-background px-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${isDuplicate ? 'border-destructive' : 'border-input'}`}
                 />
-                {isDuplicate && <p className="text-[10px] text-destructive mt-0.5">Duplicate id</p>}
+                {isDuplicate && <p className="text-[10px] text-destructive mt-0.5">Zduplikowany identyfikator</p>}
               </div>
               <div className="sm:col-span-4">
-                <label className="block text-[11px] font-medium text-muted-foreground mb-1">Label</label>
+                <label className="block text-[11px] font-medium text-muted-foreground mb-1">Etykieta</label>
                 <input
                   type="text"
                   value={d.label}
@@ -180,7 +180,7 @@ export function JmapServersSection({ value, source, onChange, onRevert }: Props)
                 />
               </div>
               <div className="sm:col-span-5">
-                <label className="block text-[11px] font-medium text-muted-foreground mb-1">JMAP URL</label>
+                <label className="block text-[11px] font-medium text-muted-foreground mb-1">URL JMAP</label>
                 <div className="flex items-center gap-2">
                   <input
                     type="url"
@@ -192,7 +192,7 @@ export function JmapServersSection({ value, source, onChange, onRevert }: Props)
                   <button
                     onClick={() => remove(i)}
                     className="shrink-0 text-muted-foreground hover:text-destructive"
-                    title="Remove server"
+                    title="Usuń serwer"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -201,7 +201,7 @@ export function JmapServersSection({ value, source, onChange, onRevert }: Props)
             </div>
             <div>
               <label className="block text-[11px] font-medium text-muted-foreground mb-1">
-                Email domains (comma-separated, used for auto-pick)
+                Domeny e-mail (oddzielone przecinkami, używane do automatycznego wyboru)
               </label>
               <input
                 type="text"
@@ -217,12 +217,12 @@ export function JmapServersSection({ value, source, onChange, onRevert }: Props)
               type="button"
             >
               {d.oauthExpanded ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
-              Per-server OAuth (optional, overrides global)
+              OAuth na serwer (opcjonalne, zastępuje globalne)
             </button>
             {d.oauthExpanded && (
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pl-4 border-l border-border">
                 <div>
-                  <label className="block text-[11px] font-medium text-muted-foreground mb-1">OAuth Client ID</label>
+                  <label className="block text-[11px] font-medium text-muted-foreground mb-1">ID klienta OAuth</label>
                   <input
                     type="text"
                     value={d.oauthClientId}
@@ -231,7 +231,7 @@ export function JmapServersSection({ value, source, onChange, onRevert }: Props)
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-medium text-muted-foreground mb-1">OAuth Issuer URL</label>
+                  <label className="block text-[11px] font-medium text-muted-foreground mb-1">URL wystawcy OAuth</label>
                   <input
                     type="url"
                     value={d.oauthIssuerUrl}
@@ -241,7 +241,7 @@ export function JmapServersSection({ value, source, onChange, onRevert }: Props)
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-medium text-muted-foreground mb-1">OAuth Client Secret</label>
+                  <label className="block text-[11px] font-medium text-muted-foreground mb-1">Klucz klienta OAuth</label>
                   <input
                     type="password"
                     value={d.oauthClientSecret}

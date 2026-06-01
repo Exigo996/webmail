@@ -43,34 +43,34 @@ const NAV_GROUPS: ReadonlyArray<{
   items: ReadonlyArray<{ tab: AdminTabId; label: string; icon: typeof LayoutDashboard }>;
 }> = [
   {
-    label: 'Overview',
+    label: 'Przegląd',
     items: [
-      { tab: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+      { tab: 'dashboard', label: 'Panel', icon: LayoutDashboard },
     ],
   },
   {
-    label: 'Configuration',
+    label: 'Konfiguracja',
     items: [
-      { tab: 'settings', label: 'Settings', icon: Settings },
+      { tab: 'settings', label: 'Ustawienia', icon: Settings },
       { tab: 'branding', label: 'Branding', icon: Palette },
-      { tab: 'auth', label: 'Authentication', icon: Shield },
-      { tab: 'policy', label: 'Policy', icon: Scale },
+      { tab: 'auth', label: 'Uwierzytelnianie', icon: Shield },
+      { tab: 'policy', label: 'Zasady', icon: Scale },
     ],
   },
   {
-    label: 'Extensions',
+    label: 'Rozszerzenia',
     items: [
-      { tab: 'plugins', label: 'Plugins', icon: Puzzle },
-      { tab: 'themes', label: 'Themes', icon: SwatchBook },
-      { tab: 'marketplace', label: 'Marketplace', icon: Store },
+      { tab: 'plugins', label: 'Wtyczki', icon: Puzzle },
+      { tab: 'themes', label: 'Motywy', icon: SwatchBook },
+      { tab: 'marketplace', label: 'Sklep', icon: Store },
     ],
   },
   {
     label: 'System',
     items: [
-      { tab: 'version', label: 'Version', icon: Package },
-      { tab: 'telemetry', label: 'Telemetry', icon: Activity },
-      { tab: 'logs', label: 'Audit Log', icon: ScrollText },
+      { tab: 'version', label: 'Wersja', icon: Package },
+      { tab: 'telemetry', label: 'Telemetria', icon: Activity },
+      { tab: 'logs', label: 'Dziennik audytu', icon: ScrollText },
     ],
   },
 ];
@@ -230,7 +230,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             active ? 'ring-accent' : 'ring-background',
                             updateImportant ? 'bg-red-500' : 'bg-amber-500',
                           )}
-                          aria-label={updateImportant ? 'Important update available' : 'Update available'}
+                          aria-label={updateImportant ? 'Dostępna ważna aktualizacja' : 'Dostępna aktualizacja'}
                         />
                       )}
                     </span>
@@ -258,7 +258,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               'w-4 h-4 shrink-0',
               pathname === '/admin/change-password' ? 'text-accent-foreground' : 'text-muted-foreground'
             )} />
-            Change Password
+            Zmień hasło
           </Link>
         )}
         <button
@@ -266,7 +266,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           className="w-full text-left px-3 py-2 rounded-md text-sm transition-colors duration-150 flex items-center gap-2.5 hover:bg-muted text-foreground"
         >
           <LogOut className="w-4 h-4 shrink-0 text-muted-foreground" />
-          Sign out
+          Wyloguj się
         </button>
       </div>
     </>
@@ -284,21 +284,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <a
           href={`${prefix}/`}
           className="flex items-center justify-center w-10 h-10 rounded-md transition-colors text-muted-foreground hover:text-foreground hover:bg-muted"
-          title="Mail"
+          title="Poczta"
         >
           <Mail className="w-[18px] h-[18px]" />
         </a>
         <a
           href={`${prefix}/calendar`}
           className="flex items-center justify-center w-10 h-10 rounded-md transition-colors text-muted-foreground hover:text-foreground hover:bg-muted"
-          title="Calendar"
+          title="Kalendarz"
         >
           <Calendar className="w-[18px] h-[18px]" />
         </a>
         <a
           href={`${prefix}/contacts`}
           className="flex items-center justify-center w-10 h-10 rounded-md transition-colors text-muted-foreground hover:text-foreground hover:bg-muted"
-          title="Contacts"
+          title="Kontakty"
         >
           <BookUser className="w-[18px] h-[18px]" />
         </a>
@@ -306,19 +306,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <a
             href={`${prefix}/files`}
             className="flex items-center justify-center w-10 h-10 rounded-md transition-colors text-muted-foreground hover:text-foreground hover:bg-muted"
-            title="Files"
+          title="Pliki"
           >
             <HardDrive className="w-[18px] h-[18px]" />
           </a>
         )}
         <div className="mt-auto flex flex-col items-center gap-2">
-          <div className="flex items-center justify-center w-10 h-10 rounded-md bg-primary/10 text-primary" title="Admin">
+          <div className="flex items-center justify-center w-10 h-10 rounded-md bg-primary/10 text-primary" title="Administrator">
             <Shield className="w-[18px] h-[18px]" />
           </div>
           <a
             href={`${prefix}/settings`}
             className="flex items-center justify-center w-10 h-10 rounded-md transition-colors text-muted-foreground hover:text-foreground hover:bg-muted"
-            title="Settings"
+            title="Ustawienia"
           >
             <Settings className="w-[18px] h-[18px]" />
           </a>
@@ -333,7 +333,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ) : (
             <Shield className="w-5 h-5 text-primary mr-2" />
           )}
-          <span className="font-semibold text-sm text-foreground">Admin Panel</span>
+          <span className="font-semibold text-sm text-foreground">Panel administratora</span>
         </div>
         {navContent}
       </aside>
@@ -353,7 +353,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           'md:hidden fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] border-r border-border bg-secondary flex flex-col transition-transform duration-200 ease-out',
           mobileNavOpen ? 'translate-x-0' : '-translate-x-full'
         )}
-        aria-label="Admin navigation"
+        aria-label="Nawigacja administratora"
         aria-hidden={!mobileNavOpen}
       >
         <div className="h-14 flex items-center justify-between px-3 border-b border-border shrink-0">
@@ -363,13 +363,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             ) : (
               <Shield className="w-5 h-5 text-primary mr-2" />
             )}
-            <span className="font-semibold text-sm text-foreground truncate">Admin Panel</span>
+            <span className="font-semibold text-sm text-foreground truncate">Panel administratora</span>
           </div>
           <button
             type="button"
             onClick={() => setMobileNavOpen(false)}
             className="flex items-center justify-center w-9 h-9 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-            aria-label="Close navigation"
+            aria-label="Zamknij nawigację"
           >
             <X className="w-5 h-5" />
           </button>
@@ -385,7 +385,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             type="button"
             onClick={() => setMobileNavOpen(true)}
             className="flex items-center justify-center w-9 h-9 rounded-md text-foreground hover:bg-muted transition-colors"
-            aria-label="Open navigation"
+            aria-label="Otwórz nawigację"
           >
             <Menu className="w-5 h-5" />
           </button>
@@ -395,19 +395,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             ) : (
               <Shield className="w-5 h-5 text-primary mr-2" />
             )}
-            <span className="font-semibold text-sm text-foreground truncate">Admin Panel</span>
+            <span className="font-semibold text-sm text-foreground truncate">Panel administratora</span>
           </div>
         </div>
 
         <div className="max-w-4xl mx-auto p-4 md:p-6 pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-6">
           {authError ? (
             <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
-              <p className="font-medium">Admin authentication failed</p>
+              <p className="font-medium">Uwierzytelnianie administratora nie powiodło się</p>
               <p className="mt-1 text-destructive/80">{authError}</p>
             </div>
           ) : authenticated === null ? (
             <div className="py-12 text-center text-sm text-muted-foreground animate-pulse">
-              Loading admin panel…
+              Ładowanie panelu administratora…
             </div>
           ) : authenticated ? (
             children
@@ -418,60 +418,60 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Mobile bottom nav (main webmail nav) */}
       <nav
         className="md:hidden fixed inset-x-0 bottom-0 z-30 flex items-center bg-background border-t border-border pb-[env(safe-area-inset-bottom)]"
-        aria-label="Main navigation"
+        aria-label="Nawigacja główna"
       >
         <a
           href={`${prefix}/`}
           className="flex flex-col items-center justify-center gap-1 py-2 px-1 min-h-[44px] grow shrink-0 basis-[64px] transition-colors duration-150 text-muted-foreground hover:text-foreground"
-          title="Mail"
+          title="Poczta"
         >
           <Mail className="w-5 h-5" />
-          <span className="text-[10px] font-medium leading-tight truncate max-w-full">Mail</span>
+          <span className="text-[10px] font-medium leading-tight truncate max-w-full">Poczta</span>
         </a>
         <a
           href={`${prefix}/calendar`}
           className="flex flex-col items-center justify-center gap-1 py-2 px-1 min-h-[44px] grow shrink-0 basis-[64px] transition-colors duration-150 text-muted-foreground hover:text-foreground"
-          title="Calendar"
+          title="Kalendarz"
         >
           <Calendar className="w-5 h-5" />
-          <span className="text-[10px] font-medium leading-tight truncate max-w-full">Calendar</span>
+          <span className="text-[10px] font-medium leading-tight truncate max-w-full">Kalendarz</span>
         </a>
         <a
           href={`${prefix}/contacts`}
           className="flex flex-col items-center justify-center gap-1 py-2 px-1 min-h-[44px] grow shrink-0 basis-[64px] transition-colors duration-150 text-muted-foreground hover:text-foreground"
-          title="Contacts"
+          title="Kontakty"
         >
           <BookUser className="w-5 h-5" />
-          <span className="text-[10px] font-medium leading-tight truncate max-w-full">Contacts</span>
+          <span className="text-[10px] font-medium leading-tight truncate max-w-full">Kontakty</span>
         </a>
         {filesEnabled && (
           <a
             href={`${prefix}/files`}
             className="flex flex-col items-center justify-center gap-1 py-2 px-1 min-h-[44px] grow shrink-0 basis-[64px] transition-colors duration-150 text-muted-foreground hover:text-foreground"
-            title="Files"
+          title="Pliki"
           >
             <HardDrive className="w-5 h-5" />
-            <span className="text-[10px] font-medium leading-tight truncate max-w-full">Files</span>
+          <span className="text-[10px] font-medium leading-tight truncate max-w-full">Pliki</span>
           </a>
         )}
         <div
           className="flex flex-col items-center justify-center gap-1 py-2 px-1 min-h-[44px] grow shrink-0 basis-[64px] text-primary"
-          title="Admin"
+          title="Administrator"
           aria-current="page"
         >
           <div className="relative">
             <Shield className="w-5 h-5" />
             <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-primary" />
           </div>
-          <span className="text-[10px] font-medium leading-tight truncate max-w-full">Admin</span>
+          <span className="text-[10px] font-medium leading-tight truncate max-w-full">Administrator</span>
         </div>
         <a
           href={`${prefix}/settings`}
           className="flex flex-col items-center justify-center gap-1 py-2 px-1 min-h-[44px] grow shrink-0 basis-[64px] transition-colors duration-150 text-muted-foreground hover:text-foreground"
-          title="Settings"
+          title="Ustawienia"
         >
           <Settings className="w-5 h-5" />
-          <span className="text-[10px] font-medium leading-tight truncate max-w-full">Settings</span>
+          <span className="text-[10px] font-medium leading-tight truncate max-w-full">Ustawienia</span>
         </a>
       </nav>
     </div>

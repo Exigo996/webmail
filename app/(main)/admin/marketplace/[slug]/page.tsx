@@ -105,12 +105,12 @@ export default function MarketplacePreviewPage() {
       const res = await apiFetch(`/api/admin/marketplace/${encodeURIComponent(slug)}`);
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        setError(body.error || 'Failed to load preview');
+        setError(body.error || 'Nie udało się załadować podglądu');
         return;
       }
       setData(await res.json());
     } catch {
-      setError('Failed to connect to extension directory');
+      setError('Nie udało się połączyć z katalogiem rozszerzeń');
     } finally {
       setLoading(false);
     }
@@ -140,15 +140,15 @@ export default function MarketplacePreviewPage() {
         setMessage({
           type: 'success',
           text: isUpdate
-            ? `"${data.extension.name}" updated to v${targetVersion}${warnings}`
-            : `"${data.extension.name}" installed${warnings}`,
+            ? `"${data.extension.name}" zaktualizowano do v${targetVersion}${warnings}`
+            : `"${data.extension.name}" zainstalowano${warnings}`,
         });
         setData(prev => prev ? { ...prev, installed: true, installedVersion: targetVersion } : prev);
       } else {
-        setMessage({ type: 'error', text: body.error || (isUpdate ? 'Update failed' : 'Installation failed') });
+        setMessage({ type: 'error', text: body.error || (isUpdate ? 'Aktualizacja nie powiodła się' : 'Instalacja nie powiodła się') });
       }
     } catch {
-      setMessage({ type: 'error', text: isUpdate ? 'Update failed - network error' : 'Installation failed - network error' });
+      setMessage({ type: 'error', text: isUpdate ? 'Aktualizacja nie powiodła się - błąd sieci' : 'Instalacja nie powiodła się - błąd sieci' });
     } finally {
       setInstalling(false);
     }
@@ -156,7 +156,7 @@ export default function MarketplacePreviewPage() {
 
   async function handleUninstall() {
     if (!data) return;
-    if (!confirm(`Remove "${data.extension.name}"? This cannot be undone.`)) return;
+    if (!confirm(`Usunąć "${data.extension.name}"? Tej operacji nie można cofnąć.`)) return;
 
     setUninstalling(true);
     setMessage(null);
@@ -171,13 +171,13 @@ export default function MarketplacePreviewPage() {
       });
       const body = await res.json().catch(() => ({}));
       if (res.ok) {
-        setMessage({ type: 'success', text: `"${data.extension.name}" removed` });
+        setMessage({ type: 'success', text: `"${data.extension.name}" usunięto` });
         setData(prev => prev ? { ...prev, installed: false } : prev);
       } else {
-        setMessage({ type: 'error', text: body.error || 'Uninstall failed' });
+        setMessage({ type: 'error', text: body.error || 'Odinstalowanie nie powiodło się' });
       }
     } catch {
-      setMessage({ type: 'error', text: 'Uninstall failed - network error' });
+      setMessage({ type: 'error', text: 'Odinstalowanie nie powiodło się - błąd sieci' });
     } finally {
       setUninstalling(false);
     }
@@ -187,7 +187,7 @@ export default function MarketplacePreviewPage() {
     return (
       <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">
         <Loader2 className="w-4 h-4 animate-spin mr-2" />
-        Loading...
+        Ładowanie...
       </div>
     );
   }
@@ -199,9 +199,9 @@ export default function MarketplacePreviewPage() {
           href="/admin/marketplace"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
         >
-          <ArrowLeft className="w-4 h-4" /> Back to Marketplace
+          <ArrowLeft className="w-4 h-4" /> Powrót do sklepu
         </Link>
-        <p className="text-sm text-destructive">{error || 'Extension not found'}</p>
+        <p className="text-sm text-destructive">{error || 'Nie znaleziono rozszerzenia'}</p>
       </div>
     );
   }
@@ -226,7 +226,7 @@ export default function MarketplacePreviewPage() {
         href="/admin/marketplace"
         className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
       >
-        <ArrowLeft className="w-4 h-4" /> Back to Marketplace
+        <ArrowLeft className="w-4 h-4" /> Powrót do sklepu
       </Link>
 
       {/* Banner / hero */}
@@ -265,17 +265,17 @@ export default function MarketplacePreviewPage() {
               {data.installed && !updateAvailable && (
                 <span
                   className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 font-medium"
-                  title={data.installedVersion ? `Installed: v${data.installedVersion}` : undefined}
+                  title={data.installedVersion ? `Zainstalowano: v${data.installedVersion}` : undefined}
                 >
-                  <Check className="w-3 h-3" /> Installed
+                  <Check className="w-3 h-3" /> Zainstalowano
                 </span>
               )}
               {data.installed && updateAvailable && (
                 <span
                   className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-md bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400 font-medium"
-                  title={`Installed v${data.installedVersion} → v${ext.latestVersion} available`}
+                  title={`Zainstalowano v${data.installedVersion} → v${ext.latestVersion} dostępna`}
                 >
-                  <ArrowUpCircle className="w-3 h-3" /> Update available
+                  <ArrowUpCircle className="w-3 h-3" /> Dostępna aktualizacja
                 </span>
               )}
             </div>
@@ -285,10 +285,10 @@ export default function MarketplacePreviewPage() {
                   ? 'bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400'
                   : 'bg-purple-100 text-purple-700 dark:bg-purple-950/30 dark:text-purple-400'
               }`}>
-                {isPlugin ? (ext.pluginType || 'plugin') : 'theme'}
+                {isPlugin ? (ext.pluginType || 'wtyczka') : 'motyw'}
               </span>
               {ext.author && (
-                <span>by {ext.author.displayName}</span>
+                <span>autor: {ext.author.displayName}</span>
               )}
               {ext.latestVersion && <span>v{ext.latestVersion}</span>}
               {ext.license && <span>{ext.license}</span>}
@@ -308,11 +308,11 @@ export default function MarketplacePreviewPage() {
                 <button
                   onClick={handleInstall}
                   disabled={installing || !!bundle.error}
-                  title={`Update from v${data.installedVersion} to v${ext.latestVersion}`}
+                  title={`Aktualizuj z v${data.installedVersion} do v${ext.latestVersion}`}
                   className="inline-flex items-center gap-1.5 h-9 px-4 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   {installing ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowUpCircle className="w-4 h-4" />}
-                  Update to v{ext.latestVersion}
+                  Aktualizuj do v{ext.latestVersion}
                 </button>
               )}
               <Link
@@ -320,7 +320,7 @@ export default function MarketplacePreviewPage() {
                 className="inline-flex items-center gap-1.5 h-9 px-3 rounded-md border border-border text-sm font-medium text-foreground hover:bg-muted transition-colors"
               >
                 <SettingsIcon className="w-4 h-4" />
-                Manage
+                Zarządzaj
               </Link>
               <button
                 onClick={handleUninstall}
@@ -328,7 +328,7 @@ export default function MarketplacePreviewPage() {
                 className="inline-flex items-center gap-1.5 h-9 px-3 rounded-md bg-destructive text-destructive-foreground text-sm font-medium hover:bg-destructive/90 disabled:opacity-50 transition-colors"
               >
                 {uninstalling ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                Uninstall
+                Odinstaluj
               </button>
             </>
           ) : (
@@ -336,12 +336,12 @@ export default function MarketplacePreviewPage() {
               onClick={handleInstall}
               disabled={installing || !!bundle.error || versionMismatch}
               title={versionMismatch
-                ? `Requires app v${ext.minAppVersion}+. You are running v${CURRENT_APP_VERSION}. Update Bulwark to install.`
+                ? `Wymaga aplikacji v${ext.minAppVersion}+. Masz wersję v${CURRENT_APP_VERSION}. Zaktualizuj Bulwark, aby zainstalować.`
                 : undefined}
               className="inline-flex items-center gap-1.5 h-9 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {installing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-              Install
+              Zainstaluj
             </button>
           )}
         </div>
@@ -357,9 +357,9 @@ export default function MarketplacePreviewPage() {
         <div className="flex items-start gap-2 text-sm rounded-md px-3 py-2 bg-amber-50 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
           <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
           <div>
-            <p className="font-medium">Update Bulwark to install this extension</p>
+            <p className="font-medium">Zaktualizuj Bulwark, aby zainstalować to rozszerzenie</p>
             <p className="text-xs mt-0.5 opacity-90">
-              Requires app v{ext.minAppVersion}+. You are running v{CURRENT_APP_VERSION}.
+              Wymaga aplikacji v{ext.minAppVersion}+. Masz wersję v{CURRENT_APP_VERSION}.
             </p>
           </div>
         </div>
@@ -369,7 +369,7 @@ export default function MarketplacePreviewPage() {
         <div className="flex items-start gap-2 text-sm rounded-md px-3 py-2 bg-amber-50 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
           <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
           <div>
-            <p className="font-medium">Could not preview bundle</p>
+            <p className="font-medium">Nie można wyświetlić podglądu pakietu</p>
             <p className="text-xs mt-0.5 opacity-90">{bundle.error}</p>
           </div>
         </div>
@@ -377,7 +377,7 @@ export default function MarketplacePreviewPage() {
 
       {/* Description */}
       <section className="border border-border rounded-lg p-4">
-        <h2 className="text-sm font-medium text-foreground">About</h2>
+        <h2 className="text-sm font-medium text-foreground">O rozszerzeniu</h2>
         <p className="text-sm text-muted-foreground mt-2">{ext.description}</p>
         {ext.longDescription && ext.longDescription !== ext.description && (
           <p className="text-sm text-muted-foreground mt-3 whitespace-pre-wrap">{ext.longDescription}</p>
@@ -392,8 +392,8 @@ export default function MarketplacePreviewPage() {
           </div>
         )}
         <div className="flex items-center gap-3 text-xs text-muted-foreground mt-4 pt-3 border-t border-border flex-wrap">
-          {ext.minAppVersion && <span>Requires app v{ext.minAppVersion}+</span>}
-          {bundle.size > 0 && <span>Bundle: {(bundle.size / 1024).toFixed(1)} KB</span>}
+          {ext.minAppVersion && <span>Wymaga aplikacji v{ext.minAppVersion}+</span>}
+          {bundle.size > 0 && <span>Pakiet: {(bundle.size / 1024).toFixed(1)} KB</span>}
           {ext.githubRepo && (
             <a
               href={`https://github.com/${ext.githubRepo}`}
@@ -411,13 +411,13 @@ export default function MarketplacePreviewPage() {
       {/* Screenshots */}
       {ext.screenshots.length > 0 && (
         <section className="border border-border rounded-lg p-4">
-          <h2 className="text-sm font-medium text-foreground">Screenshots</h2>
+          <h2 className="text-sm font-medium text-foreground">Zrzuty ekranu</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
             {ext.screenshots.map((s, i) => (
               <img
                 key={i}
                 src={s.url}
-                alt={s.altText || `Screenshot ${i + 1}`}
+                alt={s.altText || `Zrzut ekranu ${i + 1}`}
                 className="w-full rounded-md border border-border bg-muted"
                 loading="lazy"
               />
@@ -429,7 +429,7 @@ export default function MarketplacePreviewPage() {
       {/* Theme color preview */}
       {!isPlugin && ext.themePreviews.length > 0 && (
         <section className="border border-border rounded-lg p-4">
-          <h2 className="text-sm font-medium text-foreground">Theme preview</h2>
+          <h2 className="text-sm font-medium text-foreground">Podgląd motywu</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
             {ext.themePreviews.map(preview => (
               <ThemeColorSwatch key={preview.variant} preview={preview} />
@@ -443,10 +443,10 @@ export default function MarketplacePreviewPage() {
         <section className="border border-border rounded-lg p-4">
           <div className="flex items-center gap-2">
             <Shield className="w-4 h-4 text-muted-foreground" />
-            <h2 className="text-sm font-medium text-foreground">Permissions</h2>
+            <h2 className="text-sm font-medium text-foreground">Uprawnienia</h2>
           </div>
           {manifestPerms.length === 0 ? (
-            <p className="text-sm text-muted-foreground mt-2">This plugin requests no permissions.</p>
+            <p className="text-sm text-muted-foreground mt-2">Ta wtyczka nie wymaga żadnych uprawnień.</p>
           ) : (
             <ul className="mt-3 space-y-1.5">
               {manifestPerms.map(perm => {
@@ -469,9 +469,9 @@ export default function MarketplacePreviewPage() {
           )}
           {frameOrigins.length > 0 && (
             <div className="mt-4 pt-3 border-t border-border">
-              <h3 className="text-xs font-medium text-foreground">Iframe origins</h3>
+              <h3 className="text-xs font-medium text-foreground">Źródła ramek iframe</h3>
               <p className="text-xs text-muted-foreground mt-0.5">
-                The plugin will be allowed to embed content from these origins.
+                Wtyczka będzie mogła osadzać treści z tych źródeł.
               </p>
               <ul className="mt-2 space-y-1">
                 {frameOrigins.map(origin => (
@@ -488,8 +488,8 @@ export default function MarketplacePreviewPage() {
       {/* Settings schema preview */}
       {isPlugin && settingsSchema && Object.keys(settingsSchema).length > 0 && (
         <section className="border border-border rounded-lg p-4">
-          <h2 className="text-sm font-medium text-foreground">User settings</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">Settings users will be able to configure after install.</p>
+          <h2 className="text-sm font-medium text-foreground">Ustawienia użytkownika</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">Ustawienia, które użytkownicy będą mogli skonfigurować po instalacji.</p>
           <ul className="mt-3 divide-y divide-border">
             {Object.entries(settingsSchema).map(([key, field]) => (
               <li key={key} className="py-2">
@@ -538,7 +538,7 @@ export default function MarketplacePreviewPage() {
               <FileCode className="w-4 h-4 text-muted-foreground" />
               <h2 className="text-sm font-medium text-foreground">{bundle.source.name}</h2>
               {bundle.source.truncated && (
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400">truncated</span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400">obcięty</span>
               )}
             </div>
             {showSource ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
@@ -554,7 +554,7 @@ export default function MarketplacePreviewPage() {
       {/* Version history */}
       {ext.versions.length > 0 && (
         <section className="border border-border rounded-lg p-4">
-          <h2 className="text-sm font-medium text-foreground">Version history</h2>
+          <h2 className="text-sm font-medium text-foreground">Historia wersji</h2>
           <ul className="mt-3 divide-y divide-border">
             {ext.versions.slice(0, 5).map(v => (
               <li key={v.version} className="py-2 flex items-start justify-between gap-3">
@@ -599,10 +599,10 @@ function ThemeColorSwatch({ preview }: { preview: { variant: 'light' | 'dark'; c
       <div className="p-3 space-y-2" style={{ background: bg, color: fg }}>
         <div className="flex items-center gap-2">
           <span className="inline-block w-6 h-6 rounded" style={{ background: accent }} />
-          <span className="text-sm font-medium" style={{ color: fg }}>Sample text</span>
+          <span className="text-sm font-medium" style={{ color: fg }}>Przykładowy tekst</span>
         </div>
         <div className="rounded p-2 text-xs" style={{ background: muted, border: `1px solid ${border}` }}>
-          <span style={{ color: fg }}>Card surface</span>
+          <span style={{ color: fg }}>Powierzchnia karty</span>
         </div>
         <div className="flex flex-wrap gap-1">
           {Object.entries(colors).slice(0, 6).map(([key, value]) => (

@@ -51,12 +51,12 @@ export function AuthTab() {
     });
 
     if (res.ok) {
-      setMessage({ type: 'success', text: 'Authentication settings saved.' });
+      setMessage({ type: 'success', text: 'Ustawienia uwierzytelniania zapisane.' });
       setEdits({});
       await fetchConfig();
     } else {
       const data = await res.json();
-      setMessage({ type: 'error', text: data.error || 'Failed to save' });
+      setMessage({ type: 'error', text: data.error || 'Nie udało się zapisać' });
     }
     setSaving(false);
   }
@@ -106,17 +106,17 @@ export function AuthTab() {
       if (res.ok) {
         setMessage({
           type: 'success',
-          text: `OAuth client ${data.action} on Stalwart (${data.issuerUrl}). ${data.redirectUriCount} redirect URI(s) registered for ${data.origin}.`,
+          text: `Klient OAuth ${data.action} na Stalwart (${data.issuerUrl}). ${data.redirectUriCount} URI przekierowania zarejestrowano dla ${data.origin}.`,
         });
         setEdits({});
         setSetupOpen(false);
         await fetchConfig();
       } else {
         const detail = data.detail ? ` (${typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail).slice(0, 200)})` : '';
-        setMessage({ type: 'error', text: (data.error || 'Setup failed') + detail });
+        setMessage({ type: 'error', text: (data.error || 'Konfiguracja nie powiodła się') + detail });
       }
     } catch (err) {
-      setMessage({ type: 'error', text: err instanceof Error ? err.message : 'Setup failed' });
+      setMessage({ type: 'error', text: err instanceof Error ? err.message : 'Konfiguracja nie powiodła się' });
     } finally {
       setSetupRunning(false);
     }
@@ -128,15 +128,15 @@ export function AuthTab() {
   const hasEdits = Object.keys(edits).length > 0;
 
   if (loading) {
-    return <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">Loading...</div>;
+    return <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">Ładowanie...</div>;
   }
 
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h1 className="text-2xl font-semibold text-foreground">Authentication</h1>
-          <p className="text-sm text-muted-foreground mt-1">OAuth, SSO, and session configuration</p>
+          <h1 className="text-2xl font-semibold text-foreground">Uwierzytelnianie</h1>
+          <p className="text-sm text-muted-foreground mt-1">Konfiguracja OAuth, SSO i sesji</p>
         </div>
         {hasEdits && (
           <button
@@ -145,7 +145,7 @@ export function AuthTab() {
             className="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-50 transition-all shadow-sm"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            Save changes
+            Zapisz zmiany
           </button>
         )}
       </div>
@@ -161,11 +161,11 @@ export function AuthTab() {
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary shrink-0" />
-              <h3 className="text-sm font-medium text-foreground">Auto-configure OAuth (Stalwart)</h3>
+              <h3 className="text-sm font-medium text-foreground">Automatyczna konfiguracja OAuth (Stalwart)</h3>
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              Registers an OAuth client on the connected Stalwart server, generates a client secret, and saves the settings here.
-              Requires your Stalwart account to have admin permissions.
+              Rejestruje klienta OAuth na połączonym serwerze Stalwart, generuje klucz klienta i zapisuje tutaj ustawienia.
+              Wymaga uprawnień administratora na koncie Stalwart.
             </p>
           </div>
           <button
@@ -174,7 +174,7 @@ export function AuthTab() {
             className="shrink-0 inline-flex items-center gap-2 h-9 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-50 transition-all shadow-sm"
           >
             {setupRunning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-            {setupRunning ? 'Configuring…' : 'Set up automagically'}
+            {setupRunning ? 'Konfigurowanie…' : 'Skonfiguruj automatycznie'}
           </button>
         </div>
       </div>
@@ -189,15 +189,15 @@ export function AuthTab() {
         >
           <div className="w-full max-w-md rounded-lg border border-border bg-background shadow-xl">
             <div className="px-5 py-4 border-b border-border">
-              <h3 id="oauth-setup-title" className="text-base font-medium text-foreground">Auto-configure OAuth</h3>
+              <h3 id="oauth-setup-title" className="text-base font-medium text-foreground">Automatyczna konfiguracja OAuth</h3>
               <p className="text-xs text-muted-foreground mt-1">
-                Verify the URLs below before continuing. The webmail and Stalwart can live on different domains.
+                Zweryfikuj poniższe adresy URL przed kontynuowaniem. Webmail i Stalwart mogą działać na różnych domenach.
               </p>
             </div>
             <div className="px-5 py-4 space-y-4">
               <div>
                 <label htmlFor="setup-origin" className="block text-xs font-medium text-foreground mb-1">
-                  Webmail origin
+                  Źródło Webmail
                 </label>
                 <input
                   id="setup-origin"
@@ -209,15 +209,15 @@ export function AuthTab() {
                   className="w-full h-9 rounded-md border border-input bg-background px-2.5 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 />
                 <p className="text-[11px] text-muted-foreground mt-1">
-                  Used to register redirect URIs (one per locale: <code>{setupOrigin.trim().replace(/\/+$/, '') || 'https://…'}/&lt;locale&gt;/auth/callback</code>) on Stalwart.
+                  Używane do rejestracji URI przekierowań (po jednym na język: <code>{setupOrigin.trim().replace(/\/+$/, '') || 'https://…'}/&lt;locale&gt;/auth/callback</code>) na Stalwart.
                 </p>
                 {!setupOriginValid && setupOrigin.length > 0 && (
-                  <p className="text-[11px] text-destructive mt-1">Must be like https://host with no path.</p>
+                  <p className="text-[11px] text-destructive mt-1">Musi być w formacie https://host bez ścieżki.</p>
                 )}
               </div>
               <div>
                 <label htmlFor="setup-issuer" className="block text-xs font-medium text-foreground mb-1">
-                  Stalwart issuer URL
+                  URL wystawcy Stalwart
                 </label>
                 <input
                   id="setup-issuer"
@@ -229,10 +229,10 @@ export function AuthTab() {
                   className="w-full h-9 rounded-md border border-input bg-background px-2.5 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 />
                 <p className="text-[11px] text-muted-foreground mt-1">
-                  Where Stalwart serves <code>/.well-known/oauth-authorization-server</code>. Saved as <code>OAUTH_ISSUER_URL</code>. Pre-filled from your JMAP server URL.
+                  Gdzie Stalwart udostępnia <code>/.well-known/oauth-authorization-server</code>. Zapisane jako <code>OAUTH_ISSUER_URL</code>. Wstępnie wypełnione z adresu URL serwera JMAP.
                 </p>
                 {!setupIssuerValid && setupIssuer.length > 0 && (
-                  <p className="text-[11px] text-destructive mt-1">Must be like https://host with no path.</p>
+                  <p className="text-[11px] text-destructive mt-1">Musi być w formacie https://host bez ścieżki.</p>
                 )}
               </div>
               <label className="inline-flex items-center gap-2 text-xs text-foreground select-none cursor-pointer">
@@ -243,7 +243,7 @@ export function AuthTab() {
                   className="h-3.5 w-3.5 rounded border-input"
                   disabled={setupRunning}
                 />
-                Also enable “OAuth only” (hide password login)
+                Również włącz „Tylko OAuth” (ukryj logowanie hasłem)
               </label>
             </div>
             <div className="px-5 py-3 border-t border-border flex items-center justify-end gap-2 bg-muted/30 rounded-b-lg">
@@ -252,7 +252,7 @@ export function AuthTab() {
                 disabled={setupRunning}
                 className="h-9 px-3 rounded-md border border-input bg-background text-sm text-foreground hover:bg-muted disabled:opacity-50 transition-colors"
               >
-                Cancel
+                Anuluj
               </button>
               <button
                 onClick={handleAutoSetup}
@@ -260,7 +260,7 @@ export function AuthTab() {
                 className="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-50 transition-all shadow-sm"
               >
                 {setupRunning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                {setupRunning ? 'Configuring…' : 'Configure'}
+                {setupRunning ? 'Konfigurowanie…' : 'Konfiguruj'}
               </button>
             </div>
           </div>
@@ -268,24 +268,24 @@ export function AuthTab() {
       )}
 
       <Section title="OAuth / OpenID Connect">
-        <Toggle label="OAuth Enabled" configKey="oauthEnabled" value={currentValue('oauthEnabled') as boolean} source={config.oauthEnabled?.source} onChange={handleChange} onRevert={handleRevert} />
-        <Toggle label="OAuth Only" description="Hide password login form when enabled" configKey="oauthOnly" value={currentValue('oauthOnly') as boolean} source={config.oauthOnly?.source} onChange={handleChange} onRevert={handleRevert} />
-        <Text label="OAuth Client ID" configKey="oauthClientId" value={currentValue('oauthClientId') as string} source={config.oauthClientId?.source} onChange={handleChange} onRevert={handleRevert} />
-        <Text label="OAuth Client Secret" configKey="oauthClientSecret" value={currentValue('oauthClientSecret') as string} source={config.oauthClientSecret?.source} onChange={handleChange} onRevert={handleRevert} type="password" placeholder={config.oauthClientSecret?.hasValue ? '••••••••  (saved - type to replace)' : undefined} />
-        <Text label="OAuth Issuer URL" configKey="oauthIssuerUrl" value={currentValue('oauthIssuerUrl') as string} source={config.oauthIssuerUrl?.source} onChange={handleChange} onRevert={handleRevert} placeholder="https://auth.example.com" />
-        <Toggle label="Allow private OAuth endpoints" description="Permit discovery to resolve to RFC-1918 / loopback hosts. Enable only for split-DNS deployments where the mail server's public hostname resolves to an internal IP." configKey="oauthAllowPrivateEndpoints" value={currentValue('oauthAllowPrivateEndpoints') as boolean} source={config.oauthAllowPrivateEndpoints?.source} onChange={handleChange} onRevert={handleRevert} />
-        <Text label="OAuth Scopes" description="Space-separated scopes that replace the defaults. Leave blank to use the built-in scope list." configKey="oauthScopes" value={currentValue('oauthScopes') as string} source={config.oauthScopes?.source} onChange={handleChange} onRevert={handleRevert} placeholder="openid email offline_access" />
-        <Text label="OAuth Extra Scopes" description="Additional space-separated scopes appended to the defaults." configKey="oauthExtraScopes" value={currentValue('oauthExtraScopes') as string} source={config.oauthExtraScopes?.source} onChange={handleChange} onRevert={handleRevert} placeholder="urn:ietf:params:oauth:..." />
+        <Toggle label="OAuth włączone" configKey="oauthEnabled" value={currentValue('oauthEnabled') as boolean} source={config.oauthEnabled?.source} onChange={handleChange} onRevert={handleRevert} />
+        <Toggle label="Tylko OAuth" description="Ukryj formularz logowania hasłem gdy włączone" configKey="oauthOnly" value={currentValue('oauthOnly') as boolean} source={config.oauthOnly?.source} onChange={handleChange} onRevert={handleRevert} />
+        <Text label="ID klienta OAuth" configKey="oauthClientId" value={currentValue('oauthClientId') as string} source={config.oauthClientId?.source} onChange={handleChange} onRevert={handleRevert} />
+        <Text label="Klucz klienta OAuth" configKey="oauthClientSecret" value={currentValue('oauthClientSecret') as string} source={config.oauthClientSecret?.source} onChange={handleChange} onRevert={handleRevert} type="password" placeholder={config.oauthClientSecret?.hasValue ? '••••••••  (zapisany - wpisz aby zastąpić)' : undefined} />
+        <Text label="URL wystawcy OAuth" configKey="oauthIssuerUrl" value={currentValue('oauthIssuerUrl') as string} source={config.oauthIssuerUrl?.source} onChange={handleChange} onRevert={handleRevert} placeholder="https://auth.example.com" />
+        <Toggle label="Zezwalaj na prywatne punkty końcowe OAuth" description="Zezwalaj na rozwiązywanie discovery do hostów RFC-1918 / loopback. Włącz tylko dla wdrożeń split-DNS, gdzie publiczna nazwa hosta serwera poczty wskazuje na wewnętrzny adres IP." configKey="oauthAllowPrivateEndpoints" value={currentValue('oauthAllowPrivateEndpoints') as boolean} source={config.oauthAllowPrivateEndpoints?.source} onChange={handleChange} onRevert={handleRevert} />
+        <Text label="Zakresy OAuth" description="Zakresy oddzielone spacjami, które zastępują domyślne. Pozostaw puste, aby użyć wbudowanej listy zakresów." configKey="oauthScopes" value={currentValue('oauthScopes') as string} source={config.oauthScopes?.source} onChange={handleChange} onRevert={handleRevert} placeholder="openid email offline_access" />
+        <Text label="Dodatkowe zakresy OAuth" description="Dodatkowe zakresy oddzielone spacjami dołączane do domyślnych." configKey="oauthExtraScopes" value={currentValue('oauthExtraScopes') as string} source={config.oauthExtraScopes?.source} onChange={handleChange} onRevert={handleRevert} placeholder="urn:ietf:params:oauth:..." />
       </Section>
 
-      <Section title="Single Sign-On">
-        <Toggle label="Auto SSO" description="Automatically redirect to SSO provider on load" configKey="autoSsoEnabled" value={currentValue('autoSsoEnabled') as boolean} source={config.autoSsoEnabled?.source} onChange={handleChange} onRevert={handleRevert} />
+      <Section title="Pojedyncze logowanie (SSO)">
+        <Toggle label="Automatyczne SSO" description="Automatycznie przekieruj do dostawcy SSO przy ładowaniu" configKey="autoSsoEnabled" value={currentValue('autoSsoEnabled') as boolean} source={config.autoSsoEnabled?.source} onChange={handleChange} onRevert={handleRevert} />
       </Section>
 
-      <Section title="Session & Security">
+      <Section title="Sesja i bezpieczeństwo">
         <Select label="Cookie SameSite" configKey="cookieSameSite" value={currentValue('cookieSameSite') as string} source={config.cookieSameSite?.source} options={['lax', 'strict', 'none']} onChange={handleChange} onRevert={handleRevert} />
-        <Text label="Allowed Frame Ancestors" configKey="allowedFrameAncestors" value={currentValue('allowedFrameAncestors') as string} source={config.allowedFrameAncestors?.source} onChange={handleChange} onRevert={handleRevert} placeholder="'none' or https://..." />
-        <Text label="Parent Origin" description="For embedded mode communication" configKey="parentOrigin" value={currentValue('parentOrigin') as string} source={config.parentOrigin?.source} onChange={handleChange} onRevert={handleRevert} />
+        <Text label="Dozwolone ramki nadrzędne" configKey="allowedFrameAncestors" value={currentValue('allowedFrameAncestors') as string} source={config.allowedFrameAncestors?.source} onChange={handleChange} onRevert={handleRevert} placeholder="'none' or https://..." />
+        <Text label="Źródło nadrzędne" description="Dla komunikacji w trybie osadzonym" configKey="parentOrigin" value={currentValue('parentOrigin') as string} source={config.parentOrigin?.source} onChange={handleChange} onRevert={handleRevert} />
       </Section>
     </div>
   );
@@ -328,7 +328,7 @@ function Text({ label, description, configKey, value, source, onChange, onRevert
         <input type={type} value={value ?? ''} onChange={(e) => onChange(configKey, e.target.value)} placeholder={placeholder}
           className="h-8 w-full sm:w-64 rounded-md border border-input bg-background px-2.5 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
         {source === 'admin' && (
-          <button onClick={() => onRevert(configKey)} className="shrink-0 text-muted-foreground hover:text-foreground" title="Revert"><RotateCcw className="w-3.5 h-3.5" /></button>
+          <button onClick={() => onRevert(configKey)} className="shrink-0 text-muted-foreground hover:text-foreground" title="Przywróć"><RotateCcw className="w-3.5 h-3.5" /></button>
         )}
       </div>
     </div>
@@ -354,7 +354,7 @@ function Toggle({ label, description, configKey, value, source, onChange, onReve
           <span className={`inline-block h-3.5 w-3.5 transform rounded-full bg-background shadow transition-transform ${value ? 'translate-x-[18px]' : 'translate-x-[3px]'}`} />
         </button>
         {source === 'admin' && (
-          <button onClick={() => onRevert(configKey)} className="text-muted-foreground hover:text-foreground" title="Revert"><RotateCcw className="w-3.5 h-3.5" /></button>
+          <button onClick={() => onRevert(configKey)} className="text-muted-foreground hover:text-foreground" title="Przywróć"><RotateCcw className="w-3.5 h-3.5" /></button>
         )}
       </div>
     </div>
@@ -377,7 +377,7 @@ function Select({ label, configKey, value, source, options, onChange, onRevert }
           {options.map(o => <option key={o} value={o}>{o}</option>)}
         </select>
         {source === 'admin' && (
-          <button onClick={() => onRevert(configKey)} className="text-muted-foreground hover:text-foreground" title="Revert"><RotateCcw className="w-3.5 h-3.5" /></button>
+          <button onClick={() => onRevert(configKey)} className="text-muted-foreground hover:text-foreground" title="Przywróć"><RotateCcw className="w-3.5 h-3.5" /></button>
         )}
       </div>
     </div>

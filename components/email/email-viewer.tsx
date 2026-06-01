@@ -633,9 +633,9 @@ function ContactSidebarPanel({
   const handleCopy = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success("Copied!");
+      toast.success("Skopiowano!");
     } catch {
-      toast.error("Failed to copy");
+      toast.error("Nie udało się skopiować");
     }
   };
 
@@ -643,11 +643,11 @@ function ContactSidebarPanel({
     <div className="w-[320px] shrink-0 border-l border-border bg-background flex flex-col h-full animate-in slide-in-from-right-5 duration-200">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-        <h3 className="text-sm font-semibold text-foreground truncate">Contact</h3>
+        <h3 className="text-sm font-semibold text-foreground truncate">Kontakt</h3>
         <button
           onClick={onClose}
           className="p-1 rounded hover:bg-muted transition-colors"
-          aria-label="Close sidebar"
+          aria-label="Zamknij panel"
         >
           <PanelRightClose className="w-4 h-4 text-muted-foreground" />
         </button>
@@ -685,7 +685,7 @@ function ContactSidebarPanel({
           <a
             href={`mailto:${primaryEmail}`}
             className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground px-3 py-2 rounded-md hover:bg-muted transition-colors border border-border"
-            title="Send email"
+            title="Wyślij email"
           >
             <Send className="w-3.5 h-3.5" />
             Email
@@ -693,10 +693,10 @@ function ContactSidebarPanel({
           <button
             onClick={() => handleCopy(primaryEmail)}
             className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground px-3 py-2 rounded-md hover:bg-muted transition-colors border border-border"
-            title="Copy email"
+            title="Kopiuj email"
           >
             <Copy className="w-3.5 h-3.5" />
-            Copy
+            Kopiuj
           </button>
         </div>
 
@@ -705,7 +705,7 @@ function ContactSidebarPanel({
           <div className="px-4 pb-4 space-y-4">
             {/* Emails */}
             {emails.length > 0 && (
-              <SidebarSection icon={Mail} title="Emails">
+              <SidebarSection icon={Mail} title="Emaile">
                 {emails.map((e, i) => (
                   <div key={i} className="flex items-center gap-2 group">
                     <a href={`mailto:${e.address}`} className="text-sm text-primary hover:underline truncate">
@@ -714,7 +714,7 @@ function ContactSidebarPanel({
                     <button
                       onClick={() => handleCopy(e.address)}
                       className="p-1 rounded hover:bg-muted transition-colors opacity-0 group-hover:opacity-100 shrink-0"
-                      title="Copy"
+                      title="Kopiuj"
                     >
                       <Copy className="w-3 h-3 text-muted-foreground" />
                     </button>
@@ -725,7 +725,7 @@ function ContactSidebarPanel({
 
             {/* Phones */}
             {phones.length > 0 && (
-              <SidebarSection icon={Phone} title="Phones">
+              <SidebarSection icon={Phone} title="Telefony">
                 {phones.map((p, i) => (
                   <div key={i} className="flex items-center gap-2 group">
                     <a href={`tel:${p.number}`} className="text-sm text-primary hover:underline">
@@ -734,7 +734,7 @@ function ContactSidebarPanel({
                     <button
                       onClick={() => handleCopy(p.number)}
                       className="p-1 rounded hover:bg-muted transition-colors opacity-0 group-hover:opacity-100 shrink-0"
-                      title="Copy"
+                      title="Kopiuj"
                     >
                       <Copy className="w-3 h-3 text-muted-foreground" />
                     </button>
@@ -745,7 +745,7 @@ function ContactSidebarPanel({
 
             {/* Organizations */}
             {orgs.length > 1 && (
-              <SidebarSection icon={Building} title="Organizations">
+              <SidebarSection icon={Building} title="Organizacje">
                 {orgs.map((o, i) => (
                   <div key={i} className="text-sm">
                     {o.name}
@@ -759,7 +759,7 @@ function ContactSidebarPanel({
 
             {/* Addresses */}
             {addresses.length > 0 && (
-              <SidebarSection icon={MapPin} title="Addresses">
+              <SidebarSection icon={MapPin} title="Adresy">
                 {addresses.map((a, i) => (
                   <div key={i} className="text-sm text-muted-foreground">
                     {a.full || a.fullAddress
@@ -774,7 +774,7 @@ function ContactSidebarPanel({
 
             {/* Notes */}
             {notes.length > 0 && (
-              <SidebarSection icon={StickyNote} title="Notes">
+              <SidebarSection icon={StickyNote} title="Notatki">
                 {notes.map((n, i) => (
                   <p key={i} className="text-sm text-muted-foreground whitespace-pre-wrap">{n.note}</p>
                 ))}
@@ -787,7 +787,7 @@ function ContactSidebarPanel({
         {!contact && (
           <div className="px-4 pb-4 text-center space-y-3">
             <p className="text-xs text-muted-foreground">
-              Not in your contacts
+              Nie ma w kontaktach
             </p>
             {onAddToContacts && (
               <button
@@ -795,7 +795,7 @@ function ContactSidebarPanel({
                 className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 px-3 py-2 rounded-md hover:bg-muted transition-colors border border-border"
               >
                 <Mail className="w-3.5 h-3.5" />
-                Add to contacts
+                Dodaj do kontaktów
               </button>
             )}
           </div>
@@ -1352,7 +1352,7 @@ export function EmailViewer({
       setSmimeUnlockTargetId(null);
       setSmimeUnlockError(null);
     } catch (error) {
-      setSmimeUnlockError(error instanceof Error ? error.message : 'Unlock failed');
+      setSmimeUnlockError(error instanceof Error ? error.message : 'Odblokowanie nie powiodło się');
     }
   }, [smimeStore, smimeUnlockTargetId]);
 
@@ -1393,7 +1393,7 @@ export function EmailViewer({
       setSmimeStatus({
         isSigned: detection.type === 'detached-sig',
         isEncrypted: false,
-        unsupportedReason: 'Detached S/MIME signatures are not yet supported',
+        unsupportedReason: 'Oddzielne podpisy S/MIME nie są jeszcze obsługiwane',
       });
       return;
     }
@@ -1718,7 +1718,7 @@ export function EmailViewer({
             }
 
             if (!result) {
-              throw lastError instanceof Error ? lastError : new Error('Decryption failed');
+              throw lastError instanceof Error ? lastError : new Error('Odszyfrowanie nie powiodło się');
             }
 
             if (cancelled) return;
@@ -1824,7 +1824,7 @@ export function EmailViewer({
                 decryptionError: 'locked',
               });
             } else {
-              const errMsg = err instanceof Error ? err.message : 'Decryption failed';
+              const errMsg = err instanceof Error ? err.message : 'Odszyfrowanie nie powiodło się';
               const isNoKeyError = errMsg.includes('No imported S/MIME key matches');
               setSmimeStatus({
                 isSigned: false,
@@ -1860,7 +1860,7 @@ export function EmailViewer({
             }
 
             if (!result) {
-              throw lastError instanceof Error ? lastError : new Error('Verification failed');
+              throw lastError instanceof Error ? lastError : new Error('Weryfikacja nie powiodła się');
             }
 
             if (cancelled) return;
@@ -1907,7 +1907,7 @@ export function EmailViewer({
               isSigned: true,
               isEncrypted: false,
               signatureValid: false,
-              signatureError: err instanceof Error ? err.message : 'Verification failed',
+              signatureError: err instanceof Error ? err.message : 'Weryfikacja nie powiodła się',
             });
           }
         }
@@ -1918,7 +1918,7 @@ export function EmailViewer({
         setSmimeStatus({
           isSigned: false,
           isEncrypted: detection.type === 'enveloped-data',
-          decryptionError: err instanceof Error ? err.message : 'Failed to fetch encrypted content',
+          decryptionError: err instanceof Error ? err.message : 'Nie udało się pobrać zaszyfrowanej treści',
         });
       }
     }
@@ -2273,7 +2273,7 @@ export function EmailViewer({
     let source = '';
 
     // Headers
-    source += '=== EMAIL HEADERS ===\n\n';
+    source += '=== NAGŁÓWKI EMAILA ===\n\n';
     if (email.messageId) source += `Message-ID: ${email.messageId}\n`;
     if (email.from) source += `From: ${email.from.map(a => a.name ? `${a.name} <${a.email}>` : a.email).join(', ')}\n`;
     if (email.to) source += `To: ${email.to.map(a => a.name ? `${a.name} <${a.email}>` : a.email).join(', ')}\n`;
@@ -2317,33 +2317,33 @@ export function EmailViewer({
     }
 
     if (email.spamScore !== undefined) {
-      source += `Spam Score: ${email.spamScore}`;
+      source += `Wynik spamu: ${email.spamScore}`;
       if (email.spamStatus) source += ` (${email.spamStatus})`;
       source += '\n';
     }
 
     // Metadata
-    source += '\n=== EMAIL METADATA ===\n\n';
-    source += `Email ID: ${email.id}\n`;
-    source += `Thread ID: ${email.threadId}\n`;
-    source += `Size: ${formatFileSize(email.size)}\n`;
-    source += `Has Attachment: ${email.hasAttachment ? 'Yes' : 'No'}\n`;
+    source += '\n=== METADANE EMAILA ===\n\n';
+    source += `ID emaila: ${email.id}\n`;
+    source += `ID wątku: ${email.threadId}\n`;
+    source += `Rozmiar: ${formatFileSize(email.size)}\n`;
+    source += `Załączniki: ${email.hasAttachment ? 'Tak' : 'Nie'}\n`;
     if (email.keywords) {
       const keywords = Object.entries(email.keywords)
         .filter(([_, v]) => v)
         .map(([k]) => k)
         .join(', ');
-      if (keywords) source += `Keywords: ${keywords}\n`;
+      if (keywords) source += `Słowa kluczowe: ${keywords}\n`;
     }
 
     // Attachments
     if (email.attachments && email.attachments.length > 0) {
-      source += '\n=== ATTACHMENTS ===\n\n';
+      source += '\n=== ZAŁĄCZNIKI ===\n\n';
       email.attachments.forEach((att, i) => {
-        source += `[${i + 1}] ${att.name || 'Unnamed'}\n`;
-        source += `    Type: ${att.type}\n`;
-        source += `    Size: ${formatFileSize(att.size)}\n`;
-        source += `    Blob ID: ${att.blobId}\n`;
+        source += `[${i + 1}] ${att.name || 'Bez nazwy'}\n`;
+        source += `    Typ: ${att.type}\n`;
+        source += `    Rozmiar: ${formatFileSize(att.size)}\n`;
+        source += `    ID Blob: ${att.blobId}\n`;
         if (att.cid) source += `    Content-ID: ${att.cid}\n`;
         source += '\n';
       });
@@ -2384,7 +2384,7 @@ export function EmailViewer({
         bodyKeys.forEach((key, index) => {
           const bodyValue = email.bodyValues![key].value;
           if (bodyValue && bodyValue.trim()) {
-            source += `Part ${index + 1} (${key}):\n`;
+            source += `Część ${index + 1} (${key}):\n`;
             source += bodyValue;
             source += '\n\n';
             hasBodyContent = true;
@@ -3795,7 +3795,7 @@ export function EmailViewer({
             data-overflow-item
             data-overflow-priority="11"
             className="hidden sm:inline-flex h-8 gap-1.5"
-            title={isDark ? 'View in light mode' : 'View in dark mode'}
+            title={isDark ? 'Zobacz w trybie jasnym' : 'Zobacz w trybie ciemnym'}
           >
             {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </Button>
@@ -4001,7 +4001,7 @@ export function EmailViewer({
                   className={cn("w-full px-3 py-1.5 text-sm text-left hover:bg-muted text-foreground flex items-center gap-2", hiddenPriorities.has(11) ? "" : "sm:hidden")}
                 >
                   {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                  {isDark ? 'View in light mode' : 'View in dark mode'}
+                  {isDark ? 'Zobacz w trybie jasnym' : 'Zobacz w trybie ciemnym'}
                 </button>
               )}
               <div className="h-px bg-border my-1" />
@@ -4124,7 +4124,7 @@ export function EmailViewer({
                   className="w-full px-4 py-3 min-h-[44px] text-sm text-left hover:bg-muted text-foreground flex items-center gap-3"
                 >
                   {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                  {isDark ? 'View in light mode' : 'View in dark mode'}
+                  {isDark ? 'Zobacz w trybie jasnym' : 'Zobacz w trybie ciemnym'}
                 </button>
               )}
               <div className="h-px bg-border my-1" />
@@ -5495,7 +5495,7 @@ export function EmailViewer({
                 ref={iframeRef}
                 srcDoc={emailIframeSrcDoc}
                 sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-                title="Email content"
+                title="Treść email"
                 className="w-full border-0 block"
                 scrolling="no"
                 style={{ minHeight: '100px', colorScheme: isDark && emailHasNativeDarkMode ? 'light dark' : 'light' }}
@@ -5745,7 +5745,7 @@ export function EmailViewer({
               size="icon"
               onClick={() => setDetailSidebarCollapsed(false)}
               className="h-8 w-8 m-1"
-              aria-label="Expand panel"
+              aria-label="Rozwiń panel"
             >
               <PanelRightOpen className="w-4 h-4" />
             </Button>
@@ -5772,7 +5772,7 @@ export function EmailViewer({
                   size="icon"
                   onClick={() => setDetailSidebarCollapsed(true)}
                   className="h-7 w-7"
-                  aria-label="Collapse panel"
+                  aria-label="Zwiń panel"
                 >
                   <PanelRightClose className="w-4 h-4" />
                 </Button>
@@ -5807,10 +5807,10 @@ export function EmailViewer({
             }} : {}),
           };
           if (client && supportsSync) {
-            createContact(client, contactData).then(() => toast.success('Contact added'));
+            createContact(client, contactData).then(() => toast.success('Kontakt dodany'));
           } else {
             addLocalContact({ id: `local-${generateUUID()}`, addressBookIds: {}, ...contactData } as ContactCard);
-            toast.success('Contact added');
+            toast.success('Kontakt dodany');
           }
         }}
       />

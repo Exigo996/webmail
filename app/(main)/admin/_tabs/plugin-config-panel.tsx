@@ -210,7 +210,7 @@ export function PluginConfigPanel({ pluginId, onBack }: Props) {
       {hasSchema ? (
         <div className="border border-border rounded-lg">
           <div className="px-4 py-3 border-b border-border bg-muted/30">
-            <h2 className="text-sm font-medium text-foreground">Settings</h2>
+            <h2 className="text-sm font-medium text-foreground">Ustawienia</h2>
           </div>
           <div className="p-4 space-y-5">
             {Object.entries(schema).map(([key, field]) => (

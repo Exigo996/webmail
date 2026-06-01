@@ -31,13 +31,13 @@ export default function AdminLoginPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || 'Login failed');
+        setError(data.error || 'Logowanie nie powiodło się');
         return;
       }
 
       router.push('/admin');
     } catch {
-      setError('Network error. Please try again.');
+      setError('Błąd sieci. Spróbuj ponownie.');
     } finally {
       setLoading(false);
     }
@@ -54,14 +54,14 @@ export default function AdminLoginPage() {
               <Shield className="w-6 h-6 text-primary" />
             </div>
           )}
-          <h1 className="text-xl font-semibold text-foreground">Admin Dashboard</h1>
-          <p className="text-sm text-muted-foreground mt-1">Enter your admin password to continue</p>
+          <h1 className="text-xl font-semibold text-foreground">Panel administratora</h1>
+          <p className="text-sm text-muted-foreground mt-1">Wprowadź hasło administratora, aby kontynuować</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-foreground mb-1.5">
-              Password
+              Hasło
             </label>
             <input
               id="password"
@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground transition-all duration-200 placeholder:text-muted-foreground hover:border-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring"
-              placeholder="Enter admin password"
+              placeholder="Wprowadź hasło administratora"
               required
               autoFocus
               autoComplete="current-password"
@@ -87,7 +87,7 @@ export default function AdminLoginPage() {
             disabled={loading || !password}
             className="w-full h-10 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:bg-primary/90 disabled:opacity-50 disabled:pointer-events-none transition-all duration-200 shadow-sm"
           >
-            {loading ? 'Signing in...' : 'Sign in'}
+            {loading ? 'Logowanie...' : 'Zaloguj się'}
           </button>
         </form>
       </div>

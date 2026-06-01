@@ -81,14 +81,14 @@ export function PluginsTab() {
         body: JSON.stringify(policy),
       });
       if (res.ok) {
-        setMessage({ type: 'success', text: 'Plugin policy saved. Users will see changes on next login.' });
+        setMessage({ type: 'success', text: 'Polityka wtyczek zapisana. Użytkownicy zobaczą zmiany przy następnym logowaniu.' });
         setPolicyDirty(false);
       } else {
         const data = await res.json();
-        setMessage({ type: 'error', text: data.error || 'Failed to save policy' });
+        setMessage({ type: 'error', text: data.error || 'Nie udało się zapisać polityki' });
       }
     } catch {
-      setMessage({ type: 'error', text: 'Failed to save policy' });
+      setMessage({ type: 'error', text: 'Nie udało się zapisać polityki' });
     } finally {
       setSavingPolicy(false);
     }
@@ -122,14 +122,14 @@ export function PluginsTab() {
 
       const data = await res.json();
       if (res.ok) {
-        const warnings = data.warnings?.length ? ` (${data.warnings.length} warning(s))` : '';
-        setMessage({ type: 'success', text: `Plugin "${data.plugin.name}" installed${warnings}` });
+        const warnings = data.warnings?.length ? ` (${data.warnings.length} ostrzeżenie(ń))` : '';
+        setMessage({ type: 'success', text: `Wtyczka "${data.plugin.name}" zainstalowana${warnings}` });
         await fetchPlugins();
       } else {
-        setMessage({ type: 'error', text: data.error || 'Upload failed' });
+        setMessage({ type: 'error', text: data.error || 'Przesyłanie nie powiodło się' });
       }
     } catch {
-      setMessage({ type: 'error', text: 'Upload failed' });
+      setMessage({ type: 'error', text: 'Przesyłanie nie powiodło się' });
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
@@ -148,7 +148,7 @@ export function PluginsTab() {
       setPlugins(prev => prev.map(p => p.id === id ? { ...p, enabled } : p));
     } else {
       const data = await res.json();
-      setMessage({ type: 'error', text: data.error || 'Update failed' });
+      setMessage({ type: 'error', text: data.error || 'Aktualizacja nie powiodła się' });
     }
   }
 
@@ -177,7 +177,7 @@ export function PluginsTab() {
       setPolicyDirty(true);
     } else {
       const data = await res.json();
-      setMessage({ type: 'error', text: data.error || 'Update failed' });
+      setMessage({ type: 'error', text: data.error || 'Aktualizacja nie powiodła się' });
     }
   }
 
@@ -185,7 +185,7 @@ export function PluginsTab() {
     setMessage(null);
     const disabled = plugins.filter(p => !p.enabled);
     if (disabled.length === 0) {
-      setMessage({ type: 'success', text: 'All plugins are already enabled' });
+      setMessage({ type: 'success', text: 'Wszystkie wtyczki są już włączone' });
       return;
     }
     let failed = 0;
@@ -200,10 +200,10 @@ export function PluginsTab() {
     setPlugins(prev => prev.map(p => failed === 0 ? { ...p, enabled: true } : p));
     if (failed === 0) {
       await fetchPlugins();
-      setMessage({ type: 'success', text: `All ${disabled.length} plugin(s) enabled` });
+      setMessage({ type: 'success', text: `Wszystkie ${disabled.length} wtyczek włączonych` });
     } else {
       await fetchPlugins();
-      setMessage({ type: 'error', text: `${failed} plugin(s) failed to enable` });
+      setMessage({ type: 'error', text: `${failed} wtyczek nie udało się włączyć` });
     }
   }
 
@@ -211,7 +211,7 @@ export function PluginsTab() {
     setMessage(null);
     const enabled = plugins.filter(p => p.enabled);
     if (enabled.length === 0) {
-      setMessage({ type: 'success', text: 'All plugins are already disabled' });
+      setMessage({ type: 'success', text: 'Wszystkie wtyczki są już wyłączone' });
       return;
     }
     let failed = 0;
@@ -225,15 +225,15 @@ export function PluginsTab() {
     }
     if (failed === 0) {
       await fetchPlugins();
-      setMessage({ type: 'success', text: `All ${enabled.length} plugin(s) disabled` });
+      setMessage({ type: 'success', text: `Wszystkie ${enabled.length} wtyczek wyłączonych` });
     } else {
       await fetchPlugins();
-      setMessage({ type: 'error', text: `${failed} plugin(s) failed to disable` });
+      setMessage({ type: 'error', text: `${failed} wtyczek nie udało się wyłączyć` });
     }
   }
 
   async function deletePlugin(id: string, name: string) {
-    if (!confirm(`Remove plugin "${name}"? This cannot be undone.`)) return;
+    if (!confirm(`Usunąć wtyczkę "${name}"? Tej operacji nie można cofnąć.`)) return;
 
     setMessage(null);
     const res = await apiFetch('/api/admin/plugins', {
@@ -244,10 +244,10 @@ export function PluginsTab() {
 
     if (res.ok) {
       setPlugins(prev => prev.filter(p => p.id !== id));
-      setMessage({ type: 'success', text: `Plugin "${name}" removed` });
+      setMessage({ type: 'success', text: `Wtyczka "${name}" usunięta` });
     } else {
       const data = await res.json();
-      setMessage({ type: 'error', text: data.error || 'Delete failed' });
+      setMessage({ type: 'error', text: data.error || 'Usuwanie nie powiodło się' });
     }
   }
 
@@ -256,7 +256,7 @@ export function PluginsTab() {
   }
 
   if (loading) {
-    return <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">Loading...</div>;
+    return <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">Ładowanie...</div>;
   }
 
   const pluginsEnabled = policy.features.pluginsEnabled ?? true;
@@ -267,8 +267,8 @@ export function PluginsTab() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h1 className="text-2xl font-semibold text-foreground">Plugins</h1>
-          <p className="text-sm text-muted-foreground mt-1">Manage plugins and plugin policy for all users</p>
+          <h1 className="text-2xl font-semibold text-foreground">Wtyczki</h1>
+          <p className="text-sm text-muted-foreground mt-1">Zarządzaj wtyczkami i polityką wtyczek dla wszystkich użytkowników</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {policyDirty && (
@@ -278,12 +278,12 @@ export function PluginsTab() {
               className="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-50 transition-all shadow-sm"
             >
               {savingPolicy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-              Save Policy
+              Zapisz politykę
             </button>
           )}
           <label className="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 cursor-pointer transition-all shadow-sm">
             {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-            Upload Plugin
+            Prześlij wtyczkę
             <input
               ref={fileInputRef}
               type="file"
@@ -306,15 +306,15 @@ export function PluginsTab() {
         <div className="px-4 py-3 border-b border-border bg-muted/30">
           <div className="flex items-center gap-2">
             <Shield className="w-4 h-4 text-muted-foreground" />
-            <h2 className="text-sm font-medium text-foreground">Plugin Policy</h2>
+            <h2 className="text-sm font-medium text-foreground">Polityka wtyczek</h2>
           </div>
-          <p className="text-xs text-muted-foreground mt-0.5">Control plugin availability for users</p>
+          <p className="text-xs text-muted-foreground mt-0.5">Kontroluj dostępność wtyczek dla użytkowników</p>
         </div>
         <div className="divide-y divide-border">
           <div className="px-4 py-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <div>
-              <span className="text-sm text-foreground">Plugins Enabled</span>
-              <p className="text-xs text-muted-foreground mt-0.5">Allow the plugin system to load and run plugins for users</p>
+              <span className="text-sm text-foreground">Wtyczki włączone</span>
+              <p className="text-xs text-muted-foreground mt-0.5">Zezwalaj systemowi wtyczek na ładowanie i uruchamianie wtyczek dla użytkowników</p>
             </div>
             <button onClick={togglePluginsEnabled}
               className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${pluginsEnabled ? 'bg-primary' : 'bg-muted-foreground/25 dark:bg-muted-foreground/50'}`}>
@@ -324,8 +324,8 @@ export function PluginsTab() {
 
           <div className="px-4 py-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <div>
-              <span className="text-sm text-foreground">User Plugin Uploads</span>
-              <p className="text-xs text-muted-foreground mt-0.5">Allow users to upload plugin ZIP files in Settings</p>
+              <span className="text-sm text-foreground">Przesyłanie wtyczek przez użytkowników</span>
+              <p className="text-xs text-muted-foreground mt-0.5">Zezwalaj użytkownikom na przesyłanie plików ZIP wtyczek w Ustawieniach</p>
             </div>
             <button onClick={togglePluginsUploadEnabled}
               className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${pluginsUploadEnabled ? 'bg-primary' : 'bg-muted-foreground/25 dark:bg-muted-foreground/50'}`}>
@@ -335,8 +335,8 @@ export function PluginsTab() {
 
           <div className="px-4 py-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <div>
-              <span className="text-sm text-foreground">Require Admin Approval</span>
-              <p className="text-xs text-muted-foreground mt-0.5">User-uploaded plugins must be approved by an admin before they can be enabled</p>
+              <span className="text-sm text-foreground">Wymagaj zatwierdzenia administratora</span>
+              <p className="text-xs text-muted-foreground mt-0.5">Wtyczki przesłane przez użytkowników muszą zostać zatwierdzone przez administratora, zanim będą mogły być włączone</p>
             </div>
             <button onClick={toggleRequirePluginApproval}
               className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${requirePluginApproval ? 'bg-primary' : 'bg-muted-foreground/25 dark:bg-muted-foreground/50'}`}>
@@ -347,8 +347,8 @@ export function PluginsTab() {
           {plugins.length > 0 && (
             <div className="px-4 py-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
               <div>
-                <span className="text-sm text-foreground">Force Enable / Disable All</span>
-                <p className="text-xs text-muted-foreground mt-0.5">Bulk toggle all deployed plugins at once</p>
+                <span className="text-sm text-foreground">Wymuś włączenie/wyłączenie wszystkich</span>
+                <p className="text-xs text-muted-foreground mt-0.5">Zbiorcze przełączanie wszystkich wdrożonych wtyczek</p>
               </div>
               <div className="flex items-center gap-2">
                 <button
@@ -356,14 +356,14 @@ export function PluginsTab() {
                   className="inline-flex items-center gap-1.5 h-7 px-3 rounded-md bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 transition-colors"
                 >
                   <Power className="w-3.5 h-3.5" />
-                  Enable All
+                  Włącz wszystkie
                 </button>
                 <button
                   onClick={forceDisableAll}
                   className="inline-flex items-center gap-1.5 h-7 px-3 rounded-md bg-muted text-muted-foreground text-xs font-medium hover:bg-accent hover:text-foreground transition-colors"
                 >
                   <PowerOff className="w-3.5 h-3.5" />
-                  Disable All
+                  Wyłącz wszystkie
                 </button>
               </div>
             </div>
@@ -375,15 +375,15 @@ export function PluginsTab() {
         <div className="px-4 py-3 border-b border-border bg-muted/30">
           <div className="flex items-center gap-2">
             <Package className="w-4 h-4 text-muted-foreground" />
-            <h2 className="text-sm font-medium text-foreground">Deployed Plugins</h2>
+            <h2 className="text-sm font-medium text-foreground">Wdrożone wtyczki</h2>
           </div>
-          <p className="text-xs text-muted-foreground mt-0.5">Admin-uploaded plugins for all users</p>
+          <p className="text-xs text-muted-foreground mt-0.5">Wtyczki przesłane przez administratora dla wszystkich użytkowników</p>
         </div>
         {plugins.length === 0 ? (
           <div className="p-12 text-center">
             <Package className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
-            <p className="text-sm text-muted-foreground">No plugins installed</p>
-            <p className="text-xs text-muted-foreground mt-1">Upload a plugin ZIP file to get started</p>
+            <p className="text-sm text-muted-foreground">Brak zainstalowanych wtyczek</p>
+            <p className="text-xs text-muted-foreground mt-1">Prześlij plik ZIP wtyczki, aby rozpocząć</p>
           </div>
         ) : (
           <div className="divide-y divide-border">
@@ -394,11 +394,11 @@ export function PluginsTab() {
                     <span className="text-sm font-medium text-foreground">{plugin.name}</span>
                     <span className="text-xs text-muted-foreground">v{plugin.version}</span>
                     <span className={`text-xs px-1.5 py-0.5 rounded ${plugin.enabled ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400' : 'bg-muted text-muted-foreground'}`}>
-                      {plugin.enabled ? 'Enabled' : 'Disabled'}
+                      {plugin.enabled ? 'Włączone' : 'Wyłączone'}
                     </span>
                     {plugin.forceEnabled && (
                       <span className="text-xs px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 flex items-center gap-1">
-                        <Lock className="w-3 h-3" /> Forced
+                        <Lock className="w-3 h-3" /> Wymuszone
                       </span>
                     )}
                   </div>
@@ -406,13 +406,13 @@ export function PluginsTab() {
                   <p className="text-xs text-muted-foreground mt-0.5 truncate">{plugin.description}</p>
                 )}
                 <div className="text-xs text-muted-foreground mt-1">
-                  by {plugin.author} &middot; {plugin.type} &middot; installed {new Date(plugin.installedAt).toLocaleDateString()}
+                  autor: {plugin.author} &middot; {plugin.type} &middot; zainstalowano {new Date(plugin.installedAt).toLocaleDateString()}
                 </div>
                 {plugin.permissions.length > 0 && (
                   <div className="flex items-center gap-1 mt-1">
                     <AlertTriangle className="w-3 h-3 text-warning" />
                     <span className="text-xs text-warning">
-                      Permissions: {plugin.permissions.join(', ')}
+                      Uprawnienia: {plugin.permissions.join(', ')}
                     </span>
                   </div>
                 )}
@@ -422,28 +422,28 @@ export function PluginsTab() {
                 <button
                   type="button"
                   onClick={() => setConfiguringId(plugin.id)}
-                  title="Configure"
+                  title="Konfiguruj"
                   className="p-2 rounded-md hover:bg-accent text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <Settings className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => toggleForceEnabled(plugin.id, !plugin.forceEnabled)}
-                  title={plugin.forceEnabled ? 'Remove force-enable (users can disable)' : 'Force enable (users cannot disable)'}
+                  title={plugin.forceEnabled ? 'Usuń wymuszone włączenie (użytkownicy mogą wyłączyć)' : 'Wymuś włączenie (użytkownicy nie mogą wyłączyć)'}
                   className={`p-2 rounded-md transition-colors ${plugin.forceEnabled ? 'bg-amber-100 text-amber-700 hover:bg-amber-200 dark:bg-amber-950/30 dark:text-amber-400 dark:hover:bg-amber-950/50' : 'hover:bg-accent text-muted-foreground hover:text-foreground'}`}
                 >
                   {plugin.forceEnabled ? <Lock className="w-4 h-4" /> : <LockOpen className="w-4 h-4" />}
                 </button>
                 <button
                   onClick={() => togglePlugin(plugin.id, !plugin.enabled)}
-                  title={plugin.enabled ? 'Disable' : 'Enable'}
+                  title={plugin.enabled ? 'Wyłącz' : 'Włącz'}
                   className="p-2 rounded-md hover:bg-accent text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <Power className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => deletePlugin(plugin.id, plugin.name)}
-                  title="Remove"
+                  title="Usuń"
                   className="p-2 rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
                 >
                   <Trash2 className="w-4 h-4" />

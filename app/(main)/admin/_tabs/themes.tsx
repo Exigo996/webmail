@@ -129,14 +129,14 @@ export function ThemesTab() {
         body: JSON.stringify(policy),
       });
       if (res.ok) {
-        setMessage({ type: 'success', text: 'Theme policy saved. Users will see changes on next login.' });
+        setMessage({ type: 'success', text: 'Polityka motywów zapisana. Użytkownicy zobaczą zmiany przy następnym logowaniu.' });
         setPolicyDirty(false);
       } else {
         const data = await res.json();
-        setMessage({ type: 'error', text: data.error || 'Failed to save policy' });
+        setMessage({ type: 'error', text: data.error || 'Nie udało się zapisać polityki' });
       }
     } catch {
-      setMessage({ type: 'error', text: 'Failed to save policy' });
+      setMessage({ type: 'error', text: 'Nie udało się zapisać polityki' });
     } finally {
       setSavingPolicy(false);
     }
@@ -170,14 +170,14 @@ export function ThemesTab() {
 
       const data = await res.json();
       if (res.ok) {
-        const warnings = data.warnings?.length ? ` (${data.warnings.length} warning(s))` : '';
-        setMessage({ type: 'success', text: `Theme "${data.theme.name}" installed${warnings}` });
+        const warnings = data.warnings?.length ? ` (${data.warnings.length} ostrzeżenie(ń))` : '';
+        setMessage({ type: 'success', text: `Motyw "${data.theme.name}" zainstalowany${warnings}` });
         await fetchThemes();
       } else {
-        setMessage({ type: 'error', text: data.error || 'Upload failed' });
+        setMessage({ type: 'error', text: data.error || 'Przesyłanie nie powiodło się' });
       }
     } catch {
-      setMessage({ type: 'error', text: 'Upload failed' });
+      setMessage({ type: 'error', text: 'Przesyłanie nie powiodło się' });
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
@@ -196,7 +196,7 @@ export function ThemesTab() {
       setThemes(prev => prev.map(t => t.id === id ? { ...t, enabled } : t));
     } else {
       const data = await res.json();
-      setMessage({ type: 'error', text: data.error || 'Update failed' });
+      setMessage({ type: 'error', text: data.error || 'Aktualizacja nie powiodła się' });
     }
   }
 
@@ -225,7 +225,7 @@ export function ThemesTab() {
       setPolicyDirty(true);
     } else {
       const data = await res.json();
-      setMessage({ type: 'error', text: data.error || 'Update failed' });
+      setMessage({ type: 'error', text: data.error || 'Aktualizacja nie powiodła się' });
     }
   }
 
@@ -233,7 +233,7 @@ export function ThemesTab() {
     setMessage(null);
     const disabled = themes.filter(t => !t.enabled);
     if (disabled.length === 0) {
-      setMessage({ type: 'success', text: 'All themes are already enabled' });
+      setMessage({ type: 'success', text: 'Wszystkie motywy są już włączone' });
       return;
     }
     let failed = 0;
@@ -247,10 +247,10 @@ export function ThemesTab() {
     }
     if (failed === 0) {
       await fetchThemes();
-      setMessage({ type: 'success', text: `All ${disabled.length} theme(s) enabled` });
+      setMessage({ type: 'success', text: `Wszystkie ${disabled.length} motywów włączonych` });
     } else {
       await fetchThemes();
-      setMessage({ type: 'error', text: `${failed} theme(s) failed to enable` });
+      setMessage({ type: 'error', text: `${failed} motywów nie udało się włączyć` });
     }
   }
 
@@ -258,7 +258,7 @@ export function ThemesTab() {
     setMessage(null);
     const enabled = themes.filter(t => t.enabled);
     if (enabled.length === 0) {
-      setMessage({ type: 'success', text: 'All themes are already disabled' });
+      setMessage({ type: 'success', text: 'Wszystkie motywy są już wyłączone' });
       return;
     }
     let failed = 0;
@@ -272,15 +272,15 @@ export function ThemesTab() {
     }
     if (failed === 0) {
       await fetchThemes();
-      setMessage({ type: 'success', text: `All ${enabled.length} theme(s) disabled` });
+      setMessage({ type: 'success', text: `Wszystkie ${enabled.length} motywów wyłączonych` });
     } else {
       await fetchThemes();
-      setMessage({ type: 'error', text: `${failed} theme(s) failed to disable` });
+      setMessage({ type: 'error', text: `${failed} motywów nie udało się wyłączyć` });
     }
   }
 
   async function deleteTheme(id: string, name: string) {
-    if (!confirm(`Remove theme "${name}"? This cannot be undone.`)) return;
+    if (!confirm(`Usunąć motyw "${name}"? Tej operacji nie można cofnąć.`)) return;
 
     setMessage(null);
     const res = await apiFetch('/api/admin/themes', {
@@ -291,15 +291,15 @@ export function ThemesTab() {
 
     if (res.ok) {
       setThemes(prev => prev.filter(t => t.id !== id));
-      setMessage({ type: 'success', text: `Theme "${name}" removed` });
+      setMessage({ type: 'success', text: `Motyw "${name}" usunięty` });
     } else {
       const data = await res.json();
-      setMessage({ type: 'error', text: data.error || 'Delete failed' });
+      setMessage({ type: 'error', text: data.error || 'Usuwanie nie powiodło się' });
     }
   }
 
   if (loading) {
-    return <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">Loading...</div>;
+    return <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">Ładowanie...</div>;
   }
 
   const themesEnabled = policy.features.themesEnabled ?? true;
@@ -309,8 +309,8 @@ export function ThemesTab() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h1 className="text-2xl font-semibold text-foreground">Themes</h1>
-          <p className="text-sm text-muted-foreground mt-1">Manage themes and theme policy for all users</p>
+          <h1 className="text-2xl font-semibold text-foreground">Motywy</h1>
+          <p className="text-sm text-muted-foreground mt-1">Zarządzaj motywami i polityką motywów dla wszystkich użytkowników</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {policyDirty && (
@@ -320,12 +320,12 @@ export function ThemesTab() {
               className="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-50 transition-all shadow-sm"
             >
               {savingPolicy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-              Save Policy
+              Zapisz politykę
             </button>
           )}
           <label className="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 cursor-pointer transition-all shadow-sm">
             {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-            Upload Theme
+            Prześlij motyw
             <input
               ref={fileInputRef}
               type="file"
@@ -348,16 +348,16 @@ export function ThemesTab() {
         <div className="px-4 py-3 border-b border-border bg-muted/30">
           <div className="flex items-center gap-2">
             <Shield className="w-4 h-4 text-muted-foreground" />
-            <h2 className="text-sm font-medium text-foreground">Theme Policy</h2>
+            <h2 className="text-sm font-medium text-foreground">Polityka motywów</h2>
           </div>
-          <p className="text-xs text-muted-foreground mt-0.5">Control theme availability and defaults for users</p>
+          <p className="text-xs text-muted-foreground mt-0.5">Kontroluj dostępność motywów i domyślne ustawienia dla użytkowników</p>
         </div>
 
         <div className="divide-y divide-border">
           <div className="px-4 py-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <div className="min-w-0">
-              <span className="text-sm text-foreground">Themes Enabled</span>
-              <p className="text-xs text-muted-foreground mt-0.5">Allow users to select and apply themes</p>
+              <span className="text-sm text-foreground">Motywy włączone</span>
+              <p className="text-xs text-muted-foreground mt-0.5">Zezwalaj użytkownikom na wybieranie i stosowanie motywów</p>
             </div>
             <button onClick={toggleThemesEnabled}
               className={`shrink-0 relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${themesEnabled ? 'bg-primary' : 'bg-muted-foreground/25 dark:bg-muted-foreground/50'}`}>
@@ -367,8 +367,8 @@ export function ThemesTab() {
 
           <div className="px-4 py-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <div className="min-w-0">
-              <span className="text-sm text-foreground">User Theme Uploads</span>
-              <p className="text-xs text-muted-foreground mt-0.5">Allow users to upload their own theme files</p>
+              <span className="text-sm text-foreground">Przesyłanie motywów przez użytkowników</span>
+              <p className="text-xs text-muted-foreground mt-0.5">Zezwalaj użytkownikom na przesyłanie własnych plików motywów</p>
             </div>
             <button onClick={toggleUserThemeUploads}
               className={`shrink-0 relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${userThemesEnabled ? 'bg-primary' : 'bg-muted-foreground/25 dark:bg-muted-foreground/50'}`}>
@@ -379,8 +379,8 @@ export function ThemesTab() {
           {themes.length > 0 && (
             <div className="px-4 py-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
               <div className="min-w-0">
-                <span className="text-sm text-foreground">Force Enable / Disable All</span>
-                <p className="text-xs text-muted-foreground mt-0.5">Bulk toggle all deployed themes at once</p>
+                <span className="text-sm text-foreground">Wymuś włączenie/wyłączenie wszystkich</span>
+                <p className="text-xs text-muted-foreground mt-0.5">Zbiorcze przełączanie wszystkich wdrożonych motywów</p>
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <button
@@ -388,14 +388,14 @@ export function ThemesTab() {
                   className="inline-flex items-center gap-1.5 h-7 px-3 rounded-md bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 transition-colors"
                 >
                   <Power className="w-3.5 h-3.5" />
-                  Enable All
+                  Włącz wszystkie
                 </button>
                 <button
                   onClick={forceDisableAll}
                   className="inline-flex items-center gap-1.5 h-7 px-3 rounded-md bg-muted text-muted-foreground text-xs font-medium hover:bg-accent hover:text-foreground transition-colors"
                 >
                   <PowerOff className="w-3.5 h-3.5" />
-                  Disable All
+                  Wyłącz wszystkie
                 </button>
               </div>
             </div>
@@ -404,16 +404,16 @@ export function ThemesTab() {
           <div className="px-4 py-3">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
               <div className="min-w-0">
-                <span className="text-sm text-foreground">Default Theme</span>
-                <p className="text-xs text-muted-foreground mt-0.5">Theme applied when users have not chosen one</p>
+                <span className="text-sm text-foreground">Domyślny motyw</span>
+                <p className="text-xs text-muted-foreground mt-0.5">Motyw stosowany, gdy użytkownicy nie wybrali żadnego</p>
               </div>
               <select
                 value={policy.themePolicy?.defaultThemeId || ''}
                 onChange={(e) => setDefaultTheme(e.target.value || null)}
                 className="h-8 px-2 w-full sm:w-auto shrink-0 rounded-md border border-input bg-background text-sm text-foreground"
               >
-                <option value="">System Default</option>
-                <optgroup label="Built-in">
+                <option value="">Domyślny systemowy</option>
+                <optgroup label="Wbudowane">
                   {BUILTIN_THEME_OPTIONS
                     .filter(t => !(policy.themePolicy?.disabledBuiltinThemes || []).includes(t.id))
                     .map(t => (
@@ -421,7 +421,7 @@ export function ThemesTab() {
                     ))}
                 </optgroup>
                 {themes.length > 0 && (
-                  <optgroup label="Admin-deployed">
+                  <optgroup label="Wdrożone przez administratora">
                     {themes
                       .filter(t => !(policy.themePolicy?.disabledThemes || []).includes(t.id))
                       .map(t => (
@@ -434,7 +434,7 @@ export function ThemesTab() {
           </div>
 
           <div className="px-4 py-3">
-            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Built-in Themes</span>
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Wbudowane motywy</span>
             <div className="mt-2 space-y-2">
               {BUILTIN_THEME_OPTIONS.map(theme => {
                 const disabled = (policy.themePolicy?.disabledBuiltinThemes || []).includes(theme.id);
@@ -453,7 +453,7 @@ export function ThemesTab() {
 
           {themes.length > 0 && (
             <div className="px-4 py-3">
-              <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Admin-deployed Themes</span>
+              <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Motywy wdrożone przez administratora</span>
               <div className="mt-2 space-y-2">
                 {themes.map(theme => {
                   const disabled = (policy.themePolicy?.disabledThemes || []).includes(theme.id);
@@ -477,15 +477,15 @@ export function ThemesTab() {
         <div className="px-4 py-3 border-b border-border bg-muted/30">
           <div className="flex items-center gap-2">
             <Palette className="w-4 h-4 text-muted-foreground" />
-            <h2 className="text-sm font-medium text-foreground">Deployed Themes</h2>
+            <h2 className="text-sm font-medium text-foreground">Wdrożone motywy</h2>
           </div>
-          <p className="text-xs text-muted-foreground mt-0.5">Admin-uploaded themes available to all users</p>
+          <p className="text-xs text-muted-foreground mt-0.5">Motywy przesłane przez administratora dostępne dla wszystkich użytkowników</p>
         </div>
         {themes.length === 0 ? (
           <div className="p-12 text-center">
             <Palette className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
-            <p className="text-sm text-muted-foreground">No themes installed</p>
-            <p className="text-xs text-muted-foreground mt-1">Upload a theme ZIP file to get started</p>
+            <p className="text-sm text-muted-foreground">Brak zainstalowanych motywów</p>
+            <p className="text-xs text-muted-foreground mt-1">Prześlij plik ZIP motywu, aby rozpocząć</p>
           </div>
         ) : (
           <div className="divide-y divide-border">
@@ -496,11 +496,11 @@ export function ThemesTab() {
                     <span className="text-sm font-medium text-foreground">{theme.name}</span>
                     <span className="text-xs text-muted-foreground">v{theme.version}</span>
                     <span className={`text-xs px-1.5 py-0.5 rounded ${theme.enabled ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400' : 'bg-muted text-muted-foreground'}`}>
-                      {theme.enabled ? 'Enabled' : 'Disabled'}
+                      {theme.enabled ? 'Włączone' : 'Wyłączone'}
                     </span>
                     {theme.forceEnabled && (
                       <span className="text-xs px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 flex items-center gap-1">
-                        <Lock className="w-3 h-3" /> Forced
+                        <Lock className="w-3 h-3" /> Wymuszone
                       </span>
                     )}
                   </div>
@@ -508,28 +508,28 @@ export function ThemesTab() {
                     <p className="text-xs text-muted-foreground mt-0.5 truncate">{theme.description}</p>
                   )}
                   <div className="text-xs text-muted-foreground mt-1">
-                    by {theme.author} &middot; {theme.variants.join(', ')} &middot; installed {new Date(theme.installedAt).toLocaleDateString()}
+                    autor: {theme.author} &middot; {theme.variants.join(', ')} &middot; zainstalowano {new Date(theme.installedAt).toLocaleDateString()}
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => toggleForceEnabled(theme.id, !theme.forceEnabled)}
-                    title={theme.forceEnabled ? 'Remove force-enable (users can deactivate)' : 'Force enable (users cannot deactivate)'}
+                    title={theme.forceEnabled ? 'Usuń wymuszone włączenie (użytkownicy mogą dezaktywować)' : 'Wymuś włączenie (użytkownicy nie mogą dezaktywować)'}
                     className={`p-2 rounded-md transition-colors ${theme.forceEnabled ? 'bg-amber-100 text-amber-700 hover:bg-amber-200 dark:bg-amber-950/30 dark:text-amber-400 dark:hover:bg-amber-950/50' : 'hover:bg-accent text-muted-foreground hover:text-foreground'}`}
                   >
                     {theme.forceEnabled ? <Lock className="w-4 h-4" /> : <LockOpen className="w-4 h-4" />}
                   </button>
                   <button
                     onClick={() => toggleTheme(theme.id, !theme.enabled)}
-                    title={theme.enabled ? 'Disable' : 'Enable'}
+                    title={theme.enabled ? 'Wyłącz' : 'Włącz'}
                     className="p-2 rounded-md hover:bg-accent text-muted-foreground hover:text-foreground transition-colors"
                   >
                     <Power className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => deleteTheme(theme.id, theme.name)}
-                    title="Remove"
+                    title="Usuń"
                     className="p-2 rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />

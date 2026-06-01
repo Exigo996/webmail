@@ -9,38 +9,38 @@ import { apiFetch } from '@/lib/browser-navigation';
 const EXCLUDED_FEATURE_GATES: (keyof FeatureGates)[] = ['pluginsEnabled', 'pluginsUploadEnabled', 'themesEnabled', 'userThemesEnabled'];
 
 const FEATURE_GATE_LABELS: Partial<Record<keyof FeatureGates, { label: string; description: string }>> = {
-  sidebarAppsEnabled: { label: 'Sidebar Apps', description: 'Allow custom web apps in navigation rail' },
-  settingsExportEnabled: { label: 'Settings Export/Import', description: 'Allow users to export and import settings JSON' },
-  customKeywordsEnabled: { label: 'Custom Keywords', description: 'Allow user-created labels and tags' },
-  templatesEnabled: { label: 'Email Templates', description: 'Allow email template creation and library' },
-  calendarTasksEnabled: { label: 'Calendar Tasks', description: 'Show task panel in calendar view' },
-  contactsEnabled: { label: 'Contacts', description: 'Enable contacts/address book features' },
-  smimeEnabled: { label: 'S/MIME', description: 'Enable certificate management and email signing' },
-  externalContentEnabled: { label: 'External Content', description: 'Allow users to choose external content loading policy' },
-  debugModeEnabled: { label: 'Debug Mode', description: 'Allow users to enable debug/diagnostic mode' },
-  folderIconsEnabled: { label: 'Folder Icons', description: 'Allow custom folder icon picker' },
-  hoverActionsConfigEnabled: { label: 'Hover Actions Config', description: 'Allow users to customize email hover actions' },
-  filesEnabled: { label: 'Files (WebDAV)', description: 'Enable file storage via WebDAV. WARNING: Large uploads can cause Stalwart/RocksDB instability. Not recommended for production.' },
+  sidebarAppsEnabled: { label: 'Aplikacje panelu bocznego', description: 'Zezwalaj na niestandardowe aplikacje webowe w panelu nawigacyjnym' },
+  settingsExportEnabled: { label: 'Eksport/import ustawień', description: 'Zezwalaj użytkownikom na eksport i import ustawień JSON' },
+  customKeywordsEnabled: { label: 'Niestandardowe słowa kluczowe', description: 'Zezwalaj na etykiety i tagi tworzone przez użytkowników' },
+  templatesEnabled: { label: 'Szablony e-mail', description: 'Zezwalaj na tworzenie szablonów e-mail i bibliotekę' },
+  calendarTasksEnabled: { label: 'Zadania kalendarza', description: 'Pokaż panel zadań w widoku kalendarza' },
+  contactsEnabled: { label: 'Kontakty', description: 'Włącz funkcje kontaktów/książki adresowej' },
+  smimeEnabled: { label: 'S/MIME', description: 'Włącz zarządzanie certyfikatami i podpisywanie e-maili' },
+  externalContentEnabled: { label: 'Treści zewnętrzne', description: 'Zezwalaj użytkownikom na wybór polityki ładowania treści zewnętrznych' },
+  debugModeEnabled: { label: 'Tryb debugowania', description: 'Zezwalaj użytkownikom na włączanie trybu debugowania/diagnostycznego' },
+  folderIconsEnabled: { label: 'Ikony folderów', description: 'Zezwalaj na niestandardowy wybór ikon folderów' },
+  hoverActionsConfigEnabled: { label: 'Konfiguracja akcji po najechaniu', description: 'Zezwalaj użytkownikom na dostosowywanie akcji po najechaniu na e-mail' },
+  filesEnabled: { label: 'Pliki (WebDAV)', description: 'Włącz przechowywanie plików przez WebDAV. UWAGA: Duże przesyłania mogą powodować niestabilność Stalwart/RocksDB. Niezalecane dla produkcji.' },
 };
 
 const RESTRICTABLE_SETTINGS = [
-  { key: 'fontSize', label: 'Font Size', category: 'Appearance', type: 'enum', allowedValues: ['small', 'medium', 'large'] },
-  { key: 'density', label: 'Density', category: 'Appearance', type: 'enum', allowedValues: ['compact', 'regular', 'spacious'] },
-  { key: 'animationsEnabled', label: 'Animations', category: 'Appearance', type: 'boolean' },
-  { key: 'markAsReadDelay', label: 'Mark as Read Delay', category: 'Email', type: 'number' },
-  { key: 'deleteAction', label: 'Delete Action', category: 'Email', type: 'enum', allowedValues: ['trash', 'trash-and-read', 'permanent'] },
-  { key: 'showPreview', label: 'Show Preview', category: 'Email', type: 'boolean' },
-  { key: 'mailLayout', label: 'Mail Layout', category: 'Email', type: 'enum', allowedValues: ['split', 'focus', 'horizontal'] },
-  { key: 'emailsPerPage', label: 'Emails Per Page', category: 'Email', type: 'number' },
-  { key: 'externalContentPolicy', label: 'External Content Policy', category: 'Email', type: 'enum', allowedValues: ['allow', 'block', 'ask'] },
-  { key: 'sendConfirmation', label: 'Send Confirmation', category: 'Composer', type: 'boolean' },
-  { key: 'defaultReplyMode', label: 'Default Reply Mode', category: 'Composer', type: 'enum', allowedValues: ['reply', 'reply-all'] },
-  { key: 'autoSelectReplyIdentity', label: 'Auto-select Reply Identity', category: 'Composer', type: 'boolean' },
-  { key: 'plainTextMode', label: 'Plain Text Only', category: 'Composer', type: 'boolean' },
-  { key: 'sessionTimeout', label: 'Session Timeout', category: 'Privacy', type: 'number' },
-  { key: 'emailNotificationsEnabled', label: 'Email Notifications', category: 'Notifications', type: 'boolean' },
-  { key: 'calendarNotificationsEnabled', label: 'Calendar Notifications', category: 'Notifications', type: 'boolean' },
-  { key: 'debugMode', label: 'Debug Mode', category: 'Advanced', type: 'boolean' },
+  { key: 'fontSize', label: 'Rozmiar czcionki', category: 'Wygląd', type: 'enum', allowedValues: ['small', 'medium', 'large'] },
+  { key: 'density', label: 'Gęstość', category: 'Wygląd', type: 'enum', allowedValues: ['compact', 'regular', 'spacious'] },
+  { key: 'animationsEnabled', label: 'Animacje', category: 'Wygląd', type: 'boolean' },
+  { key: 'markAsReadDelay', label: 'Opóźnienie oznaczenia jako przeczytane', category: 'E-mail', type: 'number' },
+  { key: 'deleteAction', label: 'Akcja usuwania', category: 'E-mail', type: 'enum', allowedValues: ['trash', 'trash-and-read', 'permanent'] },
+  { key: 'showPreview', label: 'Pokaż podgląd', category: 'E-mail', type: 'boolean' },
+  { key: 'mailLayout', label: 'Układ poczty', category: 'E-mail', type: 'enum', allowedValues: ['split', 'focus', 'horizontal'] },
+  { key: 'emailsPerPage', label: 'E-maili na stronę', category: 'E-mail', type: 'number' },
+  { key: 'externalContentPolicy', label: 'Polityka treści zewnętrznych', category: 'E-mail', type: 'enum', allowedValues: ['allow', 'block', 'ask'] },
+  { key: 'sendConfirmation', label: 'Potwierdzenie wysyłania', category: 'Edytor', type: 'boolean' },
+  { key: 'defaultReplyMode', label: 'Domyślny tryb odpowiedzi', category: 'Edytor', type: 'enum', allowedValues: ['reply', 'reply-all'] },
+  { key: 'autoSelectReplyIdentity', label: 'Automatyczny wybór tożsamości odpowiedzi', category: 'Edytor', type: 'boolean' },
+  { key: 'plainTextMode', label: 'Tylko zwykły tekst', category: 'Edytor', type: 'boolean' },
+  { key: 'sessionTimeout', label: 'Limit czasu sesji', category: 'Prywatność', type: 'number' },
+  { key: 'emailNotificationsEnabled', label: 'Powiadomienia e-mail', category: 'Powiadomienia', type: 'boolean' },
+  { key: 'calendarNotificationsEnabled', label: 'Powiadomienia kalendarza', category: 'Powiadomienia', type: 'boolean' },
+  { key: 'debugMode', label: 'Tryb debugowania', category: 'Zaawansowane', type: 'boolean' },
 ];
 
 export function PolicyTab() {
@@ -126,17 +126,17 @@ export function PolicyTab() {
     });
 
     if (res.ok) {
-      setMessage({ type: 'success', text: 'Policy saved. Users will see changes on next login.' });
+      setMessage({ type: 'success', text: 'Polityka zapisana. Użytkownicy zobaczą zmiany przy następnym logowaniu.' });
       setDirty(false);
     } else {
       const data = await res.json();
-      setMessage({ type: 'error', text: data.error || 'Failed to save' });
+      setMessage({ type: 'error', text: data.error || 'Nie udało się zapisać' });
     }
     setSaving(false);
   }
 
   if (loading) {
-    return <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">Loading...</div>;
+    return <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">Ładowanie...</div>;
   }
 
   const categories = [...new Set(RESTRICTABLE_SETTINGS.map(s => s.category))];
@@ -145,8 +145,8 @@ export function PolicyTab() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h1 className="text-2xl font-semibold text-foreground">User Policy</h1>
-          <p className="text-sm text-muted-foreground mt-1">Control which features and settings users can access</p>
+          <h1 className="text-2xl font-semibold text-foreground">Polityka użytkownika</h1>
+          <p className="text-sm text-muted-foreground mt-1">Kontroluj, do których funkcji i ustawień użytkownicy mają dostęp</p>
         </div>
         {dirty && (
           <button
@@ -155,7 +155,7 @@ export function PolicyTab() {
             className="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-50 transition-all shadow-sm"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            Save policy
+            Zapisz politykę
           </button>
         )}
       </div>
@@ -168,8 +168,8 @@ export function PolicyTab() {
 
       <div className="border border-border rounded-lg">
         <div className="px-4 py-3 border-b border-border bg-muted/30">
-          <h2 className="text-sm font-medium text-foreground">Feature Gates</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">Toggle entire features on or off for all users. Plugin and theme gates are on their respective admin pages.</p>
+          <h2 className="text-sm font-medium text-foreground">Bramki funkcji</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">Włączaj lub wyłączaj całe funkcje dla wszystkich użytkowników. Bramki wtyczek i motywów znajdują się na odpowiednich stronach administracyjnych.</p>
         </div>
         <div className="divide-y divide-border">
           {(Object.keys(DEFAULT_FEATURE_GATES) as (keyof FeatureGates)[])
@@ -197,8 +197,8 @@ export function PolicyTab() {
 
       <div className="border border-border rounded-lg">
         <div className="px-4 py-3 border-b border-border bg-muted/30">
-          <h2 className="text-sm font-medium text-foreground">Push Relay</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">Override the Web Push relay URL shown in user notification settings. Leave empty to use the built-in default.</p>
+          <h2 className="text-sm font-medium text-foreground">Przekaźnik Push</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">Nadpisz URL przekaźnika Web Push wyświetlany w ustawieniach powiadomień użytkownika. Pozostaw puste, aby użyć wbudowanego domyślnego.</p>
         </div>
         <div className="px-4 py-3 space-y-3">
           <input
@@ -218,7 +218,7 @@ export function PolicyTab() {
               onChange={togglePushRelayLocked}
               className="rounded border-input"
             />
-            <Lock className="w-3 h-3" /> Lock - users cannot change this URL
+            <Lock className="w-3 h-3" /> Blokada - użytkownicy nie mogą zmienić tego URL
           </label>
         </div>
       </div>
@@ -238,12 +238,12 @@ export function PolicyTab() {
                     <label className="flex items-center gap-1.5 text-xs text-muted-foreground cursor-pointer">
                       <input type="checkbox" checked={!!restriction.locked} onChange={() => toggleLocked(setting.key)}
                         className="rounded border-input" />
-                      <Lock className="w-3 h-3" /> Lock
+                      <Lock className="w-3 h-3" /> Blokada
                     </label>
                     <label className="flex items-center gap-1.5 text-xs text-muted-foreground cursor-pointer">
                       <input type="checkbox" checked={!!restriction.hidden} onChange={() => toggleHidden(setting.key)}
                         className="rounded border-input" />
-                      Hide
+                      Ukryj
                     </label>
                   </div>
                 </div>

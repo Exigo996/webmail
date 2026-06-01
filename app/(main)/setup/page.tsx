@@ -80,13 +80,13 @@ const EMPTY_CONFIG: WizardConfig = {
 };
 
 const STEPS = [
-  { id: 'welcome', label: 'Welcome' },
-  { id: 'server', label: 'Server' },
-  { id: 'auth', label: 'Auth' },
-  { id: 'security', label: 'Security' },
-  { id: 'logging', label: 'Logging' },
+  { id: 'welcome', label: 'Witamy' },
+  { id: 'server', label: 'Serwer' },
+  { id: 'auth', label: 'Uwierzytelnianie' },
+  { id: 'security', label: 'Bezpieczeństwo' },
+  { id: 'logging', label: 'Logowanie' },
   { id: 'branding', label: 'Branding' },
-  { id: 'review', label: 'Review' },
+  { id: 'review', label: 'Przegląd' },
 ] as const;
 
 export default function SetupWizardPage() {
@@ -186,7 +186,7 @@ export default function SetupWizardPage() {
   }
 
   if (bootstrapping) {
-    return <CenteredCard><p className="text-muted-foreground">Loading…</p></CenteredCard>;
+    return <CenteredCard><p className="text-muted-foreground">Ładowanie…</p></CenteredCard>;
   }
 
   if (completed) {
@@ -200,10 +200,10 @@ export default function SetupWizardPage() {
   if (readOnly) {
     return (
       <CenteredCard>
-        <h1 className="text-lg font-semibold">Configuration is read-only</h1>
+        <h1 className="text-lg font-semibold">Konfiguracja jest tylko do odczytu</h1>
         <p className="text-sm text-muted-foreground mt-2">
-          The config volume is mounted read-only or <code className="font-mono text-xs">ADMIN_CONFIG_READONLY</code> is set.
-          Remount it read-write or unset that variable, then restart the container.
+          Wolumin konfiguracji jest zamontowany tylko do odczytu lub <code className="font-mono text-xs">ADMIN_CONFIG_READONLY</code> jest ustawione.
+          Zamontuj go ponownie do odczytu i zapisu lub usuń tę zmienną, a następnie uruchom ponownie kontener.
         </p>
       </CenteredCard>
     );
@@ -274,9 +274,9 @@ export default function SetupWizardPage() {
 function Header() {
   return (
     <div className="text-center mb-6">
-      <h1 className="text-2xl font-semibold">Bulwark Webmail Setup</h1>
+      <h1 className="text-2xl font-semibold">Konfiguracja Bulwark Webmail</h1>
       <p className="text-sm text-muted-foreground mt-1">
-        Configure your webmail instance from the browser.
+        Skonfiguruj swoją instancję webmail z poziomu przeglądarki.
       </p>
     </div>
   );
@@ -333,9 +333,9 @@ function CompletedScreen() {
             <path d="M20 6 9 17l-5-5" />
           </svg>
         </div>
-        <h1 className="text-xl font-semibold">You&apos;re all set!</h1>
+        <h1 className="text-xl font-semibold">Wszystko gotowe!</h1>
         <p className="text-sm text-muted-foreground mt-2">
-          Bulwark Webmail is configured and ready to use.
+          Bulwark Webmail jest skonfigurowany i gotowy do użycia.
         </p>
       </div>
       <div className="mt-6 space-y-2">
@@ -343,17 +343,17 @@ function CompletedScreen() {
           href={`${getPathPrefix()}/admin/login`}
           className="block w-full rounded-md bg-primary text-primary-foreground text-center px-4 py-2.5 text-sm font-medium hover:bg-primary/90"
         >
-          Sign in to admin dashboard
+          Zaloguj się do panelu administratora
         </a>
         <a
           href={`${getPathPrefix()}/`}
           className="block w-full rounded-md border border-border text-center px-4 py-2.5 text-sm font-medium hover:bg-muted"
         >
-          Open webmail login
+          Otwórz logowanie webmail
         </a>
       </div>
       <p className="text-xs text-muted-foreground text-center mt-4">
-        Taking you to the admin dashboard…
+        Przekierowywanie do panelu administratora…
       </p>
     </CenteredCard>
   );
@@ -370,10 +370,10 @@ function InsecureContextScreen({ onContinue }: { onContinue: () => void }) {
         <div className="mx-auto h-12 w-12 rounded-full bg-warning/15 text-warning flex items-center justify-center mb-4">
           <ShieldAlert className="h-6 w-6" />
         </div>
-        <h1 className="text-xl font-semibold">You&apos;re running setup over plain HTTP</h1>
+        <h1 className="text-xl font-semibold">Uruchamiasz konfigurację przez zwykłe HTTP</h1>
         <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-          The setup token and admin password you enter here will travel in cleartext.
-          Please use HTTPS if at all possible - terminate TLS on the container or a reverse proxy in front of it.
+          Token konfiguracji i hasło administratora, które tu wprowadzisz, będą przesyłane jawnym tekstem.
+          Użyj HTTPS, jeśli to możliwe - zakończ TLS na kontenerze lub na reverse proxy przed nim.
         </p>
       </div>
       <div className="mt-6 space-y-2">
@@ -382,7 +382,7 @@ function InsecureContextScreen({ onContinue }: { onContinue: () => void }) {
             href={httpsUrl}
             className="block w-full rounded-md bg-primary text-primary-foreground text-center px-4 py-2.5 text-sm font-medium hover:bg-primary/90"
           >
-            Try HTTPS
+            Spróbuj HTTPS
           </a>
         )}
         <button
@@ -390,7 +390,7 @@ function InsecureContextScreen({ onContinue }: { onContinue: () => void }) {
           onClick={onContinue}
           className="block w-full rounded-md border border-border text-center px-4 py-2.5 text-sm font-medium hover:bg-muted"
         >
-          Continue over HTTP
+          Kontynuuj przez HTTP
         </button>
       </div>
     </CenteredCard>
@@ -415,9 +415,9 @@ function AlreadyConfiguredScreen() {
             <path d="M20 6 9 17l-5-5" />
           </svg>
         </div>
-        <h1 className="text-xl font-semibold">Setup is already complete</h1>
+        <h1 className="text-xl font-semibold">Konfiguracja jest już zakończona</h1>
         <p className="text-sm text-muted-foreground mt-2">
-          Bulwark Webmail is configured. Sign in to continue.
+          Bulwark Webmail jest skonfigurowany. Zaloguj się, aby kontynuować.
         </p>
       </div>
       <div className="mt-6 space-y-2">
@@ -425,13 +425,13 @@ function AlreadyConfiguredScreen() {
           href={`${getPathPrefix()}/admin/login`}
           className="block w-full rounded-md bg-primary text-primary-foreground text-center px-4 py-2.5 text-sm font-medium hover:bg-primary/90"
         >
-          Sign in to admin dashboard
+          Zaloguj się do panelu administratora
         </a>
         <a
           href={`${getPathPrefix()}/`}
           className="block w-full rounded-md border border-border text-center px-4 py-2.5 text-sm font-medium hover:bg-muted"
         >
-          Open webmail login
+          Otwórz logowanie webmail
         </a>
       </div>
     </CenteredCard>
@@ -462,7 +462,7 @@ function ErrorBanner({ error, onDismiss }: { error: string; onDismiss: () => voi
         className="self-center text-xs text-muted-foreground hover:text-foreground underline shrink-0"
         type="button"
       >
-        dismiss
+        zamknij
       </button>
     </div>
   );
@@ -475,16 +475,16 @@ function ErrorBanner({ error, onDismiss }: { error: string; onDismiss: () => voi
 function friendlyError(raw: string): string {
   const lower = raw.toLowerCase();
   if (lower.includes('invalid or expired token')) {
-    return "That setup token isn't valid anymore. Restart the container to get a fresh one from the logs.";
+    return "Ten token konfiguracji nie jest już ważny. Uruchom ponownie kontener, aby uzyskać nowy z logów.";
   }
   if (lower.includes('wizard session required')) {
-    return 'Your wizard session expired. Paste the setup token again to continue.';
+    return 'Twoja sesja kreatora wygasła. Wklej token konfiguracji ponownie, aby kontynuować.';
   }
   if (lower.includes('token required')) {
-    return 'Paste the setup token printed in the container logs to continue.';
+    return 'Wklej token konfiguracji wyświetlony w logach kontenera, aby kontynuować.';
   }
   if (lower.includes('setup is not active')) {
-    return 'Setup has already finished. Reload to sign in.';
+    return 'Konfiguracja została już zakończona. Odśwież stronę, aby się zalogować.';
   }
   return raw;
 }
@@ -516,15 +516,15 @@ function WelcomeStep({ tokenFromUrl, onSubmit }: { tokenFromUrl: string; onSubmi
 
   return (
     <form onSubmit={handle} className="space-y-4">
-      <h2 className="text-lg font-semibold">Welcome</h2>
+      <h2 className="text-lg font-semibold">Witamy</h2>
       <p className="text-sm text-muted-foreground">
-        Paste the setup token printed in the container logs to continue. The token expires after 1 hour.
+        Wklej token konfiguracji wyświetlony w logach kontenera, aby kontynuować. Token wygasa po 1 godzinie.
       </p>
-      <Field label="Setup token">
-        <Input value={token} onChange={(v) => setToken(v)} autoFocus required placeholder="32-byte hex token" />
+      <Field label="Token konfiguracji">
+        <Input value={token} onChange={(v) => setToken(v)} autoFocus required placeholder="32-bajtowy token szesnastkowy" />
       </Field>
       <PrimaryButton type="submit" disabled={submitting || !token.trim()}>
-        {submitting ? 'Verifying…' : 'Continue'}
+        {submitting ? 'Weryfikowanie…' : 'Kontynuuj'}
       </PrimaryButton>
     </form>
   );
@@ -556,7 +556,7 @@ function StepContent({ stepIndex, config, setConfig, onNext, onBack, onFinish }:
     case 6:
       return <ReviewStep config={config} onBack={onBack} onFinish={onFinish} />;
     default:
-      return <p className="text-sm text-muted-foreground">Loading…</p>;
+      return <p className="text-sm text-muted-foreground">Ładowanie…</p>;
   }
 }
 
@@ -586,13 +586,13 @@ function ServerStep({ config, setConfig, onNext }: Pick<StepProps, 'config' | 's
       const data = await res.json();
       let entry: { status: ProbeStatus; message: string; url: string };
       if (data.status === 'jmap_detected') {
-        entry = { status: 'jmap_detected', message: 'Connected - this looks like a JMAP server.', url: config.jmapServerUrl };
+        entry = { status: 'jmap_detected', message: 'Połączono - to wygląda na serwer JMAP.', url: config.jmapServerUrl };
       } else if (data.status === 'reachable_no_jmap') {
-        entry = { status: 'reachable_no_jmap', message: "We reached the server, but it doesn't look like a JMAP endpoint.", url: config.jmapServerUrl };
+        entry = { status: 'reachable_no_jmap', message: "Połączyliśmy się z serwerem, ale nie wygląda na punkt końcowy JMAP.", url: config.jmapServerUrl };
       } else if (data.status === 'invalid_url') {
-        entry = { status: 'invalid_url', message: data.message ?? 'That URL is not valid. Make sure it starts with http:// or https://.', url: config.jmapServerUrl };
+        entry = { status: 'invalid_url', message: data.message ?? 'Ten adres URL jest nieprawidłowy. Upewnij się, że zaczyna się od http:// lub https://.', url: config.jmapServerUrl };
       } else {
-        entry = { status: 'unreachable', message: data.message ?? "Couldn't connect to that address. Double-check the URL and that the server is online.", url: config.jmapServerUrl };
+        entry = { status: 'unreachable', message: data.message ?? "Nie można połączyć się z tym adresem. Sprawdź dokładnie adres URL i czy serwer jest online.", url: config.jmapServerUrl };
       }
       setProbe(entry);
       return entry;
@@ -637,19 +637,19 @@ function ServerStep({ config, setConfig, onNext }: Pick<StepProps, 'config' | 's
     const r = config.jmapServers[i];
     const id = r.id.trim();
     if (!id) {
-      rowErrors.push(`Server #${i + 1}: id is required`);
+      rowErrors.push(`Serwer #${i + 1}: id jest wymagane`);
     } else if (!/^[a-z0-9][a-z0-9_-]{0,63}$/i.test(id)) {
-      rowErrors.push(`Server #${i + 1}: id must be alphanumeric (with - or _), starting with a letter or digit`);
+      rowErrors.push(`Serwer #${i + 1}: id musi być alfanumeryczne (z - lub _), zaczynające się od litery lub cyfry`);
     } else if (seenIds.has(id)) {
-      rowErrors.push(`Server #${i + 1}: id "${id}" is duplicated`);
+      rowErrors.push(`Serwer #${i + 1}: id "${id}" jest zduplikowane`);
     } else {
       seenIds.add(id);
     }
     const url = r.url.trim();
     if (!url) {
-      rowErrors.push(`Server #${i + 1}: url is required`);
+      rowErrors.push(`Serwer #${i + 1}: url jest wymagane`);
     } else if (!/^https?:\/\//i.test(url)) {
-      rowErrors.push(`Server #${i + 1}: url must start with http:// or https://`);
+      rowErrors.push(`Serwer #${i + 1}: url musi zaczynać się od http:// lub https://`);
     }
   }
   const hasRowErrors = rowErrors.length > 0;
@@ -696,11 +696,11 @@ function ServerStep({ config, setConfig, onNext }: Pick<StepProps, 'config' | 's
 
   return (
     <form onSubmit={handle} className="space-y-4">
-      <StepHeader title="Server" subtitle="Where your mail lives." />
-      <Field label="Application name">
+      <StepHeader title="Serwer" subtitle="Gdzie znajduje się Twoja poczta." />
+      <Field label="Nazwa aplikacji">
         <Input value={config.appName} onChange={(v) => setConfig({ ...config, appName: v })} required />
       </Field>
-      <Field label="JMAP server URL" hint="The default server users connect to. Example: https://mail.example.com">
+      <Field label="Adres URL serwera JMAP" hint="Domyślny serwer, z którym łączą się użytkownicy. Przykład: https://mail.example.com">
         <div className="flex gap-2">
           <Input
             value={config.jmapServerUrl}
@@ -722,7 +722,7 @@ function ServerStep({ config, setConfig, onNext }: Pick<StepProps, 'config' | 's
             disabled={!config.jmapServerUrl || probing}
             className="px-3 py-2 text-sm border border-border rounded-md hover:bg-muted disabled:opacity-50"
           >
-            {probing ? 'Testing…' : 'Test'}
+            {probing ? 'Testowanie…' : 'Testuj'}
           </button>
         </div>
         {isInsecureHttpUrl(config.jmapServerUrl) && (
@@ -732,10 +732,10 @@ function ServerStep({ config, setConfig, onNext }: Pick<StepProps, 'config' | 's
             </div>
             <div className="flex-1 min-w-0 self-center">
               <p className="text-sm font-medium text-foreground leading-relaxed">
-                This URL uses plain HTTP.
+                Ten adres URL używa zwykłego HTTP.
               </p>
               <p className="text-sm text-muted-foreground mt-0.5 leading-relaxed">
-                Passwords and email contents will travel unencrypted between users and your server. Use <code className="font-mono text-xs">https://</code> in production - terminate TLS on the mail server or a reverse proxy in front of it.
+                Hasła i zawartość wiadomości e-mail będą przesyłane niezaszyfrowane między użytkownikami a serwerem. Użyj <code className="font-mono text-xs">https://</code> w środowisku produkcyjnym - zakończ TLS na serwerze pocztowym lub na reverse proxy przed nim.
               </p>
             </div>
           </div>
@@ -747,10 +747,10 @@ function ServerStep({ config, setConfig, onNext }: Pick<StepProps, 'config' | 's
             </div>
             <div className="flex-1 min-w-0 self-center">
               <p className="text-sm font-medium text-foreground leading-relaxed">
-                This URL only resolves locally.
+                Ten adres URL jest rozwiązywany tylko lokalnie.
               </p>
               <p className="text-sm text-muted-foreground mt-0.5 leading-relaxed">
-                Mail is fetched directly from the user&apos;s browser, so the JMAP URL must be reachable from anywhere users sign in - not just this machine or LAN. Use a public hostname (e.g. <code className="font-mono text-xs">https://mail.example.com</code>) in production.
+                Poczta jest pobierana bezpośrednio z przeglądarki użytkownika, więc adres URL JMAP musi być osiągalny z każdego miejsca, z którego użytkownicy się logują - nie tylko z tego komputera lub sieci LAN. Użyj publicznej nazwy hosta (np. <code className="font-mono text-xs">https://mail.example.com</code>) w środowisku produkcyjnym.
               </p>
             </div>
           </div>
@@ -774,7 +774,7 @@ function ServerStep({ config, setConfig, onNext }: Pick<StepProps, 'config' | 's
                 <div className="flex-1 min-w-0 self-center">
                   <p className="text-sm font-medium text-foreground leading-relaxed">{probe.message}</p>
                   <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
-                    This can happen when a reverse proxy routes JMAP separately on the same domain. Otherwise, it usually means the URL is wrong.
+                    Może się tak zdarzyć, gdy reverse proxy kieruje JMAP osobno w tej samej domenie. W przeciwnym razie zwykle oznacza to, że adres URL jest nieprawidłowy.
                   </p>
                 </div>
               </div>
@@ -785,7 +785,7 @@ function ServerStep({ config, setConfig, onNext }: Pick<StepProps, 'config' | 's
                   onChange={(e) => setConfirmedNonJmap(e.target.checked)}
                   className="h-4 w-4"
                 />
-                <span className="text-sm text-foreground">I&apos;m sure this is the right URL - continue anyway.</span>
+                <span className="text-sm text-foreground">Jestem pewien, że to właściwy adres URL - kontynuuj mimo to.</span>
               </label>
             </div>
           ) : (
@@ -805,9 +805,9 @@ function ServerStep({ config, setConfig, onNext }: Pick<StepProps, 'config' | 's
       <div className="rounded-md border border-border bg-muted/20 p-3">
         <div className="flex items-center justify-between gap-2">
           <div>
-            <div className="text-sm font-medium">Additional JMAP servers</div>
+            <div className="text-sm font-medium">Dodatkowe serwery JMAP</div>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Optional. Surface multiple servers in the login dropdown - useful for hosts running several Stalwart instances.
+              Opcjonalne. Wyświetl wiele serwerów na liście rozwijanej logowania - przydatne dla hostów z kilkoma instancjami Stalwart.
             </p>
           </div>
           <button
@@ -815,7 +815,7 @@ function ServerStep({ config, setConfig, onNext }: Pick<StepProps, 'config' | 's
             onClick={() => setShowAdditional((v) => !v)}
             className="text-xs underline text-muted-foreground hover:text-foreground shrink-0"
           >
-            {showAdditional ? 'Hide' : config.jmapServers.length > 0 ? `Show (${config.jmapServers.length})` : 'Add'}
+            {showAdditional ? 'Ukryj' : config.jmapServers.length > 0 ? `Pokaż (${config.jmapServers.length})` : 'Dodaj'}
           </button>
         </div>
 
@@ -824,27 +824,27 @@ function ServerStep({ config, setConfig, onNext }: Pick<StepProps, 'config' | 's
             {config.jmapServers.map((row, i) => (
               <div key={i} className="rounded-md border border-border bg-background p-3 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-muted-foreground">Server #{i + 1}</span>
+                  <span className="text-xs font-medium text-muted-foreground">Serwer #{i + 1}</span>
                   <button
                     type="button"
                     onClick={() => removeRow(i)}
                     className="text-xs text-destructive hover:underline"
                   >
-                    Remove
+                    Usuń
                   </button>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  <Field label="ID" hint="Unique slug, e.g. eu-1">
+                  <Field label="ID" hint="Unikalny identyfikator, np. eu-1">
                     <Input value={row.id} onChange={(v) => updateRow(i, { id: v })} placeholder="eu-1" required />
                   </Field>
-                  <Field label="Label" hint="Shown to users">
+                  <Field label="Etykieta" hint="Wyświetlana użytkownikom">
                     <Input value={row.label} onChange={(v) => updateRow(i, { label: v })} placeholder="Europe (primary)" />
                   </Field>
                 </div>
                 <Field label="URL">
                   <Input value={row.url} onChange={(v) => updateRow(i, { url: v })} placeholder="https://" type="url" required />
                 </Field>
-                <Field label="Domains" hint="Comma-separated. Used to auto-pick this server by email domain at login.">
+                <Field label="Domeny" hint="Oddzielone przecinkami. Używane do automatycznego wyboru tego serwera na podstawie domeny e-mail podczas logowania.">
                   <Input value={row.domains} onChange={(v) => updateRow(i, { domains: v })} placeholder="example.com, mail.example.com" />
                 </Field>
               </div>
@@ -855,15 +855,15 @@ function ServerStep({ config, setConfig, onNext }: Pick<StepProps, 'config' | 's
               onClick={addRow}
               className="w-full px-3 py-2 text-sm border border-dashed border-border rounded-md hover:bg-muted text-muted-foreground hover:text-foreground"
             >
-              + Add server
+              + Dodaj serwer
             </button>
 
             {config.jmapServers.length > 0 && (
               <Toggle
                 checked={config.jmapServerAutoPickByDomain}
                 onChange={(v) => setConfig({ ...config, jmapServerAutoPickByDomain: v })}
-                label="Auto-pick server by email domain"
-                hint="When a user types their email, automatically select the matching server from the list above."
+                label="Automatyczny wybór serwera na podstawie domeny e-mail"
+                hint="Gdy użytkownik wpisze swój adres e-mail, automatycznie wybierz pasujący serwer z powyższej listy."
               />
             )}
 
@@ -881,8 +881,8 @@ function ServerStep({ config, setConfig, onNext }: Pick<StepProps, 'config' | 's
       <Toggle
         checked={config.stalwartFeaturesEnabled}
         onChange={(v) => setConfig({ ...config, stalwartFeaturesEnabled: v })}
-        label="Enable Stalwart-specific features"
-        hint="Adds password change and Sieve filter management. Safe to enable on non-Stalwart servers."
+        label="Włącz funkcje specyficzne dla Stalwart"
+        hint="Dodaje zmianę hasła i zarządzanie filtrami Sieve. Bezpieczne do włączenia na serwerach innych niż Stalwart."
       />
 
       <Footer>
@@ -900,7 +900,7 @@ function ServerStep({ config, setConfig, onNext }: Pick<StepProps, 'config' | 's
                 probe.status === 'unreachable'))
           }
         >
-          {submitting ? 'Saving…' : probing ? 'Testing…' : 'Next'}
+          {submitting ? 'Zapisywanie…' : probing ? 'Testowanie…' : 'Dalej'}
         </PrimaryButton>
       </Footer>
     </form>
@@ -933,39 +933,39 @@ function AuthStep({ config, setConfig, onNext, onBack }: Pick<StepProps, 'config
 
   return (
     <form onSubmit={handle} className="space-y-4">
-      <StepHeader title="Authentication" subtitle="Basic auth is always available. OAuth/OIDC is optional." />
+      <StepHeader title="Uwierzytelnianie" subtitle="Uwierzytelnianie podstawowe jest zawsze dostępne. OAuth/OIDC jest opcjonalne." />
       <Toggle
         checked={config.oauthEnabled}
         onChange={(v) => setConfig({ ...config, oauthEnabled: v })}
-        label="Enable OAuth2 / OpenID Connect"
+        label="Włącz OAuth2 / OpenID Connect"
       />
       {config.oauthEnabled && (
         <>
           <Toggle
             checked={config.oauthOnly}
             onChange={(v) => setConfig({ ...config, oauthOnly: v })}
-            label="OAuth-only mode (hide password form)"
+            label="Tryb tylko OAuth (ukryj formularz hasła)"
           />
           <Field label="OAuth Client ID">
             <Input value={config.oauthClientId} onChange={(v) => setConfig({ ...config, oauthClientId: v })} required />
           </Field>
-          <Field label="OAuth Client Secret" hint="Leave blank for public clients using PKCE only.">
+          <Field label="OAuth Client Secret" hint="Pozostaw puste dla klientów publicznych używających tylko PKCE.">
             <Input
               value={config.oauthClientSecret}
               onChange={(v) => setConfig({ ...config, oauthClientSecret: v })}
               type="password"
-              placeholder="paste secret"
+              placeholder="wklej sekret"
             />
           </Field>
-          <Field label="OAuth Issuer URL" hint="For external IdPs (Keycloak, Authentik, Entra ID, etc.).">
+          <Field label="Adres URL dostawcy OAuth" hint="Dla zewnętrznych dostawców tożsamości (Keycloak, Authentik, Entra ID itp.).">
             <Input value={config.oauthIssuerUrl} onChange={(v) => setConfig({ ...config, oauthIssuerUrl: v })} type="url" />
           </Field>
         </>
       )}
       <Footer>
-        <SecondaryButton onClick={onBack}>Back</SecondaryButton>
+        <SecondaryButton onClick={onBack}>Wstecz</SecondaryButton>
         <PrimaryButton type="submit" disabled={submitting}>
-          {submitting ? 'Saving…' : 'Next'}
+          {submitting ? 'Zapisywanie…' : 'Dalej'}
         </PrimaryButton>
       </Footer>
     </form>
@@ -1015,28 +1015,28 @@ function SecurityStep({ config, setConfig, onNext, onBack }: Pick<StepProps, 'co
   return (
     <form onSubmit={handle} className="space-y-4">
       <StepHeader
-        title="Security & Sessions"
-        subtitle='Session secret unlocks "Remember me" and settings sync.'
+        title="Bezpieczeństwo i sesje"
+        subtitle='Sekret sesji odblokowuje "Zapamiętaj mnie" i synchronizację ustawień.'
       />
 
       <div className="rounded-md border border-border bg-muted/30 px-3 py-2.5 text-sm">
         <div className="flex items-center justify-between gap-2">
-          <span className="font-medium">Session secret generated</span>
+          <span className="font-medium">Sekret sesji wygenerowany</span>
           <button
             type="button"
             onClick={() => setCustomize((v) => !v)}
             className="text-xs underline text-muted-foreground hover:text-foreground"
           >
-            {customize ? 'Hide' : 'Customize'}
+            {customize ? 'Ukryj' : 'Dostosuj'}
           </button>
         </div>
         <p className="text-xs text-muted-foreground mt-0.5">
-          A 32-byte secret was created for you. You only need to change this if you have a specific reason.
+          32-bajtowy sekret został utworzony. Musisz to zmienić tylko wtedy, gdy masz konkretny powód.
         </p>
       </div>
 
       {customize && (
-        <Field label="Session secret" hint="Paste your own value or click regenerate.">
+        <Field label="Sekret sesji" hint="Wklej własną wartość lub kliknij regeneruj.">
           <div className="flex gap-2">
             <Input
               value={config.sessionSecret}
@@ -1048,14 +1048,14 @@ function SecurityStep({ config, setConfig, onNext, onBack }: Pick<StepProps, 'co
               onClick={() => setReveal((v) => !v)}
               className="px-3 py-2 text-sm border border-border rounded-md hover:bg-muted"
             >
-              {reveal ? 'Hide' : 'Show'}
+              {reveal ? 'Ukryj' : 'Pokaż'}
             </button>
             <button
               type="button"
               onClick={() => setConfig({ ...config, sessionSecret: generateSessionSecret() })}
               className="px-3 py-2 text-sm border border-border rounded-md hover:bg-muted"
             >
-              Regenerate
+              Regeneruj
             </button>
           </div>
         </Field>
@@ -1064,14 +1064,14 @@ function SecurityStep({ config, setConfig, onNext, onBack }: Pick<StepProps, 'co
       <Toggle
         checked={config.settingsSyncEnabled}
         onChange={(v) => setConfig({ ...config, settingsSyncEnabled: v })}
-        label="Sync user settings across devices"
-        hint="Stores user preferences server-side, encrypted with the session secret."
+        label="Synchronizuj ustawienia użytkownika między urządzeniami"
+        hint="Przechowuje preferencje użytkownika po stronie serwera, zaszyfrowane sekretem sesji."
         disabled={!config.sessionSecret}
       />
       <Footer>
-        <SecondaryButton onClick={onBack}>Back</SecondaryButton>
+        <SecondaryButton onClick={onBack}>Wstecz</SecondaryButton>
         <PrimaryButton type="submit" disabled={submitting}>
-          {submitting ? 'Saving…' : 'Next'}
+          {submitting ? 'Zapisywanie…' : 'Dalej'}
         </PrimaryButton>
       </Footer>
     </form>
@@ -1093,33 +1093,33 @@ function LoggingStep({ config, setConfig, onNext, onBack }: Pick<StepProps, 'con
   }
   return (
     <form onSubmit={handle} className="space-y-4">
-      <StepHeader title="Logging" subtitle="Format and verbosity for the application logs." />
+      <StepHeader title="Logowanie" subtitle="Format i szczegółowość logów aplikacji." />
       <Field label="Format">
         <Select
           value={config.logFormat}
           onChange={(v) => setConfig({ ...config, logFormat: v as 'text' | 'json' })}
           options={[
-            { value: 'text', label: 'text - colored, human-readable' },
-            { value: 'json', label: 'json - structured, for log aggregation' },
+            { value: 'text', label: 'tekst - kolorowy, czytelny dla człowieka' },
+            { value: 'json', label: 'json - strukturalny, do agregacji logów' },
           ]}
         />
       </Field>
-      <Field label="Level">
+      <Field label="Poziom">
         <Select
           value={config.logLevel}
           onChange={(v) => setConfig({ ...config, logLevel: v as WizardConfig['logLevel'] })}
           options={[
             { value: 'error', label: 'error' },
             { value: 'warn', label: 'warn' },
-            { value: 'info', label: 'info (recommended)' },
+            { value: 'info', label: 'info (zalecane)' },
             { value: 'debug', label: 'debug' },
           ]}
         />
       </Field>
       <Footer>
-        <SecondaryButton onClick={onBack}>Back</SecondaryButton>
+        <SecondaryButton onClick={onBack}>Wstecz</SecondaryButton>
         <PrimaryButton type="submit" disabled={submitting}>
-          {submitting ? 'Saving…' : 'Next'}
+          {submitting ? 'Zapisywanie…' : 'Dalej'}
         </PrimaryButton>
       </Footer>
     </form>
@@ -1170,45 +1170,45 @@ function BrandingStep({ config, setConfig, onNext, onBack }: Pick<StepProps, 'co
     <form onSubmit={handle} className="space-y-4">
       <StepHeader
         title="Branding"
-        subtitle="All fields optional. Upload a file or paste a URL - defaults are used for anything you skip."
+        subtitle="Wszystkie pola są opcjonalne. Prześlij plik lub wklej adres URL - domyślne wartości są używane dla pominiętych pól."
       />
-      <Field label="Company / organization name">
+      <Field label="Nazwa firmy / organizacji">
         <Input value={config.loginCompanyName} onChange={(v) => setConfig({ ...config, loginCompanyName: v })} />
       </Field>
 
       <div className="space-y-2">
         <BrandingAsset
           label="Favicon"
-          hint="Browser tab icon. SVG recommended."
+          hint="Ikona karty przeglądarki. Zalecany SVG."
           slot="faviconUrl"
           value={config.faviconUrl}
           onChange={(v) => setConfig({ ...config, faviconUrl: v })}
         />
         <BrandingAsset
-          label="Login logo (light mode)"
-          hint="Shown on the sign-in page, light backgrounds."
+          label="Logo logowania (tryb jasny)"
+          hint="Wyświetlane na stronie logowania, jasne tła."
           slot="loginLogoLightUrl"
           value={config.loginLogoLightUrl}
           onChange={(v) => setConfig({ ...config, loginLogoLightUrl: v })}
         />
         <BrandingAsset
-          label="Login logo (dark mode)"
-          hint="Shown on the sign-in page, dark backgrounds."
+          label="Logo logowania (tryb ciemny)"
+          hint="Wyświetlane na stronie logowania, ciemne tła."
           slot="loginLogoDarkUrl"
           value={config.loginLogoDarkUrl}
           onChange={(v) => setConfig({ ...config, loginLogoDarkUrl: v })}
           previewBg="dark"
         />
         <BrandingAsset
-          label="Sidebar logo (light mode)"
-          hint="Shown after sign-in. Leave blank for none."
+          label="Logo paska bocznego (tryb jasny)"
+          hint="Wyświetlane po zalogowaniu. Pozostaw puste, aby nie wyświetlać."
           slot="appLogoLightUrl"
           value={config.appLogoLightUrl}
           onChange={(v) => setConfig({ ...config, appLogoLightUrl: v })}
         />
         <BrandingAsset
-          label="Sidebar logo (dark mode)"
-          hint="Dark mode variant of the sidebar logo."
+          label="Logo paska bocznego (tryb ciemny)"
+          hint="Wariant logo paska bocznego dla trybu ciemnego."
           slot="appLogoDarkUrl"
           value={config.appLogoDarkUrl}
           onChange={(v) => setConfig({ ...config, appLogoDarkUrl: v })}
@@ -1216,19 +1216,19 @@ function BrandingStep({ config, setConfig, onNext, onBack }: Pick<StepProps, 'co
         />
       </div>
 
-      <Field label="Website URL">
+      <Field label="Adres URL strony internetowej">
         <Input value={config.loginWebsiteUrl} onChange={(v) => setConfig({ ...config, loginWebsiteUrl: v })} type="url" />
       </Field>
-      <Field label="Imprint URL">
+      <Field label="Adres URL stopki redakcyjnej">
         <Input value={config.loginImprintUrl} onChange={(v) => setConfig({ ...config, loginImprintUrl: v })} type="url" />
       </Field>
-      <Field label="Privacy policy URL">
+      <Field label="Adres URL polityki prywatności">
         <Input value={config.loginPrivacyPolicyUrl} onChange={(v) => setConfig({ ...config, loginPrivacyPolicyUrl: v })} type="url" />
       </Field>
       <Footer>
-        <SecondaryButton onClick={onBack}>Back</SecondaryButton>
+        <SecondaryButton onClick={onBack}>Wstecz</SecondaryButton>
         <PrimaryButton type="submit" disabled={submitting}>
-          {submitting ? 'Saving…' : 'Next'}
+          {submitting ? 'Zapisywanie…' : 'Dalej'}
         </PrimaryButton>
       </Footer>
     </form>
@@ -1274,7 +1274,7 @@ function BrandingAsset({
       });
       const data = await res.json();
       if (!res.ok) {
-        setUploadError(data?.error ?? `Upload failed (HTTP ${res.status})`);
+        setUploadError(data?.error ?? `Przesyłanie nie powiodło się (HTTP ${res.status})`);
         return;
       }
       onChange(data.url);
@@ -1331,7 +1331,7 @@ function BrandingAsset({
           {value ? (
             <img src={withBasePath(value)} alt="" className="max-w-full max-h-full object-contain" />
           ) : (
-            <span className="text-[10px] text-muted-foreground text-center px-1">click or drop</span>
+            <span className="text-[10px] text-muted-foreground text-center px-1">kliknij lub upuść</span>
           )}
         </label>
         <div className="flex-1 min-w-0">
@@ -1343,27 +1343,27 @@ function BrandingAsset({
                 onClick={clearAsset}
                 className="text-xs text-muted-foreground hover:text-destructive shrink-0"
               >
-                Remove
+                Usuń
               </button>
             )}
           </div>
           {hint && <p className="text-xs text-muted-foreground mt-0.5">{hint}</p>}
           <div className="mt-1.5 flex items-center gap-2 text-xs">
             {uploading ? (
-              <span className="text-muted-foreground">Uploading…</span>
+              <span className="text-muted-foreground">Przesyłanie…</span>
             ) : value ? (
               <span className="text-muted-foreground truncate">
-                {value.startsWith('/api/') ? 'Uploaded file' : value}
+                {value.startsWith('/api/') ? 'Przesłany plik' : value}
               </span>
             ) : (
-              <span className="text-muted-foreground">SVG, PNG, JPEG, WebP or ICO · max 2 MB</span>
+              <span className="text-muted-foreground">SVG, PNG, JPEG, WebP lub ICO · maks. 2 MB</span>
             )}
             <button
               type="button"
               onClick={() => setShowUrlField((v) => !v)}
               className="text-muted-foreground hover:text-foreground underline shrink-0"
             >
-              {showUrlField ? 'Hide URL' : 'Use URL'}
+              {showUrlField ? 'Ukryj URL' : 'Użyj URL'}
             </button>
           </div>
         </div>
@@ -1374,7 +1374,7 @@ function BrandingAsset({
           <Input
             value={value}
             onChange={onChange}
-            placeholder="https://… or /branding/file.svg"
+            placeholder="https://… lub /branding/file.svg"
           />
         </div>
       )}
@@ -1399,11 +1399,11 @@ function ReviewStep({ config, onBack, onFinish }: { config: WizardConfig; onBack
     e.preventDefault();
     setLocalError(null);
     if (adminPassword.length < 8) {
-      setLocalError('Admin password must be at least 8 characters.');
+      setLocalError('Hasło administratora musi mieć co najmniej 8 znaków.');
       return;
     }
     if (adminPassword !== adminConfirm) {
-      setLocalError('Passwords do not match.');
+      setLocalError('Hasła nie są zgodne.');
       return;
     }
     setSubmitting(true);
@@ -1415,7 +1415,7 @@ function ReviewStep({ config, onBack, onFinish }: { config: WizardConfig; onBack
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        setLocalError(data.error ?? `Finish failed (HTTP ${res.status})`);
+        setLocalError(data.error ?? `Zakończenie nie powiodło się (HTTP ${res.status})`);
         return;
       }
       onFinish();
@@ -1435,31 +1435,31 @@ function ReviewStep({ config, onBack, onFinish }: { config: WizardConfig; onBack
 
   return (
     <form onSubmit={handle} className="space-y-5">
-      <StepHeader title="Almost done" subtitle="Review your settings, choose an admin password, and apply." />
+      <StepHeader title="Prawie gotowe" subtitle="Przejrzyj ustawienia, wybierz hasło administratora i zastosuj." />
 
       {/* Summary card with grouped sections */}
       <div className="rounded-lg border border-border divide-y divide-border overflow-hidden">
-        <SummaryGroup icon={<Server className="w-4 h-4" />} title="Server">
-          <SummaryRow label="App name" value={config.appName} />
-          <SummaryRow label="JMAP server" value={config.jmapServerUrl} mono />
+        <SummaryGroup icon={<Server className="w-4 h-4" />} title="Serwer">
+          <SummaryRow label="Nazwa aplikacji" value={config.appName} />
+          <SummaryRow label="Serwer JMAP" value={config.jmapServerUrl} mono />
           {config.jmapServers.length > 0 && (
             <SummaryRow
-              label="Additional servers"
-              value={`${config.jmapServers.length} configured${config.jmapServerAutoPickByDomain ? ' · auto-pick by domain' : ''}`}
+              label="Dodatkowe serwery"
+              value={`${config.jmapServers.length} skonfigurowanych${config.jmapServerAutoPickByDomain ? ' · automatyczny wybór według domeny' : ''}`}
             />
           )}
-          <SummaryRow label="Stalwart features" value={config.stalwartFeaturesEnabled ? 'On' : 'Off'} />
+          <SummaryRow label="Funkcje Stalwart" value={config.stalwartFeaturesEnabled ? 'Wł.' : 'Wył.'} />
         </SummaryGroup>
 
-        <SummaryGroup icon={<ShieldCheck className="w-4 h-4" />} title="Authentication">
+        <SummaryGroup icon={<ShieldCheck className="w-4 h-4" />} title="Uwierzytelnianie">
           <SummaryRow
-            label="Method"
+            label="Metoda"
             value={
               config.oauthEnabled
                 ? config.oauthOnly
-                  ? 'OAuth only'
-                  : 'Password + OAuth'
-                : 'Password only'
+                  ? 'Tylko OAuth'
+                  : 'Hasło + OAuth'
+                : 'Tylko hasło'
             }
           />
           {config.oauthEnabled && config.oauthClientId && (
@@ -1467,33 +1467,33 @@ function ReviewStep({ config, onBack, onFinish }: { config: WizardConfig; onBack
           )}
         </SummaryGroup>
 
-        <SummaryGroup icon={<KeyRound className="w-4 h-4" />} title="Security">
-          <SummaryRow label="Session secret" value={config.sessionSecret ? 'Configured' : 'Not set'} />
-          <SummaryRow label="Remember me" value={config.sessionSecret ? 'Available' : 'Disabled'} />
+        <SummaryGroup icon={<KeyRound className="w-4 h-4" />} title="Bezpieczeństwo">
+          <SummaryRow label="Sekret sesji" value={config.sessionSecret ? 'Skonfigurowany' : 'Nie ustawiony'} />
+          <SummaryRow label="Zapamiętaj mnie" value={config.sessionSecret ? 'Dostępne' : 'Wyłączone'} />
           <SummaryRow
-            label="Settings sync"
+            label="Synchronizacja ustawień"
             value={
               config.sessionSecret && config.settingsSyncEnabled
-                ? 'On'
+                ? 'Wł.'
                 : config.settingsSyncEnabled
-                  ? 'Requires session secret'
-                  : 'Off'
+                  ? 'Wymaga sekretu sesji'
+                  : 'Wył.'
             }
           />
         </SummaryGroup>
 
-        <SummaryGroup icon={<FileText className="w-4 h-4" />} title="Logging">
+        <SummaryGroup icon={<FileText className="w-4 h-4" />} title="Logowanie">
           <SummaryRow label="Format" value={config.logFormat} />
-          <SummaryRow label="Level" value={config.logLevel} />
+          <SummaryRow label="Poziom" value={config.logLevel} />
         </SummaryGroup>
 
         <SummaryGroup icon={<Palette className="w-4 h-4" />} title="Branding">
           <SummaryRow
-            label="Customizations"
-            value={hasAnyBranding(config) ? 'Custom assets configured' : 'Using defaults'}
+            label="Dostosowania"
+            value={hasAnyBranding(config) ? 'Skonfigurowano niestandardowe zasoby' : 'Używanie domyślnych'}
           />
           {config.loginCompanyName && (
-            <SummaryRow label="Company name" value={config.loginCompanyName} />
+            <SummaryRow label="Nazwa firmy" value={config.loginCompanyName} />
           )}
         </SummaryGroup>
       </div>
@@ -1505,28 +1505,28 @@ function ReviewStep({ config, onBack, onFinish }: { config: WizardConfig; onBack
             <Lock className="w-5 h-5" />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-sm font-medium">Choose an admin password</div>
+            <div className="text-sm font-medium">Wybierz hasło administratora</div>
             <p className="text-xs text-muted-foreground mt-0.5">
-              You&apos;ll use this to sign in at <code className="font-mono">/admin</code>. Minimum 8 characters.
+              Użyjesz go do logowania w <code className="font-mono">/admin</code>. Minimum 8 znaków.
             </p>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs text-muted-foreground mb-1">New password</label>
+            <label className="block text-xs text-muted-foreground mb-1">Nowe hasło</label>
             <Input value={adminPassword} onChange={setAdminPassword} type="password" required />
             {passwordTooShort && (
-              <p className="text-xs text-warning mt-1">At least 8 characters.</p>
+              <p className="text-xs text-warning mt-1">Co najmniej 8 znaków.</p>
             )}
           </div>
           <div>
-            <label className="block text-xs text-muted-foreground mb-1">Confirm</label>
+            <label className="block text-xs text-muted-foreground mb-1">Potwierdź</label>
             <Input value={adminConfirm} onChange={setAdminConfirm} type="password" required />
             {adminConfirm.length > 0 && !passwordsMatch && (
-              <p className="text-xs text-destructive mt-1">Passwords don&apos;t match.</p>
+              <p className="text-xs text-destructive mt-1">Hasła nie są zgodne.</p>
             )}
             {passwordsMatch && adminPassword.length >= 8 && (
-              <p className="text-xs text-success mt-1">Looks good.</p>
+              <p className="text-xs text-success mt-1">Wygląda dobrze.</p>
             )}
           </div>
         </div>
@@ -1535,16 +1535,16 @@ function ReviewStep({ config, onBack, onFinish }: { config: WizardConfig; onBack
       {/* Advanced */}
       <details className="rounded-lg border border-border bg-card/50 p-3 group">
         <summary className="text-sm font-medium cursor-pointer flex items-center justify-between list-none [&::-webkit-details-marker]:hidden">
-          <span>Advanced</span>
-          <span className="text-xs text-muted-foreground group-open:hidden">Show</span>
-          <span className="text-xs text-muted-foreground hidden group-open:inline">Hide</span>
+          <span>Zaawansowane</span>
+          <span className="text-xs text-muted-foreground group-open:hidden">Pokaż</span>
+          <span className="text-xs text-muted-foreground hidden group-open:inline">Ukryj</span>
         </summary>
         <div className="mt-3 pt-3 border-t border-border">
           <Toggle
             checked={lockConfig}
             onChange={setLockConfig}
-            label="Lock configuration after setup"
-            hint="Drops a marker file. After this finishes, remount the config volume read-only and the app will refuse further config writes. Audit logs and login state stay writable in the state volume."
+            label="Zablokuj konfigurację po zakończeniu"
+            hint="Tworzy plik znacznika. Po zakończeniu zamontuj ponownie wolumin konfiguracji w trybie tylko do odczytu, a aplikacja odmówi dalszych zapisów konfiguracji. Dzienniki audytu i stan logowania pozostają zapisywalne w woluminie stanu."
           />
         </div>
       </details>
@@ -1561,9 +1561,9 @@ function ReviewStep({ config, onBack, onFinish }: { config: WizardConfig; onBack
       )}
 
       <Footer>
-        <SecondaryButton onClick={onBack} disabled={submitting}>Back</SecondaryButton>
+        <SecondaryButton onClick={onBack} disabled={submitting}>Wstecz</SecondaryButton>
         <PrimaryButton type="submit" disabled={!canSubmit}>
-          {submitting ? 'Applying…' : 'Apply & Finish'}
+          {submitting ? 'Stosowanie…' : 'Zastosuj i zakończ'}
         </PrimaryButton>
       </Footer>
     </form>
@@ -1848,5 +1848,5 @@ function detectInsecureContext(): boolean {
 function humanError(e: unknown): string {
   if (e instanceof Error) return e.message;
   if (typeof e === 'string') return e;
-  return 'Unknown error';
+  return 'Nieznany błąd';
 }

@@ -20,11 +20,11 @@ export default function ChangePasswordPage() {
     setSuccess(false);
 
     if (newPassword.length < 8) {
-      setError('New password must be at least 8 characters.');
+      setError('Nowe hasło musi mieć co najmniej 8 znaków.');
       return;
     }
     if (newPassword !== confirmPassword) {
-      setError('New passwords do not match.');
+      setError('Nowe hasła nie są zgodne.');
       return;
     }
 
@@ -43,7 +43,7 @@ export default function ChangePasswordPage() {
       setTimeout(() => router.push('/admin'), 2000);
     } else {
       const data = await res.json().catch(() => ({}));
-      setError(data.error || 'Failed to change password.');
+      setError(data.error || 'Nie udało się zmienić hasła.');
     }
     setLoading(false);
   }
@@ -51,13 +51,13 @@ export default function ChangePasswordPage() {
   return (
     <div className="max-w-md mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-foreground">Change Password</h1>
-        <p className="text-sm text-muted-foreground mt-1">Update your admin password.</p>
+        <h1 className="text-2xl font-semibold text-foreground">Zmień hasło</h1>
+        <p className="text-sm text-muted-foreground mt-1">Zaktualizuj swoje hasło administratora.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1.5">
-          <label className="text-sm font-medium text-foreground">Current Password</label>
+          <label className="text-sm font-medium text-foreground">Aktualne hasło</label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
@@ -72,7 +72,7 @@ export default function ChangePasswordPage() {
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-sm font-medium text-foreground">New Password</label>
+          <label className="text-sm font-medium text-foreground">Nowe hasło</label>
           <input
             type="password"
             value={newPassword}
@@ -85,7 +85,7 @@ export default function ChangePasswordPage() {
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-sm font-medium text-foreground">Confirm New Password</label>
+          <label className="text-sm font-medium text-foreground">Potwierdź nowe hasło</label>
           <input
             type="password"
             value={confirmPassword}
@@ -101,7 +101,7 @@ export default function ChangePasswordPage() {
           <p className="text-sm text-red-500">{error}</p>
         )}
         {success && (
-          <p className="text-sm text-green-600">Password changed. Redirecting...</p>
+          <p className="text-sm text-green-600">Hasło zmienione. Przekierowywanie...</p>
         )}
 
         <button
@@ -109,7 +109,7 @@ export default function ChangePasswordPage() {
           disabled={loading}
           className="w-full h-9 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
         >
-          {loading ? 'Changing...' : 'Change Password'}
+          {loading ? 'Zmienianie...' : 'Zmień hasło'}
         </button>
       </form>
     </div>

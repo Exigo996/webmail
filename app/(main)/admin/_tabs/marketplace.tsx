@@ -68,7 +68,7 @@ export function MarketplaceTab() {
       const res = await apiFetch(`/api/admin/marketplace?${params}`);
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        setError(data.error || 'Failed to connect to extension directory');
+        setError(data.error || 'Nie udało się połączyć z katalogiem rozszerzeń');
         setExtensions([]);
         return;
       }
@@ -77,7 +77,7 @@ export function MarketplaceTab() {
       setExtensions(data.data || []);
       setTotal(data.meta?.total || 0);
     } catch {
-      setError('Failed to connect to extension directory. Make sure it is running.');
+      setError('Nie udało się połączyć z katalogiem rozszerzeń. Upewnij się, że jest uruchomiony.');
       setExtensions([]);
     } finally {
       setLoading(false);
@@ -101,7 +101,7 @@ export function MarketplaceTab() {
     if (ext.minAppVersion && !isVersionSatisfied(CURRENT_APP_VERSION, ext.minAppVersion)) {
       setMessage({
         type: 'error',
-        text: `"${ext.name}" requires app v${ext.minAppVersion}+. You are running v${CURRENT_APP_VERSION}.`,
+        text: `"${ext.name}" wymaga aplikacji v${ext.minAppVersion}+. Używasz v${CURRENT_APP_VERSION}.`,
       });
       return;
     }
@@ -124,12 +124,12 @@ export function MarketplaceTab() {
       const data = await res.json();
 
       if (res.ok) {
-        const warnings = data.warnings?.length ? ` (${data.warnings.length} warning(s))` : '';
+        const warnings = data.warnings?.length ? ` (${data.warnings.length} ostrzeżenie(ń))` : '';
         setMessage({
           type: 'success',
           text: isUpdate
-            ? `"${ext.name}" updated to v${targetVersion}${warnings}`
-            : `"${ext.name}" installed successfully${warnings}`,
+            ? `"${ext.name}" zaktualizowano do v${targetVersion}${warnings}`
+            : `"${ext.name}" zainstalowano pomyślnie${warnings}`,
         });
         setExtensions(prev => prev.map(e =>
           e.slug === ext.slug
@@ -137,10 +137,10 @@ export function MarketplaceTab() {
             : e,
         ));
       } else {
-        setMessage({ type: 'error', text: data.error || (isUpdate ? 'Update failed' : 'Installation failed') });
+        setMessage({ type: 'error', text: data.error || (isUpdate ? 'Aktualizacja nie powiodła się' : 'Instalacja nie powiodła się') });
       }
     } catch {
-      setMessage({ type: 'error', text: isUpdate ? 'Update failed - network error' : 'Installation failed - network error' });
+      setMessage({ type: 'error', text: isUpdate ? 'Aktualizacja nie powiodła się - błąd sieci' : 'Instalacja nie powiodła się - błąd sieci' });
     } finally {
       setInstalling(null);
     }
@@ -151,9 +151,9 @@ export function MarketplaceTab() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-foreground">Marketplace</h1>
+        <h1 className="text-2xl font-semibold text-foreground">Rynek</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Browse and install plugins and themes from the BulwarkMail extension directory
+          Przeglądaj i instaluj wtyczki i motywy z katalogu rozszerzeń BulwarkMail
         </p>
       </div>
 
@@ -168,7 +168,7 @@ export function MarketplaceTab() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
             type="text"
-            placeholder="Search extensions..."
+            placeholder="Szukaj rozszerzeń..."
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             className="w-full h-9 pl-9 pr-3 rounded-md border border-input bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/20 focus:border-ring"
@@ -185,7 +185,7 @@ export function MarketplaceTab() {
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              {t === 'all' ? 'All' : t === 'plugin' ? 'Plugins' : 'Themes'}
+              {t === 'all' ? 'Wszystkie' : t === 'plugin' ? 'Wtyczki' : 'Motywy'}
             </button>
           ))}
         </div>
@@ -196,13 +196,13 @@ export function MarketplaceTab() {
           <Store className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
           <p className="text-sm text-muted-foreground">{error}</p>
           <p className="text-xs text-muted-foreground mt-1">
-            Start the extension directory server on the configured port
+            Uruchom serwer katalogu rozszerzeń na skonfigurowanym porcie
           </p>
           <button
             onClick={fetchExtensions}
             className="mt-4 inline-flex items-center gap-2 h-8 px-3 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90"
           >
-            Retry
+            Ponów
           </button>
         </div>
       )}
@@ -210,17 +210,17 @@ export function MarketplaceTab() {
       {loading && !error && (
         <div className="flex items-center justify-center py-12">
           <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
-          <span className="ml-2 text-sm text-muted-foreground">Searching extensions...</span>
+          <span className="ml-2 text-sm text-muted-foreground">Wyszukiwanie rozszerzeń...</span>
         </div>
       )}
 
       {!loading && !error && extensions.length === 0 && (
         <div className="border border-border rounded-lg p-12 text-center">
           <Store className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
-          <p className="text-sm text-muted-foreground">No extensions found</p>
+          <p className="text-sm text-muted-foreground">Nie znaleziono rozszerzeń</p>
           {query && (
             <p className="text-xs text-muted-foreground mt-1">
-              Try a different search term
+              Spróbuj innego hasła wyszukiwania
             </p>
           )}
         </div>
@@ -229,7 +229,7 @@ export function MarketplaceTab() {
       {!loading && !error && extensions.length > 0 && (
         <>
           <div className="text-xs text-muted-foreground">
-            {total} extension{total !== 1 ? 's' : ''} found
+            {total} znaleziono rozszerzeń
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {extensions.map((ext) => (
@@ -249,17 +249,17 @@ export function MarketplaceTab() {
                 disabled={page <= 1}
                 className="h-8 px-3 rounded-md border border-border text-sm text-foreground hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Previous
+                Poprzednia
               </button>
               <span className="text-sm text-muted-foreground">
-                Page {page} of {totalPages}
+                Strona {page} z {totalPages}
               </span>
               <button
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={page >= totalPages}
                 className="h-8 px-3 rounded-md border border-border text-sm text-foreground hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Next
+                Następna
               </button>
             </div>
           )}
@@ -331,11 +331,11 @@ function ExtensionCard({
                   ? 'bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400'
                   : 'bg-purple-100 text-purple-700 dark:bg-purple-950/30 dark:text-purple-400'
               }`}>
-                {isPlugin ? (extension.pluginType || 'plugin') : 'theme'}
+                {isPlugin ? (extension.pluginType || 'wtyczka') : 'motyw'}
               </span>
               {extension.author && (
                 <span className="text-xs text-muted-foreground truncate">
-                  by {extension.author.displayName}
+                  autor: {extension.author.displayName}
                 </span>
               )}
             </div>
@@ -364,13 +364,13 @@ function ExtensionCard({
             </span>
             {extension.permissions && extension.permissions.length > 0 && (
               <span title={extension.permissions.join(', ')}>
-                {extension.permissions.length} permission{extension.permissions.length !== 1 ? 's' : ''}
+                {extension.permissions.length} uprawnień
               </span>
             )}
           </div>
           <span className="inline-flex items-center gap-1 text-xs text-muted-foreground group-hover:text-foreground">
             <Eye className="w-3 h-3" />
-            Preview
+            Podgląd
           </span>
         </div>
       </Link>
@@ -380,7 +380,7 @@ function ExtensionCard({
           <button
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); onInstall(); }}
             disabled={installing}
-            title={`Update from v${extension.installedVersion} to v${extension.latestVersion}`}
+            title={`Aktualizuj z v${extension.installedVersion} do v${extension.latestVersion}`}
             className="inline-flex items-center gap-1.5 h-7 px-3 rounded-md bg-blue-600 text-white text-xs font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
           >
             {installing ? (
@@ -388,23 +388,23 @@ function ExtensionCard({
             ) : (
               <ArrowUpCircle className="w-3 h-3" />
             )}
-            Update to v{extension.latestVersion}
+            Aktualizuj do v{extension.latestVersion}
           </button>
         ) : extension.installed ? (
           <span
             className="inline-flex items-center gap-1 h-7 px-2.5 rounded-md bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 text-xs font-medium"
-            title={extension.installedVersion ? `Installed: v${extension.installedVersion}` : undefined}
+            title={extension.installedVersion ? `Zainstalowano: v${extension.installedVersion}` : undefined}
           >
             <Check className="w-3 h-3" />
-            Installed
+            Zainstalowane
           </span>
         ) : versionMismatch ? (
           <span
             className="inline-flex items-center gap-1 h-7 px-2.5 rounded-md bg-amber-100 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300 text-xs font-medium"
-            title={`Requires app v${extension.minAppVersion}+. You are running v${CURRENT_APP_VERSION}.`}
+            title={`Wymaga aplikacji v${extension.minAppVersion}+. Używasz v${CURRENT_APP_VERSION}.`}
           >
             <AlertTriangle className="w-3 h-3" />
-            Requires v{extension.minAppVersion}+
+            Wymaga v{extension.minAppVersion}+
           </span>
         ) : (
           <button
@@ -417,7 +417,7 @@ function ExtensionCard({
             ) : (
               <Download className="w-3 h-3" />
             )}
-            Quick install
+            Szybka instalacja
           </button>
         )}
       </div>
